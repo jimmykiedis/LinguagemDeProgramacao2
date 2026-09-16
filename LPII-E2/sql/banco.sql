@@ -1,6 +1,7 @@
-DROP DATABASE IF EXISTS banco;
-CREATE DATABASE banco CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-USE banco;
+DROP TABLE IF EXISTS pecas_sinistros;
+DROP TABLE IF EXISTS pecas;
+DROP TABLE IF EXISTS sinistros;
+DROP TABLE IF EXISTS seguradoras;
 
 CREATE TABLE seguradoras (
     nome VARCHAR(50) PRIMARY KEY,
