@@ -1,5 +1,5 @@
-DROP TABLE IF EXISTS pecas_sinistros;
-DROP TABLE IF EXISTS pecas;
+DROP TABLE IF EXISTS peças_sinistros;
+DROP TABLE IF EXISTS peças;
 DROP TABLE IF EXISTS sinistros;
 DROP TABLE IF EXISTS seguradoras;
 
@@ -20,7 +20,7 @@ CREATE TABLE sinistros (
     perda_total BOOLEAN
 );
 
-CREATE TABLE pecas (
+CREATE TABLE peças (
     codigo INT PRIMARY KEY,
     nome VARCHAR(50),
     marca VARCHAR(20),
@@ -30,10 +30,10 @@ CREATE TABLE pecas (
     cor VARCHAR(20)
 );
 
-CREATE TABLE pecas_sinistros (
-    peca_codigo INT NOT NULL,
+CREATE TABLE peças_sinistros (
+    peça_codigo INT NOT NULL,
     sinistro_id INT NOT NULL,
-    PRIMARY KEY (peca_codigo, sinistro_id),
-    FOREIGN KEY (peca_codigo) REFERENCES pecas(codigo) ON DELETE CASCADE,
+    PRIMARY KEY (peça_codigo, sinistro_id),
+    FOREIGN KEY (peça_codigo) REFERENCES peças(codigo) ON DELETE CASCADE,
     FOREIGN KEY (sinistro_id) REFERENCES sinistros(id) ON DELETE CASCADE
 );

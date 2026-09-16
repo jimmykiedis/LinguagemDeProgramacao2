@@ -1,37 +1,37 @@
 package controles;
 
-import entidades.Peca;
-import interfaces.JanelaCadastroPecas;
+import entidades.Peça;
+import interfaces.JanelaCadastroPeças;
 import java.awt.Frame;
 
-public class ControladorCadastroPecas {
+public class ControladorCadastroPeças {
     
-    public ControladorCadastroPecas() {
+    public ControladorCadastroPeças() {
         this(null);
     }
 
-    public ControladorCadastroPecas(Frame owner) {
-        JanelaCadastroPecas janela = new JanelaCadastroPecas(this, owner);
+    public ControladorCadastroPeças(Frame owner) {
+        JanelaCadastroPeças janela = new JanelaCadastroPeças(this, owner);
         janela.setVisible(true);
         janela.toFront();
         janela.requestFocus();
     }
        
-    public String inserirPecas(Peca pecas) {
-        Peca peca_buscada = Peca.buscarPecas(pecas.getCodigo());
-        if (peca_buscada == null) return Peca.inserirPecas(pecas);
+    public String inserirPeças(Peça pecas) {
+        Peça peca_buscada = Peça.buscarPeças(pecas.getCodigo());
+        if (peca_buscada == null) return Peça.inserirPeças(pecas);
         else return "Código de Peça já cadastrado";
     }
     
-    public String alterarPecas(Peca pecas) {
-        Peca peca_buscada = Peca.buscarPecas(pecas.getCodigo());
-        if (peca_buscada != null) return Peca.alterarPecas(pecas);
+    public String alterarPeças(Peça pecas) {
+        Peça peca_buscada = Peça.buscarPeças(pecas.getCodigo());
+        if (peca_buscada != null) return Peça.alterarPeças(pecas);
         else return "Código de Peça não cadastrado";
     }
     
-    public String removerPecas(int codigo) {
-        Peca peca_buscada = Peca.buscarPecas(codigo);
-        if (peca_buscada != null) return Peca.removerPecas(codigo);
+    public String removerPeças(int codigo) {
+        Peça peca_buscada = Peça.buscarPeças(codigo);
+        if (peca_buscada != null) return Peça.removerPeças(codigo);
         else return "Código de Peça não cadastrado";
     }
 }

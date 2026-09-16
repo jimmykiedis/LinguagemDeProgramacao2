@@ -37,36 +37,36 @@
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.DesignFlowLayout"/>
       <SubComponents>
-        <Component class="javax.swing.JButton" name="inserirPecas">
+        <Component class="javax.swing.JButton" name="inserirPeças">
           <Properties>
             <Property name="text" type="java.lang.String" value="Inserir"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="inserirPecas"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="inserirPeças"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="alterarPecas">
+        <Component class="javax.swing.JButton" name="alterarPeças">
           <Properties>
             <Property name="text" type="java.lang.String" value="Alterar"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="alterarPecas"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="alterarPeças"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="consultarPecas">
+        <Component class="javax.swing.JButton" name="consultarPeças">
           <Properties>
             <Property name="text" type="java.lang.String" value="Consultar"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="consultarPecas"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="consultarPeças"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="removerPecas">
+        <Component class="javax.swing.JButton" name="removerPeças">
           <Properties>
             <Property name="text" type="java.lang.String" value="Remover"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="removerPecas"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="removerPeças"/>
           </Events>
         </Component>
         <Component class="javax.swing.JButton" name="limparCampos">

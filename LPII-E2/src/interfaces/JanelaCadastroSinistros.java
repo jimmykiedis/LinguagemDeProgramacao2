@@ -1,6 +1,6 @@
 package interfaces;
 
-import controles.ControladorCadastroPecasSinistros;
+import controles.ControladorCadastroPeçasSinistros;
 import controles.ControladorCadastroSinistros;
 import entidades.Sinistro;
 import java.awt.Frame;
@@ -68,14 +68,14 @@ public class JanelaCadastroSinistros extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(this, mensagem, "Erro", JOptionPane.ERROR_MESSAGE);
     }
 
-    public void atualizarListaPecasSinistro(int sinistroId) {
+    public void atualizarListaPeçasSinistro(int sinistroId) {
         pecasSinistroModel.clear();
         if (sinistroId <= 0) {
             pecasSinistroList.setModel(pecasSinistroModel);
             return;
         }
 
-        for (entidades.Peca peca : entidades.Peca.buscarPecasPorSinistro(sinistroId)) {
+        for (entidades.Peça peca : entidades.Peça.buscarPeçasPorSinistro(sinistroId)) {
             pecasSinistroModel.addElement(peca);
         }
         pecasSinistroList.setModel(pecasSinistroModel);
@@ -366,7 +366,7 @@ public class JanelaCadastroSinistros extends javax.swing.JFrame {
 
     private void sinistros_cadastradosComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sinistros_cadastradosComboBoxActionPerformed
         Sinistro visao = (Sinistro) sinistros_cadastradosComboBox.getSelectedItem();
-        atualizarListaPecasSinistro(visao != null ? visao.getId() : 0);
+        atualizarListaPeçasSinistro(visao != null ? visao.getId() : 0);
     }//GEN-LAST:event_sinistros_cadastradosComboBoxActionPerformed
 
     private void limparCampos(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_limparCampos
@@ -376,7 +376,7 @@ public class JanelaCadastroSinistros extends javax.swing.JFrame {
         telefoneTextField.setText("");
         grauMontaComboBox.setSelectedIndex(-1);
         perdaTotalCheckBox.setSelected(false);
-        atualizarListaPecasSinistro(0);
+        atualizarListaPeçasSinistro(0);
     }//GEN-LAST:event_limparCampos
 
     private void consultarSinistro(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_consultarSinistro
@@ -395,7 +395,7 @@ public class JanelaCadastroSinistros extends javax.swing.JFrame {
                 telefoneTextField.setText(sinistro.getTelefone());
                 grauMontaComboBox.setSelectedItem(sinistro.getGrauMonta());
                 definirPerdaTotal(sinistro.getPerdaTotal());
-                atualizarListaPecasSinistro(sinistro.getId());
+                atualizarListaPeçasSinistro(sinistro.getId());
             }
         }
 
@@ -414,7 +414,7 @@ public class JanelaCadastroSinistros extends javax.swing.JFrame {
 
         if (mensagem_erro == null) {
             atualizarSinistrosCadastrados(sinistro.getId());
-            atualizarListaPecasSinistro(sinistro.getId());
+            atualizarListaPeçasSinistro(sinistro.getId());
             numeroTextField.setText(String.valueOf(sinistro.getId()));
             sinistros_cadastradosComboBox.setSelectedItem(getVisaoAlterada(sinistro.getId()));
         } else {
@@ -434,7 +434,7 @@ public class JanelaCadastroSinistros extends javax.swing.JFrame {
 
         if (mensagem_erro == null) {
             atualizarSinistrosCadastrados(sinistro.getId());
-            atualizarListaPecasSinistro(sinistro.getId());
+            atualizarListaPeçasSinistro(sinistro.getId());
             sinistros_cadastradosComboBox.setSelectedItem(getVisaoAlterada(sinistro.getId()));
         } else {
             informarErro(mensagem_erro);
@@ -470,8 +470,8 @@ public class JanelaCadastroSinistros extends javax.swing.JFrame {
             if (sinistro == null) {
                 mensagem_erro = "Sinistro não cadastrado";
             } else {
-                new ControladorCadastroPecasSinistros(this, sinistro);
-                atualizarListaPecasSinistro(sinistro.getId());
+                new ControladorCadastroPeçasSinistros(this, sinistro);
+                atualizarListaPeçasSinistro(sinistro.getId());
             }
         }
 

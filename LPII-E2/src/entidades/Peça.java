@@ -7,19 +7,19 @@ import java.util.ArrayList;
 import java.util.Locale;
 import persistência.BD;
 
-public class Peca {
+public class Peça {
 
-    public enum MarcaPeca {
+    public enum MarcaPeça {
         OEM("oem"), ORIGINAL("original"), GENUINA("genuina");
 
         private final String texto;
 
-        MarcaPeca(String texto) { this.texto = texto; }
+        MarcaPeça(String texto) { this.texto = texto; }
 
-        public static MarcaPeca fromTexto(String texto) {
+        public static MarcaPeça fromTexto(String texto) {
             if (texto == null) throw new IllegalArgumentException("Marca da peca nao informada");
             String valor = texto.trim().toLowerCase(Locale.ROOT);
-            for (MarcaPeca marca : values()) {
+            for (MarcaPeça marca : values()) {
                 if (marca.texto.equals(valor)) return marca;
             }
             throw new IllegalArgumentException("Marca da peca invalida: " + texto);
@@ -31,13 +31,13 @@ public class Peca {
 
     protected int codigo;
     protected String nome;
-    protected MarcaPeca marca;
+    protected MarcaPeça marca;
     protected double preco;
     protected boolean mao_obra_propria;
     protected Integer dias_garantia;
     protected String cor;
 
-    public Peca(int codigo, String nome, MarcaPeca marca, double preco,
+    public Peça(int codigo, String nome, MarcaPeça marca, double preco,
             boolean mao_obra_propria, Integer dias_garantia, String cor) {
         this.codigo = codigo;
         this.nome = nome;
@@ -48,12 +48,12 @@ public class Peca {
         this.cor = cor;
     }
 
-    public Peca() { this(0, null, null, 0.0, false, null, null); }
+    public Peça() { this(0, null, null, 0.0, false, null, null); }
 
     public int getCodigo() { return codigo; }
     public String getNome() { return nome; }
-    public MarcaPeca getMarca() { return marca; }
-    public MarcaPeca getCategoria() { return marca; }
+    public MarcaPeça getMarca() { return marca; }
+    public MarcaPeça getCategoria() { return marca; }
     public double getPreco() { return preco; }
     public boolean getMaoObraPropria() { return mao_obra_propria; }
     public boolean isMaoObraPropria() { return mao_obra_propria; }
@@ -63,51 +63,51 @@ public class Peca {
 
     public void setCodigo(int codigo) { this.codigo = codigo; }
     public void setNome(String nome) { this.nome = nome; }
-    public void setMarca(MarcaPeca marca) { this.marca = marca; }
-    public void setCategoria(MarcaPeca marca) { this.marca = marca; }
+    public void setMarca(MarcaPeça marca) { this.marca = marca; }
+    public void setCategoria(MarcaPeça marca) { this.marca = marca; }
     public void setPreco(double preco) { this.preco = preco; }
     public void setMaoObraPropria(boolean valor) { this.mao_obra_propria = valor; }
     public void setMaoDeObra(boolean valor) { this.mao_obra_propria = valor; }
     public void setDiasGarantia(Integer valor) { this.dias_garantia = valor; }
     public void setCor(String cor) { this.cor = cor; }
 
-    public Peca getVisao() { return this; }
+    public Peça getVisao() { return this; }
 
     @Override
     public String toString() { return codigo + " - " + nome + " [" + marca + "]"; }
 
-    private static Peca criarVisao(ResultSet resultado) throws SQLException {
+    private static Peça criarVisao(ResultSet resultado) throws SQLException {
         int codigo = resultado.getInt("codigo");
         String nome = resultado.getString("nome");
-        MarcaPeca marca = MarcaPeca.fromTexto(resultado.getString("marca"));
+        MarcaPeça marca = MarcaPeça.fromTexto(resultado.getString("marca"));
         double preco = resultado.getDouble("preco");
         boolean mao_obra_propria = resultado.getBoolean("mao_obra_propria");
         Integer dias_garantia = resultado.getObject("dias_garantia") == null
                 ? null : resultado.getInt("dias_garantia");
         String cor = resultado.getString("cor");
 
-        return new Peca(codigo, nome, marca, preco, mao_obra_propria,
+        return new Peça(codigo, nome, marca, preco, mao_obra_propria,
                 dias_garantia, cor);
     }
 
     private static final String COLUNAS =
             "codigo, nome, marca, preco, mao_obra_propria, dias_garantia, cor";
 
-    public static Peca[] getVisoes() {
-        ArrayList<Peca> visoes = new ArrayList<>();
+    public static Peça[] getVisoes() {
+        ArrayList<Peça> visoes = new ArrayList<>();
         try (PreparedStatement comando = BD.conexao.prepareStatement(
-                "SELECT " + COLUNAS + " FROM pecas");
+                "SELECT " + COLUNAS + " FROM peças");
              ResultSet resultados = comando.executeQuery()) {
             while (resultados.next()) visoes.add(criarVisao(resultados));
         } catch (SQLException | IllegalArgumentException excecao) {
             excecao.printStackTrace();
         }
-        return visoes.toArray(new Peca[0]);
+        return visoes.toArray(new Peça[0]);
     }
 
-    public static Peca buscarPecas(int codigo) {
+    public static Peça buscarPeças(int codigo) {
         try (PreparedStatement comando = BD.conexao.prepareStatement(
-                "SELECT " + COLUNAS + " FROM pecas WHERE codigo = ?")) {
+                "SELECT " + COLUNAS + " FROM peças WHERE codigo = ?")) {
             comando.setInt(1, codigo);
             try (ResultSet resultados = comando.executeQuery()) {
                 return resultados.next() ? criarVisao(resultados) : null;
@@ -118,9 +118,9 @@ public class Peca {
         }
     }
 
-    public static Peca buscarPecas(String nome) {
+    public static Peça buscarPeças(String nome) {
         try (PreparedStatement comando = BD.conexao.prepareStatement(
-                "SELECT " + COLUNAS + " FROM pecas WHERE nome = ?")) {
+                "SELECT " + COLUNAS + " FROM peças WHERE nome = ?")) {
             comando.setString(1, nome);
             try (ResultSet resultados = comando.executeQuery()) {
                 return resultados.next() ? criarVisao(resultados) : null;
@@ -131,11 +131,11 @@ public class Peca {
         }
     }
 
-    public static Peca[] buscarPecasPorSinistro(int sinistroId) {
-        return PecaSinistro.buscarPecasPorSinistro(sinistroId);
+    public static Peça[] buscarPeçasPorSinistro(int sinistroId) {
+        return PeçaSinistro.buscarPeçasPorSinistro(sinistroId);
     }
 
-    private static void preencher(PreparedStatement comando, Peca peca) throws SQLException {
+    private static void preencher(PreparedStatement comando, Peça peca) throws SQLException {
         comando.setInt(1, peca.codigo);
         comando.setString(2, peca.nome);
         comando.setString(3, peca.marca.toString());
@@ -146,8 +146,8 @@ public class Peca {
         comando.setString(7, peca.cor);
     }
 
-    public static String inserirPecas(Peca peca) {
-        String sql = "INSERT INTO pecas (" + COLUNAS + ") VALUES (?,?,?,?,?,?,?)";
+    public static String inserirPeças(Peça peca) {
+        String sql = "INSERT INTO peças (" + COLUNAS + ") VALUES (?,?,?,?,?,?,?)";
         try (PreparedStatement comando = BD.conexao.prepareStatement(sql)) {
             preencher(comando, peca);
             comando.executeUpdate();
@@ -158,8 +158,8 @@ public class Peca {
         }
     }
 
-    public static String alterarPecas(Peca peca) {
-        String sql = "UPDATE pecas SET nome=?, marca=?, preco=?, mao_obra_propria=?,"
+    public static String alterarPeças(Peça peca) {
+        String sql = "UPDATE peças SET nome=?, marca=?, preco=?, mao_obra_propria=?,"
                 + " dias_garantia=?, cor=?"
                 + " WHERE codigo=?";
         try (PreparedStatement comando = BD.conexao.prepareStatement(sql)) {
@@ -179,9 +179,9 @@ public class Peca {
         }
     }
 
-    public static String removerPecas(int codigo) {
+    public static String removerPeças(int codigo) {
         try (PreparedStatement comando = BD.conexao.prepareStatement(
-                "DELETE FROM pecas WHERE codigo = ?")) {
+                "DELETE FROM peças WHERE codigo = ?")) {
             comando.setInt(1, codigo);
             comando.executeUpdate();
             return null;
@@ -191,9 +191,9 @@ public class Peca {
         }
     }
 
-    public static String removerPecas(String nome) {
+    public static String removerPeças(String nome) {
         try (PreparedStatement comando = BD.conexao.prepareStatement(
-                "DELETE FROM pecas WHERE nome = ?")) {
+                "DELETE FROM peças WHERE nome = ?")) {
             comando.setString(1, nome);
             comando.executeUpdate();
             return null;

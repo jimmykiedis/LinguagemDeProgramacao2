@@ -6,22 +6,22 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import persistência.BD;
 
-public class PecaSinistro {
+public class PeçaSinistro {
 
     private final int peca_codigo;
     private final int sinistro_id;
 
-    public PecaSinistro(int peca_codigo, int sinistro_id) {
+    public PeçaSinistro(int peca_codigo, int sinistro_id) {
         this.peca_codigo = peca_codigo;
         this.sinistro_id = sinistro_id;
     }
 
-    public PecaSinistro(Peca peca, Sinistro sinistro) {
+    public PeçaSinistro(Peça peca, Sinistro sinistro) {
         this(peca != null ? peca.getCodigo() : 0,
                 sinistro != null ? sinistro.getId() : 0);
     }
 
-    public int getPecaCodigo() {
+    public int getPeçaCodigo() {
         return peca_codigo;
     }
 
@@ -33,26 +33,26 @@ public class PecaSinistro {
         return peca_codigo + " / " + sinistro_id;
     }
 
-    private static Peca criarPeca(ResultSet resultado) throws SQLException {
+    private static Peça criarPeça(ResultSet resultado) throws SQLException {
         int codigo = resultado.getInt("codigo");
         String nome = resultado.getString("nome");
-        Peca.MarcaPeca marca = Peca.MarcaPeca.fromTexto(resultado.getString("marca"));
+        Peça.MarcaPeça marca = Peça.MarcaPeça.fromTexto(resultado.getString("marca"));
         double preco = resultado.getDouble("preco");
         boolean mao_obra_propria = resultado.getBoolean("mao_obra_propria");
         Integer dias_garantia = resultado.getObject("dias_garantia") == null
                 ? null : resultado.getInt("dias_garantia");
         String cor = resultado.getString("cor");
 
-        return new Peca(codigo, nome, marca, preco, mao_obra_propria,
+        return new Peça(codigo, nome, marca, preco, mao_obra_propria,
                 dias_garantia, cor);
     }
 
-    public static Peca[] buscarPecasPorSinistro(int sinistroId) {
-        ArrayList<Peca> visoes = new ArrayList<>();
+    public static Peça[] buscarPeçasPorSinistro(int sinistroId) {
+        ArrayList<Peça> visoes = new ArrayList<>();
         String sql = "SELECT p.codigo, p.nome, p.marca, p.preco, p.mao_obra_propria, "
                 + "p.dias_garantia, p.cor "
-                + "FROM pecas_sinistros ps "
-                + "JOIN pecas p ON p.codigo = ps.peca_codigo "
+                + "FROM peças_sinistros ps "
+                + "JOIN peças p ON p.codigo = ps.peça_codigo "
                 + "WHERE ps.sinistro_id = ?";
 
         try (PreparedStatement comando = BD.conexao.prepareStatement(sql)) {
@@ -60,7 +60,7 @@ public class PecaSinistro {
             try (ResultSet resultados = comando.executeQuery()) {
                 while (resultados.next()) {
                     try {
-                        visoes.add(criarPeca(resultados));
+                        visoes.add(criarPeça(resultados));
                     } catch (IllegalArgumentException excecao_enum) {
                         // Ignora peças com dados fora do domínio esperado.
                     }
@@ -70,11 +70,11 @@ public class PecaSinistro {
             excecao_sql.printStackTrace();
         }
 
-        return visoes.toArray(new Peca[0]);
+        return visoes.toArray(new Peça[0]);
     }
 
-    public static boolean existePecasSinistros(int peca_codigo, int sinistro_id) {
-        String sql = "SELECT COUNT(*) FROM pecas_sinistros WHERE peca_codigo = ? AND sinistro_id = ?";
+    public static boolean existePeçasSinistros(int peca_codigo, int sinistro_id) {
+        String sql = "SELECT COUNT(*) FROM peças_sinistros WHERE peça_codigo = ? AND sinistro_id = ?";
 
         try (PreparedStatement comando = BD.conexao.prepareStatement(sql)) {
             comando.setInt(1, peca_codigo);
@@ -88,12 +88,12 @@ public class PecaSinistro {
         }
     }
 
-    public static String inserirPecasSinistros(Peca peca, Sinistro sinistro) {
+    public static String inserirPeçasSinistros(Peça peca, Sinistro sinistro) {
         if (peca == null || sinistro == null) {
-            return "Peca ou sinistro nao informado";
+            return "Peça ou sinistro nao informado";
         }
 
-        String sql = "INSERT INTO pecas_sinistros (peca_codigo, sinistro_id) VALUES (?, ?)";
+        String sql = "INSERT INTO peças_sinistros (peça_codigo, sinistro_id) VALUES (?, ?)";
 
         try (PreparedStatement comando = BD.conexao.prepareStatement(sql)) {
             comando.setInt(1, peca.getCodigo());
@@ -106,12 +106,12 @@ public class PecaSinistro {
         }
     }
 
-    public static String removerPecasSinistros(Peca peca, Sinistro sinistro) {
+    public static String removerPeçasSinistros(Peça peca, Sinistro sinistro) {
         if (peca == null || sinistro == null) {
-            return "Peca ou sinistro nao informado";
+            return "Peça ou sinistro nao informado";
         }
 
-        String sql = "DELETE FROM pecas_sinistros WHERE peca_codigo = ? AND sinistro_id = ?";
+        String sql = "DELETE FROM peças_sinistros WHERE peça_codigo = ? AND sinistro_id = ?";
 
         try (PreparedStatement comando = BD.conexao.prepareStatement(sql)) {
             comando.setInt(1, peca.getCodigo());

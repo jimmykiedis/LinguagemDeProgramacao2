@@ -1,28 +1,28 @@
 package interfaces;
 
-import controles.ControladorCadastroPecasSinistros;
-import entidades.Peca;
+import controles.ControladorCadastroPeçasSinistros;
+import entidades.Peça;
 import entidades.Sinistro;
 import java.awt.Frame;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 
-public class JanelaCadastroPecasSinistros extends javax.swing.JFrame {
+public class JanelaCadastroPeçasSinistros extends javax.swing.JFrame {
 
-    private final ControladorCadastroPecasSinistros controlador;
+    private final ControladorCadastroPeçasSinistros controlador;
     private Sinistro sinistro;
-    private Peca[] pecas_cadastradas;
+    private Peça[] pecas_cadastradas;
     private final DefaultListModel pecasSinistroModel = new DefaultListModel();
 
-    public JanelaCadastroPecasSinistros(
-            ControladorCadastroPecasSinistros controlador,
+    public JanelaCadastroPeçasSinistros(
+            ControladorCadastroPeçasSinistros controlador,
             Sinistro sinistro,
             Frame owner
     ) {
         this.controlador = controlador;
         this.sinistro = sinistro;
-        pecas_cadastradas = Peca.getVisoes();
+        pecas_cadastradas = Peça.getVisoes();
         initComponents();
         configurarJanelaDependente(owner);
         if (owner instanceof JanelaCadastroSinistros) {
@@ -31,14 +31,14 @@ public class JanelaCadastroPecasSinistros extends javax.swing.JFrame {
                 @Override
                 public void windowClosed(java.awt.event.WindowEvent evt) {
                     if (sinistro != null) {
-                        janelaMae.atualizarListaPecasSinistro(sinistro.getId());
+                        janelaMae.atualizarListaPeçasSinistro(sinistro.getId());
                     }
                 }
             });
         }
         carregarSinistro();
-        atualizarPecasCadastradas();
-        atualizarPecasAssociadas();
+        atualizarPeçasCadastradas();
+        atualizarPeçasAssociadas();
         setSize(new java.awt.Dimension(760, 520));
         limparCampos(null);
     }
@@ -75,14 +75,14 @@ public class JanelaCadastroPecasSinistros extends javax.swing.JFrame {
         );
     }
 
-    private void atualizarPecasCadastradas() {
-        pecas_cadastradas = Peca.getVisoes();
+    private void atualizarPeçasCadastradas() {
+        pecas_cadastradas = Peça.getVisoes();
         pecas_cadastradasComboBox.setModel(
                 new DefaultComboBoxModel(pecas_cadastradas)
         );
     }
 
-    private void atualizarPecasAssociadas() {
+    private void atualizarPeçasAssociadas() {
         pecasSinistroModel.clear();
 
         if (sinistro == null) {
@@ -90,32 +90,32 @@ public class JanelaCadastroPecasSinistros extends javax.swing.JFrame {
             return;
         }
 
-        Peca[] pecas = Peca.buscarPecasPorSinistro(sinistro.getId());
-        sinistro.setPecas(pecas);
+        Peça[] pecas = Peça.buscarPeçasPorSinistro(sinistro.getId());
+        sinistro.setPeças(pecas);
 
-        for (Peca peca : pecas) {
+        for (Peça peca : pecas) {
             pecasSinistroModel.addElement(peca);
         }
 
         pecasSinistroList.setModel(pecasSinistroModel);
     }
 
-    private Peca obterPecaSelecionada() {
-        return (Peca) pecas_cadastradasComboBox.getSelectedItem();
+    private Peça obterPeçaSelecionada() {
+        return (Peça) pecas_cadastradasComboBox.getSelectedItem();
     }
 
-    private Peca obterPecaAssociadaSelecionada() {
-        return (Peca) pecasSinistroList.getSelectedValue();
+    private Peça obterPeçaAssociadaSelecionada() {
+        return (Peça) pecasSinistroList.getSelectedValue();
     }
 
-    private void selecionarPecaNaLista(Peca peca) {
+    private void selecionarPeçaNaLista(Peça peca) {
         if (peca == null) return;
         pecasSinistroList.setSelectedValue(peca, true);
     }
 
-    private Peca localizarPeca(int codigo) {
+    private Peça localizarPeça(int codigo) {
         if (pecas_cadastradas == null) return null;
-        for (Peca visao : pecas_cadastradas) {
+        for (Peça visao : pecas_cadastradas) {
             if (visao.getCodigo() == codigo) return visao;
         }
         return null;
@@ -136,8 +136,8 @@ public class JanelaCadastroPecasSinistros extends javax.swing.JFrame {
         java.awt.GridBagConstraints gridBagConstraints;
 
         comandosPanel = new javax.swing.JPanel();
-        inserirPeca = new javax.swing.JButton();
-        removerPeca = new javax.swing.JButton();
+        inserirPeça = new javax.swing.JButton();
+        removerPeça = new javax.swing.JButton();
         limparCampos = new javax.swing.JButton();
         sinistroLabel = new javax.swing.JLabel();
         sinistroTextField = new javax.swing.JTextField();
@@ -148,26 +148,26 @@ public class JanelaCadastroPecasSinistros extends javax.swing.JFrame {
         pecasSinistroList = new javax.swing.JList();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Cadastro de Peca por Sinistro");
+        setTitle("Cadastro de Peça por Sinistro");
         setMinimumSize(new java.awt.Dimension(680, 430));
         setPreferredSize(new java.awt.Dimension(760, 520));
         getContentPane().setLayout(new java.awt.GridBagLayout());
 
-        inserirPeca.setText("Inserir");
-        inserirPeca.addActionListener(new java.awt.event.ActionListener() {
+        inserirPeça.setText("Inserir");
+        inserirPeça.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                inserirPeca(evt);
+                inserirPeça(evt);
             }
         });
-        comandosPanel.add(inserirPeca);
+        comandosPanel.add(inserirPeça);
 
-        removerPeca.setText("Remover");
-        removerPeca.addActionListener(new java.awt.event.ActionListener() {
+        removerPeça.setText("Remover");
+        removerPeça.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                removerPeca(evt);
+                removerPeça(evt);
             }
         });
-        comandosPanel.add(removerPeca);
+        comandosPanel.add(removerPeça);
 
         limparCampos.setText("Limpar");
         limparCampos.addActionListener(new java.awt.event.ActionListener() {
@@ -242,8 +242,8 @@ public class JanelaCadastroPecasSinistros extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void inserirPeca(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inserirPeca
-        Peca peca = obterPecaSelecionada();
+    private void inserirPeça(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inserirPeça
+        Peça peca = obterPeçaSelecionada();
         String mensagem_erro = null;
 
         if (sinistro == null) {
@@ -251,19 +251,19 @@ public class JanelaCadastroPecasSinistros extends javax.swing.JFrame {
         } else if (peca == null) {
             mensagem_erro = "Nenhuma Peça selecionada";
         } else {
-            mensagem_erro = controlador.inserirPecasSinistros(peca, sinistro);
+            mensagem_erro = controlador.inserirPeçasSinistros(peca, sinistro);
         }
 
         if (mensagem_erro == null) {
-            atualizarPecasAssociadas();
-            selecionarPecaNaLista(localizarPeca(peca.getCodigo()));
+            atualizarPeçasAssociadas();
+            selecionarPeçaNaLista(localizarPeça(peca.getCodigo()));
         } else {
             informarErro(mensagem_erro);
         }
-    }//GEN-LAST:event_inserirPeca
+    }//GEN-LAST:event_inserirPeça
 
-    private void removerPeca(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removerPeca
-        Peca peca = obterPecaAssociadaSelecionada();
+    private void removerPeça(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removerPeça
+        Peça peca = obterPeçaAssociadaSelecionada();
         String mensagem_erro = null;
 
         if (sinistro == null) {
@@ -271,27 +271,27 @@ public class JanelaCadastroPecasSinistros extends javax.swing.JFrame {
         } else if (peca == null) {
             mensagem_erro = "Nenhuma Peça selecionada";
         } else {
-            mensagem_erro = controlador.removerPecasSinistros(peca, sinistro);
+            mensagem_erro = controlador.removerPeçasSinistros(peca, sinistro);
         }
 
         if (mensagem_erro == null) {
-            atualizarPecasAssociadas();
+            atualizarPeçasAssociadas();
             pecasSinistroList.clearSelection();
         } else {
             informarErro(mensagem_erro);
         }
-    }//GEN-LAST:event_removerPeca
+    }//GEN-LAST:event_removerPeça
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel comandosPanel;
-    private javax.swing.JButton inserirPeca;
+    private javax.swing.JButton inserirPeça;
     private javax.swing.JButton limparCampos;
     private javax.swing.JLabel pecasCadastradasLabel;
     private javax.swing.JLabel pecasSinistroLabel;
     private javax.swing.JList pecasSinistroList;
     private javax.swing.JScrollPane pecasSinistroScrollPane;
     private javax.swing.JComboBox pecas_cadastradasComboBox;
-    private javax.swing.JButton removerPeca;
+    private javax.swing.JButton removerPeça;
     private javax.swing.JLabel sinistroLabel;
     private javax.swing.JTextField sinistroTextField;
     // End of variables declaration//GEN-END:variables

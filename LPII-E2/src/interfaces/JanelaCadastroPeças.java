@@ -2,28 +2,28 @@ package interfaces;
 
 import javax.swing.JOptionPane;
 import javax.swing.ButtonGroup;
-import controles.ControladorCadastroPecas;
-import entidades.Peca;
+import controles.ControladorCadastroPeças;
+import entidades.Peça;
 import javax.swing.DefaultComboBoxModel;
 import java.awt.Frame;
 
-public class JanelaCadastroPecas extends javax.swing.JFrame {
+public class JanelaCadastroPeças extends javax.swing.JFrame {
     
-    ControladorCadastroPecas controlador;
-    Peca[] pecas_cadastradas;
+    ControladorCadastroPeças controlador;
+    Peça[] pecas_cadastradas;
     
-    public JanelaCadastroPecas(ControladorCadastroPecas controlador) {
+    public JanelaCadastroPeças(ControladorCadastroPeças controlador) {
         this(controlador, null);
     }
 
-    public JanelaCadastroPecas(
-            ControladorCadastroPecas controlador,
+    public JanelaCadastroPeças(
+            ControladorCadastroPeças controlador,
             Frame owner
     ) {
         this.controlador = controlador;
-        pecas_cadastradas = Peca.getVisoes();
+        pecas_cadastradas = Peça.getVisoes();
         initComponents();
-        atualizarPecasCadastradas();
+        atualizarPeçasCadastradas();
         setSize(new java.awt.Dimension(720, 560));
         configurarJanelaDependente(owner);
         limparCampos(null);
@@ -47,24 +47,24 @@ public class JanelaCadastroPecas extends javax.swing.JFrame {
         setLocation(x, y);
     }
 
-    private Peca localizarPeca(int codigo) {
-        for (Peca visao : pecas_cadastradas) {
+    private Peça localizarPeça(int codigo) {
+        for (Peça visao : pecas_cadastradas) {
             if (visao.getCodigo() == codigo) return visao;
         }
         return null;
     }
 
-    private void atualizarPecasCadastradas() {
-        atualizarPecasCadastradas(-1);
+    private void atualizarPeçasCadastradas() {
+        atualizarPeçasCadastradas(-1);
     }
 
-    private void atualizarPecasCadastradas(int codigo_selecionado) {
-        pecas_cadastradas = Peca.getVisoes();
+    private void atualizarPeçasCadastradas(int codigo_selecionado) {
+        pecas_cadastradas = Peça.getVisoes();
         pecas_cadastradasComboBox.setModel(
                 new DefaultComboBoxModel(pecas_cadastradas)
         );
 
-        Peca visao_selecionada = localizarPeca(codigo_selecionado);
+        Peça visao_selecionada = localizarPeça(codigo_selecionado);
         if (visao_selecionada != null) {
             pecas_cadastradasComboBox.setSelectedItem(visao_selecionada);
         }
@@ -96,7 +96,7 @@ public class JanelaCadastroPecas extends javax.swing.JFrame {
         }
     }
     
-    private Peca obterPecasInformada() {
+    private Peça obterPeçasInformada() {
         String codigoStr = codigoTextField.getText();
         if (codigoStr.isEmpty()) {
             throw new IllegalArgumentException("Informe o código da peça.");
@@ -114,8 +114,8 @@ public class JanelaCadastroPecas extends javax.swing.JFrame {
             throw new IllegalArgumentException("Informe o nome da peça.");
         }
         
-        Peca.MarcaPeca marca =
-                (Peca.MarcaPeca) marcaComboBox.getSelectedItem();
+        Peça.MarcaPeça marca =
+                (Peça.MarcaPeça) marcaComboBox.getSelectedItem();
         if (marca == null) {
             throw new IllegalArgumentException("Informe a marca da peça.");
         }
@@ -148,14 +148,14 @@ public class JanelaCadastroPecas extends javax.swing.JFrame {
             throw new IllegalArgumentException("Selecione se a peÃ§a possui mÃ£o de obra.");
         }
 
-        return new Peca(
+        return new Peça(
                 codigo, nome, marca, preco, mao_de_obra, prazoGarantia,
                 cor.isEmpty() ? null : cor
         );
     }
     
-    private Peca getVisaoAlterada(int codigo) {
-        for (Peca visao : pecas_cadastradas) {
+    private Peça getVisaoAlterada(int codigo) {
+        for (Peça visao : pecas_cadastradas) {
             if (visao.getCodigo() == codigo) return visao;
         }
         return null;
@@ -167,10 +167,10 @@ public class JanelaCadastroPecas extends javax.swing.JFrame {
         java.awt.GridBagConstraints gridBagConstraints;
 
         comandosPanel = new javax.swing.JPanel();
-        inserirPecas = new javax.swing.JButton();
-        alterarPecas = new javax.swing.JButton();
-        consultarPecas = new javax.swing.JButton();
-        removerPecas = new javax.swing.JButton();
+        inserirPeças = new javax.swing.JButton();
+        alterarPeças = new javax.swing.JButton();
+        consultarPeças = new javax.swing.JButton();
+        removerPeças = new javax.swing.JButton();
         limparCampos = new javax.swing.JButton();
 
         codigoLabel = new javax.swing.JLabel();
@@ -209,37 +209,37 @@ public class JanelaCadastroPecas extends javax.swing.JFrame {
         layout.rowHeights = new int[] {8};
         getContentPane().setLayout(layout);
 
-        inserirPecas.setText("Inserir");
-        inserirPecas.addActionListener(new java.awt.event.ActionListener() {
+        inserirPeças.setText("Inserir");
+        inserirPeças.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                inserirPecas(evt);
+                inserirPeças(evt);
             }
         });
-        comandosPanel.add(inserirPecas);
+        comandosPanel.add(inserirPeças);
 
-        alterarPecas.setText("Alterar");
-        alterarPecas.addActionListener(new java.awt.event.ActionListener() {
+        alterarPeças.setText("Alterar");
+        alterarPeças.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                alterarPecas(evt);
+                alterarPeças(evt);
             }
         });
-        comandosPanel.add(alterarPecas);
+        comandosPanel.add(alterarPeças);
 
-        consultarPecas.setText("Consultar");
-        consultarPecas.addActionListener(new java.awt.event.ActionListener() {
+        consultarPeças.setText("Consultar");
+        consultarPeças.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                consultarPecas(evt);
+                consultarPeças(evt);
             }
         });
-        comandosPanel.add(consultarPecas);
+        comandosPanel.add(consultarPeças);
 
-        removerPecas.setText("Remover");
-        removerPecas.addActionListener(new java.awt.event.ActionListener() {
+        removerPeças.setText("Remover");
+        removerPeças.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                removerPecas(evt);
+                removerPeças(evt);
             }
         });
-        comandosPanel.add(removerPecas);
+        comandosPanel.add(removerPeças);
 
         limparCampos.setText("Limpar");
         limparCampos.addActionListener(new java.awt.event.ActionListener() {
@@ -317,7 +317,7 @@ public class JanelaCadastroPecas extends javax.swing.JFrame {
         getContentPane().add(marcaLabel, gridBagConstraints);
 
         marcaComboBox.setModel(
-            new DefaultComboBoxModel(Peca.MarcaPeca.values())
+            new DefaultComboBoxModel(Peça.MarcaPeça.values())
         );
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
@@ -402,42 +402,42 @@ public class JanelaCadastroPecas extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void inserirPecas(java.awt.event.ActionEvent evt) {
-        Peca pecas;
+    private void inserirPeças(java.awt.event.ActionEvent evt) {
+        Peça pecas;
         String mensagem_erro = null;
 
         try {
-            pecas = obterPecasInformada();
+            pecas = obterPeçasInformada();
         } catch (IllegalArgumentException excecao) {
             informarErro(excecao.getMessage());
             return;
         }
 
-        mensagem_erro = controlador.inserirPecas(pecas);
+        mensagem_erro = controlador.inserirPeças(pecas);
 
         if (mensagem_erro == null) {
-            Peca visao = pecas.getVisao();
-            atualizarPecasCadastradas(visao.getCodigo());
+            Peça visao = pecas.getVisao();
+            atualizarPeçasCadastradas(visao.getCodigo());
         } else {
             informarErro(mensagem_erro);
         }
     }
 
-    private void alterarPecas(java.awt.event.ActionEvent evt) {
-        Peca pecas;
+    private void alterarPeças(java.awt.event.ActionEvent evt) {
+        Peça pecas;
         String mensagem_erro = null;
 
         try {
-            pecas = obterPecasInformada();
+            pecas = obterPeçasInformada();
         } catch (IllegalArgumentException excecao) {
             informarErro(excecao.getMessage());
             return;
         }
 
-        mensagem_erro = controlador.alterarPecas(pecas);
+        mensagem_erro = controlador.alterarPeças(pecas);
 
         if (mensagem_erro == null) {
-            Peca visao = getVisaoAlterada(pecas.getCodigo());
+            Peça visao = getVisaoAlterada(pecas.getCodigo());
 
             if (visao != null) {
                 visao.setCodigo(pecas.getCodigo());
@@ -455,15 +455,15 @@ public class JanelaCadastroPecas extends javax.swing.JFrame {
         }
     }
 
-    private void consultarPecas(java.awt.event.ActionEvent evt) {
-        Peca visao =
-                (Peca) pecas_cadastradasComboBox.getSelectedItem();
+    private void consultarPeças(java.awt.event.ActionEvent evt) {
+        Peça visao =
+                (Peça) pecas_cadastradasComboBox.getSelectedItem();
 
-        Peca pecas = null;
+        Peça pecas = null;
         String mensagem_erro = null;
 
         if (visao != null) {
-            pecas = Peca.buscarPecas(visao.getCodigo());
+            pecas = Peça.buscarPeças(visao.getCodigo());
 
             if (pecas == null)
                 mensagem_erro = "Peça não cadastrada";
@@ -498,19 +498,19 @@ public class JanelaCadastroPecas extends javax.swing.JFrame {
         }
     }
 
-    private void removerPecas(java.awt.event.ActionEvent evt) {
-        Peca visao =
-                (Peca) pecas_cadastradasComboBox.getSelectedItem();
+    private void removerPeças(java.awt.event.ActionEvent evt) {
+        Peça visao =
+                (Peça) pecas_cadastradasComboBox.getSelectedItem();
 
         String mensagem_erro = null;
 
         if (visao != null)
-            mensagem_erro = controlador.removerPecas(visao.getCodigo());
+            mensagem_erro = controlador.removerPeças(visao.getCodigo());
         else
             mensagem_erro = "Nenhuma Peça selecionada";
 
         if (mensagem_erro == null) {
-            atualizarPecasCadastradas();
+            atualizarPeçasCadastradas();
             limparCampos(evt);
         } else {
             informarErro(mensagem_erro);
@@ -528,9 +528,9 @@ public class JanelaCadastroPecas extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton alterarPecas;
+    private javax.swing.JButton alterarPeças;
     private javax.swing.JPanel comandosPanel;
-    private javax.swing.JButton consultarPecas;
+    private javax.swing.JButton consultarPeças;
     private javax.swing.JLabel codigoLabel;
     private javax.swing.JTextField codigoTextField;
     private javax.swing.JLabel nomeLabel;
@@ -548,10 +548,10 @@ public class JanelaCadastroPecas extends javax.swing.JFrame {
     private javax.swing.ButtonGroup maoDeObraButtonGroup;
     private javax.swing.JRadioButton maoDeObraNaoRadioButton;
     private javax.swing.JRadioButton maoDeObraSimRadioButton;
-    private javax.swing.JButton inserirPecas;
+    private javax.swing.JButton inserirPeças;
     private javax.swing.JButton limparCampos;
     private javax.swing.JLabel pecasCadastradasLabel;
     private javax.swing.JComboBox pecas_cadastradasComboBox;
-    private javax.swing.JButton removerPecas;
+    private javax.swing.JButton removerPeças;
     // End of variables declaration//GEN-END:variables
 }
