@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.Locale;
 import persistência.BD;
 
-public class Pecas {
+public class Peca {
 
     public enum MarcaPeca {
         OEM("oem"), ORIGINAL("original"), GENUINA("genuina");
@@ -37,7 +37,7 @@ public class Pecas {
     protected Integer dias_garantia;
     protected String cor;
 
-    public Pecas(int codigo, String nome, MarcaPeca marca, double preco,
+    public Peca(int codigo, String nome, MarcaPeca marca, double preco,
             boolean mao_obra_propria, Integer dias_garantia, String cor) {
         this.codigo = codigo;
         this.nome = nome;
@@ -48,7 +48,7 @@ public class Pecas {
         this.cor = cor;
     }
 
-    public Pecas() { this(0, null, null, 0.0, false, null, null); }
+    public Peca() { this(0, null, null, 0.0, false, null, null); }
 
     public int getCodigo() { return codigo; }
     public String getNome() { return nome; }
@@ -71,12 +71,12 @@ public class Pecas {
     public void setDiasGarantia(Integer valor) { this.dias_garantia = valor; }
     public void setCor(String cor) { this.cor = cor; }
 
-    public Pecas getVisao() { return this; }
+    public Peca getVisao() { return this; }
 
     @Override
     public String toString() { return codigo + " - " + nome + " [" + marca + "]"; }
 
-    private static Pecas criarVisao(ResultSet resultado) throws SQLException {
+    private static Peca criarVisao(ResultSet resultado) throws SQLException {
         int codigo = resultado.getInt("codigo");
         String nome = resultado.getString("nome");
         MarcaPeca marca = MarcaPeca.fromTexto(resultado.getString("marca"));
@@ -86,15 +86,15 @@ public class Pecas {
                 ? null : resultado.getInt("dias_garantia");
         String cor = resultado.getString("cor");
 
-        return new Pecas(codigo, nome, marca, preco, mao_obra_propria,
+        return new Peca(codigo, nome, marca, preco, mao_obra_propria,
                 dias_garantia, cor);
     }
 
     private static final String COLUNAS =
             "codigo, nome, marca, preco, mao_obra_propria, dias_garantia, cor";
 
-    public static Pecas[] getVisoes() {
-        ArrayList<Pecas> visoes = new ArrayList<>();
+    public static Peca[] getVisoes() {
+        ArrayList<Peca> visoes = new ArrayList<>();
         try (PreparedStatement comando = BD.conexao.prepareStatement(
                 "SELECT " + COLUNAS + " FROM pecas");
              ResultSet resultados = comando.executeQuery()) {
@@ -102,10 +102,10 @@ public class Pecas {
         } catch (SQLException | IllegalArgumentException excecao) {
             excecao.printStackTrace();
         }
-        return visoes.toArray(new Pecas[0]);
+        return visoes.toArray(new Peca[0]);
     }
 
-    public static Pecas buscarPecas(int codigo) {
+    public static Peca buscarPecas(int codigo) {
         try (PreparedStatement comando = BD.conexao.prepareStatement(
                 "SELECT " + COLUNAS + " FROM pecas WHERE codigo = ?")) {
             comando.setInt(1, codigo);
@@ -118,7 +118,7 @@ public class Pecas {
         }
     }
 
-    public static Pecas buscarPecas(String nome) {
+    public static Peca buscarPecas(String nome) {
         try (PreparedStatement comando = BD.conexao.prepareStatement(
                 "SELECT " + COLUNAS + " FROM pecas WHERE nome = ?")) {
             comando.setString(1, nome);
@@ -131,11 +131,11 @@ public class Pecas {
         }
     }
 
-    public static Pecas[] buscarPecasPorSinistro(int sinistroId) {
-        return PecasSinistros.buscarPecasPorSinistro(sinistroId);
+    public static Peca[] buscarPecasPorSinistro(int sinistroId) {
+        return PecaSinistro.buscarPecasPorSinistro(sinistroId);
     }
 
-    private static void preencher(PreparedStatement comando, Pecas peca) throws SQLException {
+    private static void preencher(PreparedStatement comando, Peca peca) throws SQLException {
         comando.setInt(1, peca.codigo);
         comando.setString(2, peca.nome);
         comando.setString(3, peca.marca.toString());
@@ -146,7 +146,7 @@ public class Pecas {
         comando.setString(7, peca.cor);
     }
 
-    public static String inserirPecas(Pecas peca) {
+    public static String inserirPecas(Peca peca) {
         String sql = "INSERT INTO pecas (" + COLUNAS + ") VALUES (?,?,?,?,?,?,?)";
         try (PreparedStatement comando = BD.conexao.prepareStatement(sql)) {
             preencher(comando, peca);
@@ -158,7 +158,7 @@ public class Pecas {
         }
     }
 
-    public static String alterarPecas(Pecas peca) {
+    public static String alterarPecas(Peca peca) {
         String sql = "UPDATE pecas SET nome=?, marca=?, preco=?, mao_obra_propria=?,"
                 + " dias_garantia=?, cor=?"
                 + " WHERE codigo=?";

@@ -1,6 +1,6 @@
 package controles;
 
-import entidades.Pecas;
+import entidades.Peca;
 import interfaces.JanelaCadastroPecas;
 import java.awt.Frame;
 
@@ -17,21 +17,21 @@ public class ControladorCadastroPecas {
         janela.requestFocus();
     }
        
-    public String inserirPecas(Pecas pecas) {
-        Pecas peca_buscada = Pecas.buscarPecas(pecas.getCodigo());
-        if (peca_buscada == null) return Pecas.inserirPecas(pecas);
+    public String inserirPecas(Peca pecas) {
+        Peca peca_buscada = Peca.buscarPecas(pecas.getCodigo());
+        if (peca_buscada == null) return Peca.inserirPecas(pecas);
         else return "Código de Peça já cadastrado";
     }
     
-    public String alterarPecas(Pecas pecas) {
-        Pecas peca_buscada = Pecas.buscarPecas(pecas.getCodigo());
-        if (peca_buscada != null) return Pecas.alterarPecas(pecas);
+    public String alterarPecas(Peca pecas) {
+        Peca peca_buscada = Peca.buscarPecas(pecas.getCodigo());
+        if (peca_buscada != null) return Peca.alterarPecas(pecas);
         else return "Código de Peça não cadastrado";
     }
     
     public String removerPecas(int codigo) {
-        Pecas peca_buscada = Pecas.buscarPecas(codigo);
-        if (peca_buscada != null) return Pecas.removerPecas(codigo);
+        Peca peca_buscada = Peca.buscarPecas(codigo);
+        if (peca_buscada != null) return Peca.removerPecas(codigo);
         else return "Código de Peça não cadastrado";
     }
 }

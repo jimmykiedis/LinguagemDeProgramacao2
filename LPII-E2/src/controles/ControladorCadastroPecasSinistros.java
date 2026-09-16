@@ -1,7 +1,7 @@
 package controles;
 
-import entidades.Pecas;
-import entidades.PecasSinistros;
+import entidades.Peca;
+import entidades.PecaSinistro;
 import entidades.Sinistro;
 import interfaces.JanelaCadastroPecasSinistros;
 import java.awt.Frame;
@@ -20,35 +20,35 @@ public class ControladorCadastroPecasSinistros {
         janela.requestFocus();
     }
 
-    public String inserirPecasSinistros(Pecas peca, Sinistro sinistro) {
+    public String inserirPecasSinistros(Peca peca, Sinistro sinistro) {
         Sinistro sinistro_buscado =
                 sinistro != null ? Sinistro.buscarSinistro(sinistro.getId()) : null;
         if (sinistro_buscado == null) return "Sinistro nao cadastrado";
 
-        Pecas peca_buscada =
-                peca != null ? Pecas.buscarPecas(peca.getCodigo()) : null;
+        Peca peca_buscada =
+                peca != null ? Peca.buscarPecas(peca.getCodigo()) : null;
         if (peca_buscada == null) return "Peca nao cadastrada";
 
-        if (PecasSinistros.existePecasSinistros(peca.getCodigo(), sinistro.getId())) {
+        if (PecaSinistro.existePecasSinistros(peca.getCodigo(), sinistro.getId())) {
             return "Peca ja associada ao sinistro";
         }
 
-        return PecasSinistros.inserirPecasSinistros(peca_buscada, sinistro_buscado);
+        return PecaSinistro.inserirPecasSinistros(peca_buscada, sinistro_buscado);
     }
 
-    public String removerPecasSinistros(Pecas peca, Sinistro sinistro) {
+    public String removerPecasSinistros(Peca peca, Sinistro sinistro) {
         Sinistro sinistro_buscado =
                 sinistro != null ? Sinistro.buscarSinistro(sinistro.getId()) : null;
         if (sinistro_buscado == null) return "Sinistro nao cadastrado";
 
-        Pecas peca_buscada =
-                peca != null ? Pecas.buscarPecas(peca.getCodigo()) : null;
+        Peca peca_buscada =
+                peca != null ? Peca.buscarPecas(peca.getCodigo()) : null;
         if (peca_buscada == null) return "Peca nao cadastrada";
 
-        if (!PecasSinistros.existePecasSinistros(peca.getCodigo(), sinistro.getId())) {
+        if (!PecaSinistro.existePecasSinistros(peca.getCodigo(), sinistro.getId())) {
             return "Peca nao associada ao sinistro";
         }
 
-        return PecasSinistros.removerPecasSinistros(peca_buscada, sinistro_buscado);
+        return PecaSinistro.removerPecasSinistros(peca_buscada, sinistro_buscado);
     }
 }

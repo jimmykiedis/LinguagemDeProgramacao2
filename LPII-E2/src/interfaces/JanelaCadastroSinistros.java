@@ -75,7 +75,7 @@ public class JanelaCadastroSinistros extends javax.swing.JFrame {
             return;
         }
 
-        for (entidades.Pecas peca : entidades.Pecas.buscarPecasPorSinistro(sinistroId)) {
+        for (entidades.Peca peca : entidades.Peca.buscarPecasPorSinistro(sinistroId)) {
             pecasSinistroModel.addElement(peca);
         }
         pecasSinistroList.setModel(pecasSinistroModel);

@@ -1,7 +1,7 @@
 package interfaces;
 
 import controles.ControladorCadastroPecasSinistros;
-import entidades.Pecas;
+import entidades.Peca;
 import entidades.Sinistro;
 import java.awt.Frame;
 import javax.swing.DefaultComboBoxModel;
@@ -12,7 +12,7 @@ public class JanelaCadastroPecasSinistros extends javax.swing.JFrame {
 
     private final ControladorCadastroPecasSinistros controlador;
     private Sinistro sinistro;
-    private Pecas[] pecas_cadastradas;
+    private Peca[] pecas_cadastradas;
     private final DefaultListModel pecasSinistroModel = new DefaultListModel();
 
     public JanelaCadastroPecasSinistros(
@@ -22,7 +22,7 @@ public class JanelaCadastroPecasSinistros extends javax.swing.JFrame {
     ) {
         this.controlador = controlador;
         this.sinistro = sinistro;
-        pecas_cadastradas = Pecas.getVisoes();
+        pecas_cadastradas = Peca.getVisoes();
         initComponents();
         configurarJanelaDependente(owner);
         if (owner instanceof JanelaCadastroSinistros) {
@@ -76,7 +76,7 @@ public class JanelaCadastroPecasSinistros extends javax.swing.JFrame {
     }
 
     private void atualizarPecasCadastradas() {
-        pecas_cadastradas = Pecas.getVisoes();
+        pecas_cadastradas = Peca.getVisoes();
         pecas_cadastradasComboBox.setModel(
                 new DefaultComboBoxModel(pecas_cadastradas)
         );
@@ -90,32 +90,32 @@ public class JanelaCadastroPecasSinistros extends javax.swing.JFrame {
             return;
         }
 
-        Pecas[] pecas = Pecas.buscarPecasPorSinistro(sinistro.getId());
+        Peca[] pecas = Peca.buscarPecasPorSinistro(sinistro.getId());
         sinistro.setPecas(pecas);
 
-        for (Pecas peca : pecas) {
+        for (Peca peca : pecas) {
             pecasSinistroModel.addElement(peca);
         }
 
         pecasSinistroList.setModel(pecasSinistroModel);
     }
 
-    private Pecas obterPecaSelecionada() {
-        return (Pecas) pecas_cadastradasComboBox.getSelectedItem();
+    private Peca obterPecaSelecionada() {
+        return (Peca) pecas_cadastradasComboBox.getSelectedItem();
     }
 
-    private Pecas obterPecaAssociadaSelecionada() {
-        return (Pecas) pecasSinistroList.getSelectedValue();
+    private Peca obterPecaAssociadaSelecionada() {
+        return (Peca) pecasSinistroList.getSelectedValue();
     }
 
-    private void selecionarPecaNaLista(Pecas peca) {
+    private void selecionarPecaNaLista(Peca peca) {
         if (peca == null) return;
         pecasSinistroList.setSelectedValue(peca, true);
     }
 
-    private Pecas localizarPeca(int codigo) {
+    private Peca localizarPeca(int codigo) {
         if (pecas_cadastradas == null) return null;
-        for (Pecas visao : pecas_cadastradas) {
+        for (Peca visao : pecas_cadastradas) {
             if (visao.getCodigo() == codigo) return visao;
         }
         return null;
@@ -148,7 +148,7 @@ public class JanelaCadastroPecasSinistros extends javax.swing.JFrame {
         pecasSinistroList = new javax.swing.JList();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Cadastro de Pecas por Sinistro");
+        setTitle("Cadastro de Peca por Sinistro");
         setMinimumSize(new java.awt.Dimension(680, 430));
         setPreferredSize(new java.awt.Dimension(760, 520));
         getContentPane().setLayout(new java.awt.GridBagLayout());
@@ -243,7 +243,7 @@ public class JanelaCadastroPecasSinistros extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void inserirPeca(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inserirPeca
-        Pecas peca = obterPecaSelecionada();
+        Peca peca = obterPecaSelecionada();
         String mensagem_erro = null;
 
         if (sinistro == null) {
@@ -263,7 +263,7 @@ public class JanelaCadastroPecasSinistros extends javax.swing.JFrame {
     }//GEN-LAST:event_inserirPeca
 
     private void removerPeca(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removerPeca
-        Pecas peca = obterPecaAssociadaSelecionada();
+        Peca peca = obterPecaAssociadaSelecionada();
         String mensagem_erro = null;
 
         if (sinistro == null) {

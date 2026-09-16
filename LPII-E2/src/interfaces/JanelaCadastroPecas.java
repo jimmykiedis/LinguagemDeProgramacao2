@@ -3,14 +3,14 @@ package interfaces;
 import javax.swing.JOptionPane;
 import javax.swing.ButtonGroup;
 import controles.ControladorCadastroPecas;
-import entidades.Pecas;
+import entidades.Peca;
 import javax.swing.DefaultComboBoxModel;
 import java.awt.Frame;
 
 public class JanelaCadastroPecas extends javax.swing.JFrame {
     
     ControladorCadastroPecas controlador;
-    Pecas[] pecas_cadastradas;
+    Peca[] pecas_cadastradas;
     
     public JanelaCadastroPecas(ControladorCadastroPecas controlador) {
         this(controlador, null);
@@ -21,7 +21,7 @@ public class JanelaCadastroPecas extends javax.swing.JFrame {
             Frame owner
     ) {
         this.controlador = controlador;
-        pecas_cadastradas = Pecas.getVisoes();
+        pecas_cadastradas = Peca.getVisoes();
         initComponents();
         atualizarPecasCadastradas();
         setSize(new java.awt.Dimension(720, 560));
@@ -47,8 +47,8 @@ public class JanelaCadastroPecas extends javax.swing.JFrame {
         setLocation(x, y);
     }
 
-    private Pecas localizarPeca(int codigo) {
-        for (Pecas visao : pecas_cadastradas) {
+    private Peca localizarPeca(int codigo) {
+        for (Peca visao : pecas_cadastradas) {
             if (visao.getCodigo() == codigo) return visao;
         }
         return null;
@@ -59,12 +59,12 @@ public class JanelaCadastroPecas extends javax.swing.JFrame {
     }
 
     private void atualizarPecasCadastradas(int codigo_selecionado) {
-        pecas_cadastradas = Pecas.getVisoes();
+        pecas_cadastradas = Peca.getVisoes();
         pecas_cadastradasComboBox.setModel(
                 new DefaultComboBoxModel(pecas_cadastradas)
         );
 
-        Pecas visao_selecionada = localizarPeca(codigo_selecionado);
+        Peca visao_selecionada = localizarPeca(codigo_selecionado);
         if (visao_selecionada != null) {
             pecas_cadastradasComboBox.setSelectedItem(visao_selecionada);
         }
@@ -96,7 +96,7 @@ public class JanelaCadastroPecas extends javax.swing.JFrame {
         }
     }
     
-    private Pecas obterPecasInformada() {
+    private Peca obterPecasInformada() {
         String codigoStr = codigoTextField.getText();
         if (codigoStr.isEmpty()) {
             throw new IllegalArgumentException("Informe o código da peça.");
@@ -114,8 +114,8 @@ public class JanelaCadastroPecas extends javax.swing.JFrame {
             throw new IllegalArgumentException("Informe o nome da peça.");
         }
         
-        Pecas.MarcaPeca marca =
-                (Pecas.MarcaPeca) marcaComboBox.getSelectedItem();
+        Peca.MarcaPeca marca =
+                (Peca.MarcaPeca) marcaComboBox.getSelectedItem();
         if (marca == null) {
             throw new IllegalArgumentException("Informe a marca da peça.");
         }
@@ -148,14 +148,14 @@ public class JanelaCadastroPecas extends javax.swing.JFrame {
             throw new IllegalArgumentException("Selecione se a peÃ§a possui mÃ£o de obra.");
         }
 
-        return new Pecas(
+        return new Peca(
                 codigo, nome, marca, preco, mao_de_obra, prazoGarantia,
                 cor.isEmpty() ? null : cor
         );
     }
     
-    private Pecas getVisaoAlterada(int codigo) {
-        for (Pecas visao : pecas_cadastradas) {
+    private Peca getVisaoAlterada(int codigo) {
+        for (Peca visao : pecas_cadastradas) {
             if (visao.getCodigo() == codigo) return visao;
         }
         return null;
@@ -317,7 +317,7 @@ public class JanelaCadastroPecas extends javax.swing.JFrame {
         getContentPane().add(marcaLabel, gridBagConstraints);
 
         marcaComboBox.setModel(
-            new DefaultComboBoxModel(Pecas.MarcaPeca.values())
+            new DefaultComboBoxModel(Peca.MarcaPeca.values())
         );
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
@@ -403,7 +403,7 @@ public class JanelaCadastroPecas extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void inserirPecas(java.awt.event.ActionEvent evt) {
-        Pecas pecas;
+        Peca pecas;
         String mensagem_erro = null;
 
         try {
@@ -416,7 +416,7 @@ public class JanelaCadastroPecas extends javax.swing.JFrame {
         mensagem_erro = controlador.inserirPecas(pecas);
 
         if (mensagem_erro == null) {
-            Pecas visao = pecas.getVisao();
+            Peca visao = pecas.getVisao();
             atualizarPecasCadastradas(visao.getCodigo());
         } else {
             informarErro(mensagem_erro);
@@ -424,7 +424,7 @@ public class JanelaCadastroPecas extends javax.swing.JFrame {
     }
 
     private void alterarPecas(java.awt.event.ActionEvent evt) {
-        Pecas pecas;
+        Peca pecas;
         String mensagem_erro = null;
 
         try {
@@ -437,7 +437,7 @@ public class JanelaCadastroPecas extends javax.swing.JFrame {
         mensagem_erro = controlador.alterarPecas(pecas);
 
         if (mensagem_erro == null) {
-            Pecas visao = getVisaoAlterada(pecas.getCodigo());
+            Peca visao = getVisaoAlterada(pecas.getCodigo());
 
             if (visao != null) {
                 visao.setCodigo(pecas.getCodigo());
@@ -456,14 +456,14 @@ public class JanelaCadastroPecas extends javax.swing.JFrame {
     }
 
     private void consultarPecas(java.awt.event.ActionEvent evt) {
-        Pecas visao =
-                (Pecas) pecas_cadastradasComboBox.getSelectedItem();
+        Peca visao =
+                (Peca) pecas_cadastradasComboBox.getSelectedItem();
 
-        Pecas pecas = null;
+        Peca pecas = null;
         String mensagem_erro = null;
 
         if (visao != null) {
-            pecas = Pecas.buscarPecas(visao.getCodigo());
+            pecas = Peca.buscarPecas(visao.getCodigo());
 
             if (pecas == null)
                 mensagem_erro = "Peça não cadastrada";
@@ -499,8 +499,8 @@ public class JanelaCadastroPecas extends javax.swing.JFrame {
     }
 
     private void removerPecas(java.awt.event.ActionEvent evt) {
-        Pecas visao =
-                (Pecas) pecas_cadastradasComboBox.getSelectedItem();
+        Peca visao =
+                (Peca) pecas_cadastradasComboBox.getSelectedItem();
 
         String mensagem_erro = null;
 

@@ -35,7 +35,7 @@ public class Sinistro {
     private String cidade;
     private GrauMonta grau_monta;
     private boolean perda_total;
-    private ArrayList<Pecas> pecas = new ArrayList<Pecas>();
+    private ArrayList<Peca> pecas = new ArrayList<Peca>();
 
     public Sinistro(int id, String segurado, String telefone, String cidade,
             GrauMonta grau_monta, boolean perda_total) {
@@ -59,15 +59,15 @@ public class Sinistro {
     public GrauMonta getGrauMonta() { return grau_monta; }
     public boolean getPerdaTotal() { return perda_total; }
     public boolean isPerdaTotal() { return perda_total; }
-    public Pecas[] getPecas() { return pecas.toArray(new Pecas[0]); }
+    public Peca[] getPecas() { return pecas.toArray(new Peca[0]); }
     public void setSegurado(String segurado) { this.segurado = segurado; }
     public void setTelefone(String telefone) { this.telefone = telefone; }
     public void setCidade(String cidade) { this.cidade = cidade; }
     public void setGrauMonta(GrauMonta grau_monta) { this.grau_monta = grau_monta; }
     public void setPerdaTotal(boolean perda_total) { this.perda_total = perda_total; }
-    public void setPecas(Pecas[] pecas) {
-        this.pecas = new ArrayList<Pecas>();
-        if (pecas != null) for (Pecas peca : pecas) if (peca != null) this.pecas.add(peca);
+    public void setPecas(Peca[] pecas) {
+        this.pecas = new ArrayList<Peca>();
+        if (pecas != null) for (Peca peca : pecas) if (peca != null) this.pecas.add(peca);
     }
 
     @Override
@@ -100,7 +100,7 @@ public class Sinistro {
             try (ResultSet resultados = comando.executeQuery()) {
                 if (!resultados.next()) return null;
                 Sinistro sinistro = criarVisao(resultados);
-                sinistro.setPecas(PecasSinistros.buscarPecasPorSinistro(id));
+                sinistro.setPecas(PecaSinistro.buscarPecasPorSinistro(id));
                 return sinistro;
             }
         } catch (SQLException | IllegalArgumentException excecao) {
