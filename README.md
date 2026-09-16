@@ -140,3 +140,9 @@ Isso é útil quando você quer começar com uma base limpa e previsível, princ
 Para conferir os requisitos e o que a etapa precisa cobrir, consulte:
 
 - `Docs/Checklists e Revisões/LPII - Checklist da Etapa 2 - LPII-E2.md`
+
+## Checklist e teste de empacotamento
+
+De acordo com a entrega realizada (`E1`, `E2`, `E3` ou `E4`), siga metodicamente a checklist correspondente, disponível em `Docs/Checklists`. Depois, valide a entrega no site:
+
+- https://teste-empacotamento-etapas.squareweb.app
