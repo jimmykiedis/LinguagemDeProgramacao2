@@ -111,13 +111,6 @@ public class JanelaCadastroSinistros extends javax.swing.JFrame {
         return new Sinistro(id, segurado, telefone, cidade, grau_monta, perda_total);
     }
 
-    private Sinistro getVisaoAlterada(int id) {
-        for (Sinistro visao : sinistros_cadastrados) {
-            if (visao.getId() == id) return visao;
-        }
-        return null;
-    }
-
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -202,6 +195,13 @@ public class JanelaCadastroSinistros extends javax.swing.JFrame {
             }
         });
         comandosPanel.add(limparCampos);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 8;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        getContentPane().add(comandosPanel, gridBagConstraints);
 
         sinistrosCadastradosLabel.setText("Sinistros Cadastrados");
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -321,10 +321,11 @@ public class JanelaCadastroSinistros extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(1, 5, 10, 5);
         getContentPane().add(perdaTotalLabel, gridBagConstraints);
 
-        perdaTotalPanel.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 8, 0));
+        perdaTotalPanel.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
 
         perdaTotalCheckBox.setText("Sim");
         perdaTotalPanel.add(perdaTotalCheckBox);
+
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 6;
@@ -341,25 +342,21 @@ public class JanelaCadastroSinistros extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(1, 5, 10, 5);
         getContentPane().add(pecasSinistroLabel, gridBagConstraints);
 
-        pecasSinistroList.setModel(pecasSinistroModel);
-        pecasSinistroList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         pecasSinistroScrollPane.setPreferredSize(new java.awt.Dimension(300, 90));
+
+        pecasSinistroList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        pecasSinistroList.setModel(pecasSinistroModel);
         pecasSinistroScrollPane.setViewportView(pecasSinistroList);
+
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 7;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(1, 5, 10, 5);
         getContentPane().add(pecasSinistroScrollPane, gridBagConstraints);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 8;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        getContentPane().add(comandosPanel, gridBagConstraints);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -416,7 +413,6 @@ public class JanelaCadastroSinistros extends javax.swing.JFrame {
             atualizarSinistrosCadastrados(sinistro.getId());
             atualizarListaPeçasSinistro(sinistro.getId());
             numeroTextField.setText(String.valueOf(sinistro.getId()));
-            sinistros_cadastradosComboBox.setSelectedItem(getVisaoAlterada(sinistro.getId()));
         } else {
             informarErro(mensagem_erro);
         }
@@ -433,9 +429,17 @@ public class JanelaCadastroSinistros extends javax.swing.JFrame {
         }
 
         if (mensagem_erro == null) {
-            atualizarSinistrosCadastrados(sinistro.getId());
-            atualizarListaPeçasSinistro(sinistro.getId());
-            sinistros_cadastradosComboBox.setSelectedItem(getVisaoAlterada(sinistro.getId()));
+            Sinistro visao = (Sinistro) sinistros_cadastradosComboBox.getSelectedItem();
+
+            if (visao != null) {
+                visao.setSegurado(sinistro.getSegurado());
+                visao.setTelefone(sinistro.getTelefone());
+                visao.setCidade(sinistro.getCidade());
+                visao.setGrauMonta(sinistro.getGrauMonta());
+                visao.setPerdaTotal(sinistro.getPerdaTotal());
+
+                sinistros_cadastradosComboBox.updateUI();
+            }
         } else {
             informarErro(mensagem_erro);
         }
@@ -482,26 +486,26 @@ public class JanelaCadastroSinistros extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton alterarSinistro;
-    private javax.swing.JButton consultarSinistro;
-    private javax.swing.JTextField clienteTextField;
     private javax.swing.JLabel clienteLabel;
+    private javax.swing.JTextField clienteTextField;
     private javax.swing.JPanel comandosPanel;
-    private javax.swing.JButton inserirSinistro;
-    private javax.swing.JButton limparCampos;
-    private javax.swing.JButton pecasSinistro;
+    private javax.swing.JButton consultarSinistro;
     private javax.swing.JComboBox grauMontaComboBox;
     private javax.swing.JLabel grauMontaLabel;
+    private javax.swing.JButton inserirSinistro;
+    private javax.swing.JButton limparCampos;
     private javax.swing.JLabel numeroLabel;
     private javax.swing.JTextField numeroTextField;
-    private javax.swing.JLabel seguradoLabel;
-    private javax.swing.JTextField seguradoTextField;
-    private javax.swing.JLabel perdaTotalLabel;
-    private javax.swing.JPanel perdaTotalPanel;
-    private javax.swing.JCheckBox perdaTotalCheckBox;
+    private javax.swing.JButton pecasSinistro;
     private javax.swing.JLabel pecasSinistroLabel;
     private javax.swing.JList pecasSinistroList;
     private javax.swing.JScrollPane pecasSinistroScrollPane;
+    private javax.swing.JCheckBox perdaTotalCheckBox;
+    private javax.swing.JLabel perdaTotalLabel;
+    private javax.swing.JPanel perdaTotalPanel;
     private javax.swing.JButton removerSinistro;
+    private javax.swing.JLabel seguradoLabel;
+    private javax.swing.JTextField seguradoTextField;
     private javax.swing.JLabel sinistrosCadastradosLabel;
     private javax.swing.JComboBox sinistros_cadastradosComboBox;
     private javax.swing.JLabel telefoneLabel;

@@ -143,13 +143,6 @@ public class JanelaCadastroSeguradoras extends javax.swing.JFrame {
         );
     }
 
-    private Seguradora getVisaoAlterada(String nome) {
-        for (Seguradora visao : seguradoras_cadastradas) {
-            if (visao.getNome().equals(nome)) return visao;
-        }
-        return null;
-    }
-
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -365,7 +358,7 @@ public class JanelaCadastroSeguradoras extends javax.swing.JFrame {
         if (mensagem_erro == null) {
 
             Seguradora visao =
-                    getVisaoAlterada(seguradora.getNome());
+                    (Seguradora) seguradoras_cadastradasComboBox.getSelectedItem();
 
             if (visao != null) {
 
@@ -373,22 +366,7 @@ public class JanelaCadastroSeguradoras extends javax.swing.JFrame {
                         seguradora.getCidade()
                 );
 
-                visao.setCoberturaPercentual(
-                        seguradora.getCoberturaPercentual()
-                );
-
-                visao.setPossuiAtendimento24h(
-                        seguradora.getPossuiAtendimento24h()
-                );
-
-                visao.setFormaPagamentoPreferencial(
-                        seguradora.getFormaPagamentoPreferencial()
-                );
-
                 seguradoras_cadastradasComboBox.updateUI();
-
-                seguradoras_cadastradasComboBox
-                        .setSelectedItem(visao);
             }
 
         } else {

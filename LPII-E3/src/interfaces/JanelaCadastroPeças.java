@@ -154,13 +154,6 @@ public class JanelaCadastroPeças extends javax.swing.JFrame {
         );
     }
     
-    private Peça getVisaoAlterada(int codigo) {
-        for (Peça visao : pecas_cadastradas) {
-            if (visao.getCodigo() == codigo) return visao;
-        }
-        return null;
-    }
-    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -437,16 +430,12 @@ public class JanelaCadastroPeças extends javax.swing.JFrame {
         mensagem_erro = controlador.alterarPeças(pecas);
 
         if (mensagem_erro == null) {
-            Peça visao = getVisaoAlterada(pecas.getCodigo());
+            Peça visao =
+                    (Peça) pecas_cadastradasComboBox.getSelectedItem();
 
             if (visao != null) {
-                visao.setCodigo(pecas.getCodigo());
                 visao.setNome(pecas.getNome());
                 visao.setMarca(pecas.getMarca());
-                visao.setPreco(pecas.getPreco());
-                visao.setCor(pecas.getCor());
-                visao.setMaoDeObra(pecas.getMaoDeObra());
-                visao.setDiasGarantia(pecas.getDiasGarantia());
 
                 pecas_cadastradasComboBox.updateUI();
             }
