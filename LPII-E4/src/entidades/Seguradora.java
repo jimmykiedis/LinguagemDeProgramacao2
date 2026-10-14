@@ -49,40 +49,40 @@ public class Seguradora {
 
     private String nome;
     private String cidade;
-    private double cobertura_percentual;
-    private boolean possui_atendimento_24h;
-    private FormaPagamentoPreferencial forma_pagamento_preferencial;
+    private double coberturaPercentual;
+    private boolean possuiAtendimento24h;
+    private FormaPagamentoPreferencial formaPagamentoPreferencial;
 
     public String getNome() { return nome; }
     public String getCidade() { return cidade; }
-    public double getCoberturaPercentual() { return cobertura_percentual; }
-    public boolean getPossuiAtendimento24h() { return possui_atendimento_24h; }
-    public boolean isPossuiAtendimento24h() { return possui_atendimento_24h; }
-    public FormaPagamentoPreferencial getFormaPagamentoPreferencial() { return forma_pagamento_preferencial; }
+    public double getCoberturaPercentual() { return coberturaPercentual; }
+    public boolean getPossuiAtendimento24h() { return possuiAtendimento24h; }
+    public boolean isPossuiAtendimento24h() { return possuiAtendimento24h; }
+    public FormaPagamentoPreferencial getFormaPagamentoPreferencial() { return formaPagamentoPreferencial; }
 
     public void setCidade(String cidade) { this.cidade = cidade; }
-    public void setCoberturaPercentual(double cobertura_percentual) { this.cobertura_percentual = cobertura_percentual; }
-    public void setPossuiAtendimento24h(boolean possui_atendimento_24h) { this.possui_atendimento_24h = possui_atendimento_24h; }
-    public void setFormaPagamentoPreferencial(FormaPagamentoPreferencial forma_pagamento_preferencial) {
-        this.forma_pagamento_preferencial = forma_pagamento_preferencial;
+    public void setCoberturaPercentual(double coberturaPercentual) { this.coberturaPercentual = coberturaPercentual; }
+    public void setPossuiAtendimento24h(boolean possuiAtendimento24h) { this.possuiAtendimento24h = possuiAtendimento24h; }
+    public void setFormaPagamentoPreferencial(FormaPagamentoPreferencial formaPagamentoPreferencial) {
+        this.formaPagamentoPreferencial = formaPagamentoPreferencial;
     }
 
     public Seguradora(
             String nome,
             String cidade,
-            double cobertura_percentual,
-            boolean possui_atendimento_24h,
-            FormaPagamentoPreferencial forma_pagamento_preferencial
+            double coberturaPercentual,
+            boolean possuiAtendimento24h,
+            FormaPagamentoPreferencial formaPagamentoPreferencial
     ) {
         this.nome = nome;
         this.cidade = cidade;
-        this.cobertura_percentual = cobertura_percentual;
-        this.possui_atendimento_24h = possui_atendimento_24h;
-        this.forma_pagamento_preferencial = forma_pagamento_preferencial;
+        this.coberturaPercentual = coberturaPercentual;
+        this.possuiAtendimento24h = possuiAtendimento24h;
+        this.formaPagamentoPreferencial = formaPagamentoPreferencial;
     }
 
-    public Seguradora(String nome, String cidade, double cobertura_percentual) {
-        this(nome, cidade, cobertura_percentual, false, FormaPagamentoPreferencial.BOLETO);
+    public Seguradora(String nome, String cidade, double coberturaPercentual) {
+        this(nome, cidade, coberturaPercentual, false, FormaPagamentoPreferencial.BOLETO);
     }
 
     public Seguradora(String nome, String cidade) {
@@ -97,44 +97,44 @@ public class Seguradora {
         return new Seguradora(
                 nome,
                 cidade,
-                cobertura_percentual,
-                possui_atendimento_24h,
-                forma_pagamento_preferencial
+                coberturaPercentual,
+                possuiAtendimento24h,
+                formaPagamentoPreferencial
         );
     }
 
     public static Seguradora[] getVisoes() {
         String sql = "SELECT nome, cidade, cobertura_percentual, possui_atendimento_24h, forma_pagamento_preferencial FROM seguradoras";
-        ResultSet lista_resultados = null;
+        ResultSet listaResultados = null;
         ArrayList<Seguradora> visoes = new ArrayList<>();
 
         try {
             PreparedStatement comando = BD.conexao.prepareStatement(sql);
-            lista_resultados = comando.executeQuery();
+            listaResultados = comando.executeQuery();
 
-            while (lista_resultados.next()) {
-                String nome = lista_resultados.getString("nome");
-                String cidade = lista_resultados.getString("cidade");
-                double cobertura_percentual = lista_resultados.getDouble("cobertura_percentual");
-                boolean possui_atendimento_24h = lista_resultados.getBoolean("possui_atendimento_24h");
-                FormaPagamentoPreferencial forma_pagamento_preferencial =
+            while (listaResultados.next()) {
+                String nome = listaResultados.getString("nome");
+                String cidade = listaResultados.getString("cidade");
+                double coberturaPercentual = listaResultados.getDouble("cobertura_percentual");
+                boolean possuiAtendimento24h = listaResultados.getBoolean("possui_atendimento_24h");
+                FormaPagamentoPreferencial formaPagamentoPreferencial =
                         FormaPagamentoPreferencial.fromTexto(
-                                lista_resultados.getString("forma_pagamento_preferencial")
+                                listaResultados.getString("forma_pagamento_preferencial")
                         );
                 visoes.add(new Seguradora(
                         nome,
                         cidade,
-                        cobertura_percentual,
-                        possui_atendimento_24h,
-                        forma_pagamento_preferencial
+                        coberturaPercentual,
+                        possuiAtendimento24h,
+                        formaPagamentoPreferencial
                 ));
             }
 
-            lista_resultados.close();
+            listaResultados.close();
             comando.close();
 
-        } catch (SQLException excecao_sql) {
-            excecao_sql.printStackTrace();
+        } catch (SQLException excecaoSql) {
+            excecaoSql.printStackTrace();
         }
 
         return visoes.toArray(new Seguradora[visoes.size()]);
@@ -142,31 +142,31 @@ public class Seguradora {
 
     public static Seguradora buscarSeguradora(String nome) {
         String sql = "SELECT * FROM seguradoras WHERE nome = ?";
-        ResultSet lista_resultados = null;
+        ResultSet listaResultados = null;
         Seguradora seguradora = null;
 
         try {
             PreparedStatement comando = BD.conexao.prepareStatement(sql);
             comando.setString(1, nome);
-            lista_resultados = comando.executeQuery();
+            listaResultados = comando.executeQuery();
 
-            while (lista_resultados.next()) {
+            while (listaResultados.next()) {
                 seguradora = new Seguradora(
                         nome,
-                        lista_resultados.getString("cidade"),
-                        lista_resultados.getDouble("cobertura_percentual"),
-                        lista_resultados.getBoolean("possui_atendimento_24h"),
+                        listaResultados.getString("cidade"),
+                        listaResultados.getDouble("cobertura_percentual"),
+                        listaResultados.getBoolean("possui_atendimento_24h"),
                         FormaPagamentoPreferencial.fromTexto(
-                                lista_resultados.getString("forma_pagamento_preferencial")
+                                listaResultados.getString("forma_pagamento_preferencial")
                         )
                 );
             }
 
-            lista_resultados.close();
+            listaResultados.close();
             comando.close();
 
-        } catch (SQLException excecao_sql) {
-            excecao_sql.printStackTrace();
+        } catch (SQLException excecaoSql) {
+            excecaoSql.printStackTrace();
             seguradora = null;
         }
 
@@ -190,8 +190,8 @@ public class Seguradora {
 
             return null;
 
-        } catch (SQLException excecao_sql) {
-            excecao_sql.printStackTrace();
+        } catch (SQLException excecaoSql) {
+            excecaoSql.printStackTrace();
             return "Erro na Inserção da Seguradora no BD";
         }
     }
@@ -214,8 +214,8 @@ public class Seguradora {
 
             return null;
 
-        } catch (SQLException excecao_sql) {
-            excecao_sql.printStackTrace();
+        } catch (SQLException excecaoSql) {
+            excecaoSql.printStackTrace();
             return "Erro na Alteração da Seguradora no BD";
         }
     }
@@ -232,8 +232,8 @@ public class Seguradora {
 
             return null;
 
-        } catch (SQLException excecao_sql) {
-            excecao_sql.printStackTrace();
+        } catch (SQLException excecaoSql) {
+            excecaoSql.printStackTrace();
             return "Erro na Remoção da Seguradora no BD";
         }
     }

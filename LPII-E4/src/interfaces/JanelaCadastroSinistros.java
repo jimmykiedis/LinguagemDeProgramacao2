@@ -11,7 +11,7 @@ import javax.swing.JOptionPane;
 public class JanelaCadastroSinistros extends javax.swing.JFrame {
 
     ControladorCadastroSinistros controlador;
-    Sinistro[] sinistros_cadastrados;
+    Sinistro[] sinistrosCadastrados;
     private final DefaultListModel pecasSinistroModel = new DefaultListModel();
 
     public JanelaCadastroSinistros(ControladorCadastroSinistros controlador) {
@@ -20,7 +20,7 @@ public class JanelaCadastroSinistros extends javax.swing.JFrame {
 
     public JanelaCadastroSinistros(ControladorCadastroSinistros controlador, Frame owner) {
         this.controlador = controlador;
-        sinistros_cadastrados = Sinistro.getVisoes();
+        sinistrosCadastrados = Sinistro.getVisoes();
         initComponents();
         atualizarSinistrosCadastrados();
         setSize(new java.awt.Dimension(820, 620));
@@ -34,8 +34,8 @@ public class JanelaCadastroSinistros extends javax.swing.JFrame {
     }
 
     private Sinistro localizarSinistro(int id) {
-        if (sinistros_cadastrados == null) return null;
-        for (Sinistro visao : sinistros_cadastrados) {
+        if (sinistrosCadastrados == null) return null;
+        for (Sinistro visao : sinistrosCadastrados) {
             if (visao.getId() == id) return visao;
         }
         return null;
@@ -46,12 +46,12 @@ public class JanelaCadastroSinistros extends javax.swing.JFrame {
     }
 
     private void atualizarSinistrosCadastrados(int idSelecionado) {
-        sinistros_cadastrados = Sinistro.getVisoes();
-        sinistros_cadastradosComboBox.setModel(new DefaultComboBoxModel(sinistros_cadastrados));
+        sinistrosCadastrados = Sinistro.getVisoes();
+        sinistrosCadastradosComboBox.setModel(new DefaultComboBoxModel(sinistrosCadastrados));
 
-        Sinistro visao_selecionada = localizarSinistro(idSelecionado);
-        if (visao_selecionada != null) {
-            sinistros_cadastradosComboBox.setSelectedItem(visao_selecionada);
+        Sinistro visaoSelecionada = localizarSinistro(idSelecionado);
+        if (visaoSelecionada != null) {
+            sinistrosCadastradosComboBox.setSelectedItem(visaoSelecionada);
         }
     }
 
@@ -90,16 +90,16 @@ public class JanelaCadastroSinistros extends javax.swing.JFrame {
         String cidade = clienteTextField.getText().trim();
         if (cidade.isEmpty()) cidade = null;
 
-        Sinistro.GrauMonta grau_monta =
+        Sinistro.GrauMonta grauMonta =
                 (Sinistro.GrauMonta) grauMontaComboBox.getSelectedItem();
-        if (grau_monta == null) return null;
+        if (grauMonta == null) return null;
 
-        Boolean perda_total = obterPerdaTotalInformada();
-        if (perda_total == null) return null;
+        Boolean perdaTotal = obterPerdaTotalInformada();
+        if (perdaTotal == null) return null;
 
         int id = numeroTextField.getText().trim().isEmpty() ? 0
                 : Integer.parseInt(numeroTextField.getText().trim());
-        return new Sinistro(id, segurado, telefone, cidade, grau_monta, perda_total);
+        return new Sinistro(id, segurado, telefone, cidade, grauMonta, perdaTotal);
     }
 
     @SuppressWarnings("unchecked")
@@ -115,7 +115,7 @@ public class JanelaCadastroSinistros extends javax.swing.JFrame {
         pecasSinistro = new javax.swing.JButton();
         limparCampos = new javax.swing.JButton();
         sinistrosCadastradosLabel = new javax.swing.JLabel();
-        sinistros_cadastradosComboBox = new javax.swing.JComboBox();
+        sinistrosCadastradosComboBox = new javax.swing.JComboBox();
         numeroLabel = new javax.swing.JLabel();
         numeroTextField = new javax.swing.JTextField();
         seguradoLabel = new javax.swing.JLabel();
@@ -202,10 +202,10 @@ public class JanelaCadastroSinistros extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(1, 5, 10, 5);
         getContentPane().add(sinistrosCadastradosLabel, gridBagConstraints);
 
-        sinistros_cadastradosComboBox.setModel(new DefaultComboBoxModel(sinistros_cadastrados));
-        sinistros_cadastradosComboBox.addActionListener(new java.awt.event.ActionListener() {
+        sinistrosCadastradosComboBox.setModel(new DefaultComboBoxModel(sinistrosCadastrados));
+        sinistrosCadastradosComboBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                sinistros_cadastradosComboBoxActionPerformed(evt);
+                sinistrosCadastradosComboBoxActionPerformed(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -213,7 +213,7 @@ public class JanelaCadastroSinistros extends javax.swing.JFrame {
         gridBagConstraints.gridy = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(1, 5, 10, 5);
-        getContentPane().add(sinistros_cadastradosComboBox, gridBagConstraints);
+        getContentPane().add(sinistrosCadastradosComboBox, gridBagConstraints);
 
         numeroLabel.setText("ID");
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -352,8 +352,8 @@ public class JanelaCadastroSinistros extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void sinistros_cadastradosComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sinistros_cadastradosComboBoxActionPerformed
-        Sinistro visao = (Sinistro) sinistros_cadastradosComboBox.getSelectedItem();
+    private void sinistrosCadastradosComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sinistros_cadastradosComboBoxActionPerformed
+        Sinistro visao = (Sinistro) sinistrosCadastradosComboBox.getSelectedItem();
         atualizarListaPeçasSinistro(visao != null ? visao.getId() : 0);
     }//GEN-LAST:event_sinistros_cadastradosComboBoxActionPerformed
 
@@ -368,14 +368,14 @@ public class JanelaCadastroSinistros extends javax.swing.JFrame {
     }//GEN-LAST:event_limparCampos
 
     private void consultarSinistro(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_consultarSinistro
-        Sinistro visao = (Sinistro) sinistros_cadastradosComboBox.getSelectedItem();
-        String mensagem_erro = null;
+        Sinistro visao = (Sinistro) sinistrosCadastradosComboBox.getSelectedItem();
+        String mensagemErro = null;
         if (visao == null) {
-            mensagem_erro = "Nenhum Sinistro selecionado";
+            mensagemErro = "Nenhum Sinistro selecionado";
         } else {
             Sinistro sinistro = Sinistro.buscarSinistro(visao.getId());
             if (sinistro == null) {
-                mensagem_erro = "Sinistro não cadastrado";
+                mensagemErro = "Sinistro não cadastrado";
             } else {
                 numeroTextField.setText(String.valueOf(sinistro.getId()));
                 seguradoTextField.setText(sinistro.getSegurado());
@@ -387,40 +387,40 @@ public class JanelaCadastroSinistros extends javax.swing.JFrame {
             }
         }
 
-        if (mensagem_erro != null) informarErro(mensagem_erro);
+        if (mensagemErro != null) informarErro(mensagemErro);
     }//GEN-LAST:event_consultarSinistro
 
     private void inserirSinistro(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inserirSinistro
         Sinistro sinistro = obterSinistroInformado();
-        String mensagem_erro = null;
+        String mensagemErro = null;
 
         if (sinistro != null) {
-            mensagem_erro = controlador.inserirSinistro(sinistro);
+            mensagemErro = controlador.inserirSinistro(sinistro);
         } else {
-            mensagem_erro = "Algum atributo do Sinistro não foi informado";
+            mensagemErro = "Algum atributo do Sinistro não foi informado";
         }
 
-        if (mensagem_erro == null) {
+        if (mensagemErro == null) {
             atualizarSinistrosCadastrados(sinistro.getId());
             atualizarListaPeçasSinistro(sinistro.getId());
             numeroTextField.setText(String.valueOf(sinistro.getId()));
         } else {
-            informarErro(mensagem_erro);
+            informarErro(mensagemErro);
         }
     }//GEN-LAST:event_inserirSinistro
 
     private void alterarSinistro(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_alterarSinistro
         Sinistro sinistro = obterSinistroInformado();
-        String mensagem_erro = null;
+        String mensagemErro = null;
 
         if (sinistro != null) {
-            mensagem_erro = controlador.alterarSinistro(sinistro);
+            mensagemErro = controlador.alterarSinistro(sinistro);
         } else {
-            mensagem_erro = "Algum atributo do Sinistro não foi informado";
+            mensagemErro = "Algum atributo do Sinistro não foi informado";
         }
 
-        if (mensagem_erro == null) {
-            Sinistro visao = (Sinistro) sinistros_cadastradosComboBox.getSelectedItem();
+        if (mensagemErro == null) {
+            Sinistro visao = (Sinistro) sinistrosCadastradosComboBox.getSelectedItem();
 
             if (visao != null) {
                 visao.setSegurado(sinistro.getSegurado());
@@ -429,49 +429,49 @@ public class JanelaCadastroSinistros extends javax.swing.JFrame {
                 visao.setGrauMonta(sinistro.getGrauMonta());
                 visao.setPerdaTotal(sinistro.getPerdaTotal());
 
-                sinistros_cadastradosComboBox.updateUI();
+                sinistrosCadastradosComboBox.updateUI();
             }
         } else {
-            informarErro(mensagem_erro);
+            informarErro(mensagemErro);
         }
     }//GEN-LAST:event_alterarSinistro
 
     private void removerSinistro(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removerSinistro
-        Sinistro visao = (Sinistro) sinistros_cadastradosComboBox.getSelectedItem();
-        String mensagem_erro = null;
+        Sinistro visao = (Sinistro) sinistrosCadastradosComboBox.getSelectedItem();
+        String mensagemErro = null;
 
         if (visao != null) {
-            mensagem_erro = controlador.removerSinistro(visao.getId());
+            mensagemErro = controlador.removerSinistro(visao.getId());
         } else {
-            mensagem_erro = "Nenhum Sinistro selecionado";
+            mensagemErro = "Nenhum Sinistro selecionado";
         }
 
-        if (mensagem_erro == null) {
+        if (mensagemErro == null) {
             atualizarSinistrosCadastrados();
             limparCampos(evt);
         } else {
-            informarErro(mensagem_erro);
+            informarErro(mensagemErro);
         }
     }//GEN-LAST:event_removerSinistro
 
     private void pecasSinistro(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pecasSinistro
-        Sinistro visao = (Sinistro) sinistros_cadastradosComboBox.getSelectedItem();
-        String mensagem_erro = null;
+        Sinistro visao = (Sinistro) sinistrosCadastradosComboBox.getSelectedItem();
+        String mensagemErro = null;
 
         if (visao == null) {
-            mensagem_erro = "Nenhum Sinistro selecionado";
+            mensagemErro = "Nenhum Sinistro selecionado";
         } else {
             Sinistro sinistro = Sinistro.buscarSinistro(visao.getId());
             if (sinistro == null) {
-                mensagem_erro = "Sinistro não cadastrado";
+                mensagemErro = "Sinistro não cadastrado";
             } else {
                 new ControladorCadastroPeçasSinistros(this, sinistro);
                 atualizarListaPeçasSinistro(sinistro.getId());
             }
         }
 
-        if (mensagem_erro != null) {
-            informarErro(mensagem_erro);
+        if (mensagemErro != null) {
+            informarErro(mensagemErro);
         }
     }//GEN-LAST:event_pecasSinistro
 
@@ -498,7 +498,7 @@ public class JanelaCadastroSinistros extends javax.swing.JFrame {
     private javax.swing.JLabel seguradoLabel;
     private javax.swing.JTextField seguradoTextField;
     private javax.swing.JLabel sinistrosCadastradosLabel;
-    private javax.swing.JComboBox sinistros_cadastradosComboBox;
+    private javax.swing.JComboBox sinistrosCadastradosComboBox;
     private javax.swing.JLabel telefoneLabel;
     private javax.swing.JTextField telefoneTextField;
     // End of variables declaration//GEN-END:variables

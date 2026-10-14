@@ -19,8 +19,8 @@ public class BD {
             conexao = DriverManager.getConnection(URL_BD, USUARIO, SENHA);
             atualizarEsquemaEtapa3();
             atualizarEsquemaEtapa4();
-        } catch (SQLException excecao_sql) {
-            excecao_sql.printStackTrace();
+        } catch (SQLException excecaoSql) {
+            excecaoSql.printStackTrace();
         }
     }
 
@@ -131,8 +131,8 @@ public class BD {
             if (conexao != null) {
                 conexao.close();
             }
-        } catch (SQLException excecao_sql) {
-            excecao_sql.printStackTrace();
+        } catch (SQLException excecaoSql) {
+            excecaoSql.printStackTrace();
         }
     }
 }

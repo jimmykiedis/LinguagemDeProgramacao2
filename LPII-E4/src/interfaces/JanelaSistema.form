@@ -2,14 +2,14 @@
 
 <Form version="1.3" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
   <NonVisualComponents>
-    <Menu class="javax.swing.JMenuBar" name="seguradoras_or&#xe7;amentoMenuBar">
+    <Menu class="javax.swing.JMenuBar" name="seguradorasOr&#xe7;amentoMenuBar">
       <SubComponents>
         <Menu class="javax.swing.JMenu" name="pe&#xe7;aMenu">
           <Properties>
             <Property name="text" type="java.lang.String" value="Pe&#xe7;a"/>
           </Properties>
           <SubComponents>
-            <MenuItem class="javax.swing.JMenuItem" name="cadastrar_pe&#xe7;aMenuItem">
+            <MenuItem class="javax.swing.JMenuItem" name="cadastrarPe&#xe7;aMenuItem">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Cadastrar"/>
               </Properties>
@@ -24,7 +24,7 @@
             <Property name="text" type="java.lang.String" value="Seguradora"/>
           </Properties>
           <SubComponents>
-            <MenuItem class="javax.swing.JMenuItem" name="cadastrar_seguradoraItemMenu">
+            <MenuItem class="javax.swing.JMenuItem" name="cadastrarSeguradoraItemMenu">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Cadastrar"/>
               </Properties>
@@ -39,7 +39,7 @@
             <Property name="text" type="java.lang.String" value="Sinistro"/>
           </Properties>
           <SubComponents>
-            <MenuItem class="javax.swing.JMenuItem" name="cadastrar_sinistroMenuItem">
+            <MenuItem class="javax.swing.JMenuItem" name="cadastrarSinistroMenuItem">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Cadastrar"/>
               </Properties>
@@ -54,7 +54,7 @@
             <Property name="text" type="java.lang.String" value="Or&#xe7;amento"/>
           </Properties>
           <SubComponents>
-            <MenuItem class="javax.swing.JMenuItem" name="cadastrar_or&#xe7;amentoMenuItem">
+            <MenuItem class="javax.swing.JMenuItem" name="cadastrarOr&#xe7;amentoMenuItem">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Cadastrar"/>
               </Properties>
@@ -62,7 +62,7 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cadastrarOr&#xe7;amentos"/>
               </Events>
             </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="pesquisar_or&#xe7;amentoMenuItem">
+            <MenuItem class="javax.swing.JMenuItem" name="pesquisarOr&#xe7;amentoMenuItem">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Pesquisar"/>
               </Properties>
@@ -81,7 +81,7 @@
     <Property name="alwaysOnTop" type="boolean" value="true"/>
   </Properties>
   <SyntheticProperties>
-    <SyntheticProperty name="menuBar" type="java.lang.String" value="seguradoras_or&#xe7;amentoMenuBar"/>
+    <SyntheticProperty name="menuBar" type="java.lang.String" value="seguradorasOr&#xe7;amentoMenuBar"/>
     <SyntheticProperty name="formSizePolicy" type="int" value="1"/>
     <SyntheticProperty name="generateCenter" type="boolean" value="false"/>
   </SyntheticProperties>

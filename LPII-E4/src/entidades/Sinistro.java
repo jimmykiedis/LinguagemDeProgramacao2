@@ -33,38 +33,38 @@ public class Sinistro {
     private String segurado;
     private String telefone;
     private String cidade;
-    private GrauMonta grau_monta;
-    private boolean perda_total;
+    private GrauMonta grauMonta;
+    private boolean perdaTotal;
     private ArrayList<Peça> pecas = new ArrayList<Peça>();
 
     public Sinistro(int id, String segurado, String telefone, String cidade,
-            GrauMonta grau_monta, boolean perda_total) {
+            GrauMonta grauMonta, boolean perdaTotal) {
         this.id = id;
         this.segurado = segurado;
         this.telefone = telefone;
         this.cidade = cidade;
-        this.grau_monta = grau_monta;
-        this.perda_total = perda_total;
+        this.grauMonta = grauMonta;
+        this.perdaTotal = perdaTotal;
     }
 
     public Sinistro(String segurado, String telefone, String cidade,
-            GrauMonta grau_monta, boolean perda_total) {
-        this(0, segurado, telefone, cidade, grau_monta, perda_total);
+            GrauMonta grauMonta, boolean perdaTotal) {
+        this(0, segurado, telefone, cidade, grauMonta, perdaTotal);
     }
 
     public int getId() { return id; }
     public String getSegurado() { return segurado; }
     public String getTelefone() { return telefone; }
     public String getCidade() { return cidade; }
-    public GrauMonta getGrauMonta() { return grau_monta; }
-    public boolean getPerdaTotal() { return perda_total; }
-    public boolean isPerdaTotal() { return perda_total; }
+    public GrauMonta getGrauMonta() { return grauMonta; }
+    public boolean getPerdaTotal() { return perdaTotal; }
+    public boolean isPerdaTotal() { return perdaTotal; }
     public Peça[] getPeças() { return pecas.toArray(new Peça[0]); }
     public void setSegurado(String segurado) { this.segurado = segurado; }
     public void setTelefone(String telefone) { this.telefone = telefone; }
     public void setCidade(String cidade) { this.cidade = cidade; }
-    public void setGrauMonta(GrauMonta grau_monta) { this.grau_monta = grau_monta; }
-    public void setPerdaTotal(boolean perda_total) { this.perda_total = perda_total; }
+    public void setGrauMonta(GrauMonta grauMonta) { this.grauMonta = grauMonta; }
+    public void setPerdaTotal(boolean perdaTotal) { this.perdaTotal = perdaTotal; }
     public void setPeças(Peça[] pecas) {
         this.pecas = new ArrayList<Peça>();
         if (pecas != null) for (Peça peca : pecas) if (peca != null) this.pecas.add(peca);
@@ -73,7 +73,7 @@ public class Sinistro {
     @Override
     public String toString() {
         return "#" + id + " - " + segurado + " - " + (cidade != null ? cidade : "")
-                + " (" + grau_monta + ")";
+                + " (" + grauMonta + ")";
     }
 
     private static Sinistro criarVisao(ResultSet resultado) throws SQLException {

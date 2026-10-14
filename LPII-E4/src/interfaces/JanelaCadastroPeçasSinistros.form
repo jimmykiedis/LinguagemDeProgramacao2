@@ -99,10 +99,10 @@
         </Constraint>
       </Constraints>
     </Component>
-    <Component class="javax.swing.JComboBox" name="pecas_cadastradasComboBox">
+    <Component class="javax.swing.JComboBox" name="pecasCadastradasComboBox">
       <Properties>
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-          <Connection code="new DefaultComboBoxModel(pecas_cadastradas)" type="code"/>
+          <Connection code="new DefaultComboBoxModel(pecasCadastradas)" type="code"/>
         </Property>
       </Properties>
       <Constraints>

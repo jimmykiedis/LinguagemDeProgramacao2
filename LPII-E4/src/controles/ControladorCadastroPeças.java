@@ -18,20 +18,20 @@ public class ControladorCadastroPeças {
     }
        
     public String inserirPeças(Peça pecas) {
-        Peça peca_buscada = Peça.buscarPeças(pecas.getCodigo());
-        if (peca_buscada == null) return Peça.inserirPeças(pecas);
+        Peça pecaBuscada = Peça.buscarPeças(pecas.getCodigo());
+        if (pecaBuscada == null) return Peça.inserirPeças(pecas);
         else return "Código de Peça já cadastrado";
     }
     
     public String alterarPeças(Peça pecas) {
-        Peça peca_buscada = Peça.buscarPeças(pecas.getCodigo());
-        if (peca_buscada != null) return Peça.alterarPeças(pecas);
+        Peça pecaBuscada = Peça.buscarPeças(pecas.getCodigo());
+        if (pecaBuscada != null) return Peça.alterarPeças(pecas);
         else return "Código de Peça não cadastrado";
     }
     
     public String removerPeças(int codigo) {
-        Peça peca_buscada = Peça.buscarPeças(codigo);
-        if (peca_buscada != null) return Peça.removerPeças(codigo);
+        Peça pecaBuscada = Peça.buscarPeças(codigo);
+        if (pecaBuscada != null) return Peça.removerPeças(codigo);
         else return "Código de Peça não cadastrado";
     }
 }

@@ -23,9 +23,9 @@ public class JanelaSistema extends javax.swing.JFrame {
         peçaMenu = new javax.swing.JMenu();
         cadastrar_peçaMenuItem = new javax.swing.JMenuItem();
         seguradoraMenu = new javax.swing.JMenu();
-        cadastrar_seguradoraItemMenu = new javax.swing.JMenuItem();
+        cadastrarSeguradoraItemMenu = new javax.swing.JMenuItem();
         sinistroMenu = new javax.swing.JMenu();
-        cadastrar_sinistroMenuItem = new javax.swing.JMenuItem();
+        cadastrarSinistroMenuItem = new javax.swing.JMenuItem();
         orçamentoMenu = new javax.swing.JMenu();
         cadastrar_orçamentoMenuItem = new javax.swing.JMenuItem();
         pesquisar_orçamentoMenuItem = new javax.swing.JMenuItem();
@@ -52,25 +52,25 @@ public class JanelaSistema extends javax.swing.JFrame {
 
         seguradoraMenu.setText("Seguradora");
 
-        cadastrar_seguradoraItemMenu.setText("Cadastrar");
-        cadastrar_seguradoraItemMenu.addActionListener(new java.awt.event.ActionListener() {
+        cadastrarSeguradoraItemMenu.setText("Cadastrar");
+        cadastrarSeguradoraItemMenu.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cadastrarSeguradora(evt);
             }
         });
-        seguradoraMenu.add(cadastrar_seguradoraItemMenu);
+        seguradoraMenu.add(cadastrarSeguradoraItemMenu);
 
         seguradoras_orçamentoMenuBar.add(seguradoraMenu);
 
         sinistroMenu.setText("Sinistro");
 
-        cadastrar_sinistroMenuItem.setText("Cadastrar");
-        cadastrar_sinistroMenuItem.addActionListener(new java.awt.event.ActionListener() {
+        cadastrarSinistroMenuItem.setText("Cadastrar");
+        cadastrarSinistroMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cadastrarSinistro(evt);
             }
         });
-        sinistroMenu.add(cadastrar_sinistroMenuItem);
+        sinistroMenu.add(cadastrarSinistroMenuItem);
 
         seguradoras_orçamentoMenuBar.add(sinistroMenu);
 
@@ -149,8 +149,8 @@ public class JanelaSistema extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem cadastrar_orçamentoMenuItem;
     private javax.swing.JMenuItem cadastrar_peçaMenuItem;
-    private javax.swing.JMenuItem cadastrar_seguradoraItemMenu;
-    private javax.swing.JMenuItem cadastrar_sinistroMenuItem;
+    private javax.swing.JMenuItem cadastrarSeguradoraItemMenu;
+    private javax.swing.JMenuItem cadastrarSinistroMenuItem;
     private javax.swing.JMenu orçamentoMenu;
     private javax.swing.JMenuItem pesquisar_orçamentoMenuItem;
     private javax.swing.JMenu peçaMenu;

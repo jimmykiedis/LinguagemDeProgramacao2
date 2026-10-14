@@ -25,13 +25,13 @@ public class Peça {
     protected String nome;
     protected MarcaPeça marca;
     protected double preco;
-    protected Integer dias_garantia;
+    protected Integer diasGarantia;
     protected String cor;
 
     public Peça(int codigo, String nome, MarcaPeça marca, double preco,
-            Integer dias_garantia, String cor) {
+            Integer diasGarantia, String cor) {
         this.codigo=codigo; this.nome=nome; this.marca=marca; this.preco=preco;
-        this.dias_garantia=dias_garantia; this.cor=cor;
+        this.diasGarantia=diasGarantia; this.cor=cor;
     }
     public Peça() { this(0,null,null,0.0,null,null); }
     public int getCodigo() { return codigo; }
@@ -39,14 +39,14 @@ public class Peça {
     public MarcaPeça getMarca() { return marca; }
     public MarcaPeça getCategoria() { return marca; }
     public double getPreco() { return preco; }
-    public Integer getDiasGarantia() { return dias_garantia; }
+    public Integer getDiasGarantia() { return diasGarantia; }
     public String getCor() { return cor; }
     public void setCodigo(int v) { codigo=v; }
     public void setNome(String v) { nome=v; }
     public void setMarca(MarcaPeça v) { marca=v; }
     public void setCategoria(MarcaPeça v) { marca=v; }
     public void setPreco(double v) { preco=v; }
-    public void setDiasGarantia(Integer v) { dias_garantia=v; }
+    public void setDiasGarantia(Integer v) { diasGarantia=v; }
     public void setCor(String v) { cor=v; }
     public Peça getVisao() { return this; }
     @Override public String toString() {

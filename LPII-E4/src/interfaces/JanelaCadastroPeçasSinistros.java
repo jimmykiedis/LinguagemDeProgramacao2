@@ -12,7 +12,7 @@ public class JanelaCadastroPeçasSinistros extends javax.swing.JFrame {
 
     private final ControladorCadastroPeçasSinistros controlador;
     private Sinistro sinistro;
-    private Peça[] pecas_cadastradas;
+    private Peça[] pecasCadastradas;
     private final DefaultListModel pecasSinistroModel = new DefaultListModel();
 
     public JanelaCadastroPeçasSinistros(
@@ -22,7 +22,7 @@ public class JanelaCadastroPeçasSinistros extends javax.swing.JFrame {
     ) {
         this.controlador = controlador;
         this.sinistro = sinistro;
-        pecas_cadastradas = Peça.getVisoes();
+        pecasCadastradas = Peça.getVisoes();
         initComponents();
         if (owner instanceof JanelaCadastroSinistros) {
             final JanelaCadastroSinistros janelaMae = (JanelaCadastroSinistros) owner;
@@ -67,9 +67,9 @@ public class JanelaCadastroPeçasSinistros extends javax.swing.JFrame {
     }
 
     private void atualizarPeçasCadastradas() {
-        pecas_cadastradas = Peça.getVisoes();
-        pecas_cadastradasComboBox.setModel(
-                new DefaultComboBoxModel(pecas_cadastradas)
+        pecasCadastradas = Peça.getVisoes();
+        pecasCadastradasComboBox.setModel(
+                new DefaultComboBoxModel(pecasCadastradas)
         );
     }
 
@@ -92,7 +92,7 @@ public class JanelaCadastroPeçasSinistros extends javax.swing.JFrame {
     }
 
     private Peça obterPeçaSelecionada() {
-        return (Peça) pecas_cadastradasComboBox.getSelectedItem();
+        return (Peça) pecasCadastradasComboBox.getSelectedItem();
     }
 
     private Peça obterPeçaAssociadaSelecionada() {
@@ -105,18 +105,18 @@ public class JanelaCadastroPeçasSinistros extends javax.swing.JFrame {
     }
 
     private Peça localizarPeça(int codigo) {
-        if (pecas_cadastradas == null) return null;
-        for (Peça visao : pecas_cadastradas) {
+        if (pecasCadastradas == null) return null;
+        for (Peça visao : pecasCadastradas) {
             if (visao.getCodigo() == codigo) return visao;
         }
         return null;
     }
 
     private void limparCampos(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_limparCampos
-        if (pecas_cadastradasComboBox.getItemCount() > 0) {
-            pecas_cadastradasComboBox.setSelectedIndex(0);
+        if (pecasCadastradasComboBox.getItemCount() > 0) {
+            pecasCadastradasComboBox.setSelectedIndex(0);
         } else {
-            pecas_cadastradasComboBox.setSelectedItem(null);
+            pecasCadastradasComboBox.setSelectedItem(null);
         }
         pecasSinistroList.clearSelection();
     }//GEN-LAST:event_limparCampos
@@ -133,7 +133,7 @@ public class JanelaCadastroPeçasSinistros extends javax.swing.JFrame {
         sinistroLabel = new javax.swing.JLabel();
         sinistroTextField = new javax.swing.JTextField();
         pecasCadastradasLabel = new javax.swing.JLabel();
-        pecas_cadastradasComboBox = new javax.swing.JComboBox();
+        pecasCadastradasComboBox = new javax.swing.JComboBox();
         pecasSinistroLabel = new javax.swing.JLabel();
         pecasSinistroScrollPane = new javax.swing.JScrollPane();
         pecasSinistroList = new javax.swing.JList();
@@ -200,13 +200,13 @@ public class JanelaCadastroPeçasSinistros extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(1, 5, 10, 5);
         getContentPane().add(pecasCadastradasLabel, gridBagConstraints);
 
-        pecas_cadastradasComboBox.setModel(new DefaultComboBoxModel(pecas_cadastradas));
+        pecasCadastradasComboBox.setModel(new DefaultComboBoxModel(pecasCadastradas));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(1, 5, 10, 5);
-        getContentPane().add(pecas_cadastradasComboBox, gridBagConstraints);
+        getContentPane().add(pecasCadastradasComboBox, gridBagConstraints);
 
         pecasSinistroLabel.setText("Peças do Sinistro");
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -235,41 +235,41 @@ public class JanelaCadastroPeçasSinistros extends javax.swing.JFrame {
 
     private void inserirPeça(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inserirPeça
         Peça peca = obterPeçaSelecionada();
-        String mensagem_erro = null;
+        String mensagemErro = null;
 
         if (sinistro == null) {
-            mensagem_erro = "Sinistro nao informado";
+            mensagemErro = "Sinistro nao informado";
         } else if (peca == null) {
-            mensagem_erro = "Nenhuma Peça selecionada";
+            mensagemErro = "Nenhuma Peça selecionada";
         } else {
-            mensagem_erro = controlador.inserirPeçasSinistros(peca, sinistro);
+            mensagemErro = controlador.inserirPeçasSinistros(peca, sinistro);
         }
 
-        if (mensagem_erro == null) {
+        if (mensagemErro == null) {
             atualizarPeçasAssociadas();
             selecionarPeçaNaLista(localizarPeça(peca.getCodigo()));
         } else {
-            informarErro(mensagem_erro);
+            informarErro(mensagemErro);
         }
     }//GEN-LAST:event_inserirPeça
 
     private void removerPeça(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removerPeça
         Peça peca = obterPeçaAssociadaSelecionada();
-        String mensagem_erro = null;
+        String mensagemErro = null;
 
         if (sinistro == null) {
-            mensagem_erro = "Sinistro nao informado";
+            mensagemErro = "Sinistro nao informado";
         } else if (peca == null) {
-            mensagem_erro = "Nenhuma Peça selecionada";
+            mensagemErro = "Nenhuma Peça selecionada";
         } else {
-            mensagem_erro = controlador.removerPeçasSinistros(peca, sinistro);
+            mensagemErro = controlador.removerPeçasSinistros(peca, sinistro);
         }
 
-        if (mensagem_erro == null) {
+        if (mensagemErro == null) {
             atualizarPeçasAssociadas();
             pecasSinistroList.clearSelection();
         } else {
-            informarErro(mensagem_erro);
+            informarErro(mensagemErro);
         }
     }//GEN-LAST:event_removerPeça
 
@@ -281,7 +281,7 @@ public class JanelaCadastroPeçasSinistros extends javax.swing.JFrame {
     private javax.swing.JLabel pecasSinistroLabel;
     private javax.swing.JList pecasSinistroList;
     private javax.swing.JScrollPane pecasSinistroScrollPane;
-    private javax.swing.JComboBox pecas_cadastradasComboBox;
+    private javax.swing.JComboBox pecasCadastradasComboBox;
     private javax.swing.JButton removerPeça;
     private javax.swing.JLabel sinistroLabel;
     private javax.swing.JTextField sinistroTextField;
