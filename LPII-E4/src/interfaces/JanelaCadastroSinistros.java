@@ -30,16 +30,7 @@ public class JanelaCadastroSinistros extends javax.swing.JFrame {
 
     private void configurarJanelaDependente(Frame owner) {
         setAutoRequestFocus(true);
-        setAlwaysOnTop(true);
-
-        if (owner == null) {
-            setLocationByPlatform(true);
-            return;
-        }
-
-        int x = owner.getX() + (owner.getWidth() - getWidth()) / 2;
-        int y = owner.getY() + (owner.getHeight() - getHeight()) / 2;
-        setLocation(x, y);
+        JanelaUtil.posicionarNoCanto(this);
     }
 
     private Sinistro localizarSinistro(int id) {

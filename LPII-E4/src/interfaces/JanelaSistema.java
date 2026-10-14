@@ -3,7 +3,7 @@ package interfaces;
 import controles.ControladorCadastroSeguradoras;
 import controles.ControladorCadastroPeças;
 import controles.ControladorCadastroSinistros;
-import javax.swing.JOptionPane;
+import controles.ControladorCadastroOrçamentos;
 import persistência.BD;
 
 public class JanelaSistema extends javax.swing.JFrame {
@@ -11,19 +11,11 @@ public class JanelaSistema extends javax.swing.JFrame {
     public JanelaSistema() {
         BD.criaConexao();
         initComponents();
+        JanelaUtil.posicionarNoCanto(this);
     }
 
     @SuppressWarnings("unchecked")
 
-    private void informarServiçoIndisponível() {
-        JOptionPane.showMessageDialog(
-            this,
-            "Serviço Indisponível",
-            "Informação",
-            JOptionPane.INFORMATION_MESSAGE
-        );
-    }
-    
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
@@ -40,7 +32,6 @@ public class JanelaSistema extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Orçamentos da Seguradora");
-        setAlwaysOnTop(true);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosed(java.awt.event.WindowEvent evt) {
                 terminarSistema(evt);
@@ -129,7 +120,10 @@ public class JanelaSistema extends javax.swing.JFrame {
     }//GEN-LAST:event_terminarSistema
   
     private void pesquisarOrçamentos(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pesquisarOrçamentos
-        informarServiçoIndisponível();
+        JanelaPesquisaOrçamentos janela = new JanelaPesquisaOrçamentos();
+        janela.setVisible(true);
+        janela.toFront();
+        janela.requestFocus();
     }//GEN-LAST:event_pesquisarOrçamentos
 
     private void cadastrarPeça(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cadastrarPeça
@@ -137,7 +131,7 @@ public class JanelaSistema extends javax.swing.JFrame {
     }//GEN-LAST:event_cadastrarPeça
 
     private void cadastrarOrçamentos(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cadastrarOrçamentos
-        informarServiçoIndisponível();
+        new ControladorCadastroOrçamentos();
     }//GEN-LAST:event_cadastrarOrçamentos
 
     private void cadastrarSinistro(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cadastrarSinistro

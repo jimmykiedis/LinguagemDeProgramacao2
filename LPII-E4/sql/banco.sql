@@ -1,4 +1,5 @@
 DROP TABLE IF EXISTS peças_sinistros;
+DROP TABLE IF EXISTS `Orçamentos`;
 DROP TABLE IF EXISTS peça_mecânica;
 DROP TABLE IF EXISTS peça_acessórios;
 DROP TABLE IF EXISTS peças;
@@ -51,4 +52,17 @@ CREATE TABLE peça_acessórios (
     funileiro_proprio BOOLEAN NOT NULL DEFAULT FALSE,
     codigoId INT NOT NULL,
     FOREIGN KEY (codigoId) REFERENCES peças (codigo)
+);
+
+CREATE TABLE Orçamentos (
+    data DATE NOT NULL,
+    sinistro INT NOT NULL,
+    seguradora VARCHAR(50) NOT NULL,
+    -- Enumerado: aprovado, pendente ou recusado.
+    status VARCHAR(10) NOT NULL,
+    valor_total DECIMAL(10,2) NOT NULL,
+    possui_danos_ocultos BOOLEAN NOT NULL DEFAULT FALSE,
+    PRIMARY KEY (sinistro, seguradora),
+    FOREIGN KEY (sinistro) REFERENCES sinistros(id),
+    FOREIGN KEY (seguradora) REFERENCES seguradoras(nome)
 );

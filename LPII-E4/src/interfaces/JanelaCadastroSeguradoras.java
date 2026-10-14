@@ -31,20 +31,7 @@ public class JanelaCadastroSeguradoras extends javax.swing.JFrame {
 
     private void configurarJanelaDependente(Frame owner) {
         setAutoRequestFocus(true);
-        setAlwaysOnTop(true);
-
-        if (owner == null) {
-            setLocationByPlatform(true);
-            return;
-        }
-
-        posicionarRelativaAoOwner(owner);
-    }
-
-    private void posicionarRelativaAoOwner(Frame owner) {
-        int x = owner.getX() + (owner.getWidth() - getWidth()) / 2;
-        int y = owner.getY() + (owner.getHeight() - getHeight()) / 2;
-        setLocation(x, y);
+        JanelaUtil.posicionarNoCanto(this);
     }
 
     private Seguradora localizarSeguradora(String nome) {

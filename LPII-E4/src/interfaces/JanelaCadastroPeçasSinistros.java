@@ -24,7 +24,6 @@ public class JanelaCadastroPeçasSinistros extends javax.swing.JFrame {
         this.sinistro = sinistro;
         pecas_cadastradas = Peça.getVisoes();
         initComponents();
-        configurarJanelaDependente(owner);
         if (owner instanceof JanelaCadastroSinistros) {
             final JanelaCadastroSinistros janelaMae = (JanelaCadastroSinistros) owner;
             addWindowListener(new java.awt.event.WindowAdapter() {
@@ -40,21 +39,13 @@ public class JanelaCadastroPeçasSinistros extends javax.swing.JFrame {
         atualizarPeçasCadastradas();
         atualizarPeçasAssociadas();
         setSize(new java.awt.Dimension(760, 520));
+        configurarJanelaDependente(owner);
         limparCampos(null);
     }
 
     private void configurarJanelaDependente(Frame owner) {
         setAutoRequestFocus(true);
-        setAlwaysOnTop(true);
-
-        if (owner == null) {
-            setLocationByPlatform(true);
-            return;
-        }
-
-        int x = owner.getX() + (owner.getWidth() - getWidth()) / 2;
-        int y = owner.getY() + (owner.getHeight() - getHeight()) / 2;
-        setLocation(x, y);
+        JanelaUtil.posicionarNoCanto(this);
     }
 
     private void carregarSinistro() {

@@ -18,6 +18,7 @@ public class BD {
         try {
             conexao = DriverManager.getConnection(URL_BD, USUARIO, SENHA);
             atualizarEsquemaEtapa3();
+            atualizarEsquemaEtapa4();
         } catch (SQLException excecao_sql) {
             excecao_sql.printStackTrace();
         }
@@ -60,6 +61,19 @@ public class BD {
             garantirColuna(comando, "peça_acessórios", "funileiro_proprio", "BOOLEAN NOT NULL DEFAULT FALSE");
             garantirCodigoUnico(comando, "peça_mecânica");
             garantirCodigoUnico(comando, "peça_acessórios");
+        }
+    }
+
+    /** Cria a tabela de orçamentos quando o banco existente ainda está na etapa 3. */
+    private static void atualizarEsquemaEtapa4() throws SQLException {
+        try (Statement comando = conexao.createStatement()) {
+            comando.executeUpdate("CREATE TABLE IF NOT EXISTS `Orçamentos` ("
+                    + "data DATE NOT NULL, sinistro INT NOT NULL, seguradora VARCHAR(50) NOT NULL, "
+                    + "status VARCHAR(10) NOT NULL, valor_total DECIMAL(10,2) NOT NULL, "
+                    + "possui_danos_ocultos BOOLEAN NOT NULL DEFAULT FALSE, "
+                    + "PRIMARY KEY (sinistro, seguradora), "
+                    + "FOREIGN KEY (sinistro) REFERENCES sinistros(id), "
+                    + "FOREIGN KEY (seguradora) REFERENCES seguradoras(nome))");
         }
     }
 

@@ -52,9 +52,7 @@ public class JanelaCadastroPeças extends JFrame {
         limparCampos();
         pack();
         setSize(590, 460);
-        if(owner==null) setLocationByPlatform(true);
-        else setLocation(owner.getX()+(owner.getWidth()-getWidth())/2,owner.getY()+(owner.getHeight()-getHeight())/2);
-        setAlwaysOnTop(true);
+        JanelaUtil.posicionarNoCanto(this);
     }
 
     private JPanel criarCamposComuns() {
