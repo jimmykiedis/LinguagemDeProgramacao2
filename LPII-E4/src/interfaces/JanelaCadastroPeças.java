@@ -14,6 +14,7 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
+import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -29,6 +30,7 @@ public class JanelaCadastroPeças extends JFrame {
     private final JTextField nomeField = new JTextField(24);
     private final JComboBox<Peça.MarcaPeça> marcaComboBox = new JComboBox<>(Peça.MarcaPeça.values());
     private final JTextField precoField = new JTextField(10);
+    private final JCheckBox sobEncomendaCheckBox = new JCheckBox("Sob encomenda");
     private final PainelPeçaMecânica painelMecânica = new PainelPeçaMecânica();
     private final PainelPeçaAcessórios painelAcessórios = new PainelPeçaAcessórios();
     private final JTabbedPane especializaçãoTabbedPane = new JTabbedPane();
@@ -63,6 +65,7 @@ public class JanelaCadastroPeças extends JFrame {
         adicionarCampo(painel,c,2,"Nome",nomeField);
         adicionarCampo(painel,c,3,"Marca",marcaComboBox);
         adicionarCampo(painel,c,4,"Preço",precoField);
+        c.gridx=1; c.gridy=5; painel.add(sobEncomendaCheckBox,c);
         return painel;
     }
     private void adicionarCampo(JPanel painel,GridBagConstraints c,int linha,String rotulo,java.awt.Component campo) {
@@ -92,12 +95,12 @@ public class JanelaCadastroPeças extends JFrame {
                 if(categoria==null) throw new IllegalArgumentException("Selecione a categoria mecânica.");
                 Integer prazo=painelMecânica.getPrazoGarantia();
                 if(prazo!=null && prazo<0) throw new IllegalArgumentException("O prazo de garantia não pode ser negativo.");
-                return new PeçaMecânica(codigo,nome,marca,preco,categoria,prazo,painelMecânica.isMecanicoProprio());
+                return new PeçaMecânica(codigo,nome,marca,preco,categoria,prazo,painelMecânica.isMecanicoProprio(),sobEncomendaCheckBox.isSelected());
             }
             PeçaAcessórios.CategoriaAcessório categoria=painelAcessórios.getCategoriaAcessório();
             if(categoria==null) throw new IllegalArgumentException("Selecione a categoria do acessório.");
             String cor=painelAcessórios.getCor();
-            return new PeçaAcessórios(codigo,nome,marca,preco,categoria,cor.isEmpty()?null:cor,painelAcessórios.isFunileiroProprio());
+            return new PeçaAcessórios(codigo,nome,marca,preco,categoria,cor.isEmpty()?null:cor,painelAcessórios.isFunileiroProprio(),sobEncomendaCheckBox.isSelected());
         } catch(NumberFormatException e) { throw new IllegalArgumentException("Informe um prazo de garantia inteiro válido."); }
     }
     private void inserir() {
@@ -112,6 +115,7 @@ public class JanelaCadastroPeças extends JFrame {
         Peça selecionada=(Peça)peçasComboBox.getSelectedItem(); if(selecionada==null) { erro("Selecione uma peça.");return; }
         Peça p=Peça.buscarPeças(selecionada.getCodigo()); if(p==null) { erro("Peça não encontrada.");return; }
         codigoField.setText(Integer.toString(p.getCodigo())); nomeField.setText(p.getNome()); marcaComboBox.setSelectedItem(p.getMarca()); precoField.setText(Double.toString(p.getPreco()));
+        sobEncomendaCheckBox.setSelected(p.isSobEncomenda());
         if(p instanceof PeçaMecânica) {
             PeçaMecânica m=(PeçaMecânica)p; especializaçãoTabbedPane.setSelectedComponent(painelMecânica);
             painelMecânica.setCategoriaMecânica(m.getCategoriaMecânica()); painelMecânica.setPrazoGarantia(m.getPrazoGarantia()); painelMecânica.setMecanicoProprio(m.isMecanicoProprio());
@@ -126,6 +130,7 @@ public class JanelaCadastroPeças extends JFrame {
     }
     private void limparCampos() {
         codigoField.setText("");nomeField.setText("");marcaComboBox.setSelectedIndex(-1);precoField.setText("");
+        sobEncomendaCheckBox.setSelected(false);
         painelMecânica.limparCampos();painelAcessórios.limparCampos();especializaçãoTabbedPane.setSelectedIndex(0);
     }
     private void erro(String msg) { JOptionPane.showMessageDialog(this,msg,"Erro",JOptionPane.ERROR_MESSAGE); }

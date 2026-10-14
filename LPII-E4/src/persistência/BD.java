@@ -49,6 +49,7 @@ public class BD {
         }
 
         try (Statement comando = conexao.createStatement()) {
+            garantirColuna(comando, "peças", "sob_encomenda", "BOOLEAN NOT NULL DEFAULT FALSE");
             removerColunaSeExistir(comando, "peças", "mao_obra_propria");
             comando.executeUpdate("CREATE TABLE IF NOT EXISTS peça_mecânica ("
                     + "categoria_mecânica VARCHAR(40) NOT NULL, prazo_garantia INT, mecanico_proprio BOOLEAN NOT NULL DEFAULT FALSE, "

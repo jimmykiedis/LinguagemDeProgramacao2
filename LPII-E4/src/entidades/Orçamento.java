@@ -127,35 +127,33 @@ public class Orçamento {
         } catch (SQLException e) { e.printStackTrace(); return "Erro ao remover orçamento do banco de dados"; }
     }
 
-    /** Pesquisa atributos do orçamento e de suas entidades relacionadas, inclusive peças do sinistro. */
-    public static ArrayList<Orçamento> pesquisarOrçamentos(Status status, Date dataMinima,
-            Boolean danosOcultos, String cidadeSeguradora, Sinistro.GrauMonta grauMonta,
-            String cidadeSinistro, Boolean perdaTotal, Peça.MarcaPeça marcaPeça) {
-        StringBuilder sql = new StringBuilder("SELECT DISTINCT o.sinistro, o.seguradora FROM Orçamentos o JOIN sinistros s ON s.id=o.sinistro JOIN seguradoras g ON g.nome=o.seguradora WHERE 1=1");
-        if (status != null) sql.append(" AND o.status = ?");
+    /** Pesquisa orçamento e entidades relacionadas com um filtro específico por entidade. */
+    public static ArrayList<Orçamento> pesquisarOrçamentos(Date dataMinima,
+            Double valorMaximoPeça, Double coberturaMinima, Sinistro.GrauMonta grauMonta,
+            Integer prazoGarantiaMinimo, String corAcessório) {
+        StringBuilder sql = new StringBuilder("SELECT DISTINCT o.sinistro, o.seguradora "
+                + "FROM Orçamentos o JOIN sinistros s ON s.id=o.sinistro "
+                + "JOIN seguradoras g ON g.nome=o.seguradora WHERE 1=1");
         if (dataMinima != null) sql.append(" AND o.data >= ?");
-        if (danosOcultos != null) sql.append(" AND o.possui_danos_ocultos = ?");
-        if (cidadeSeguradora != null && !cidadeSeguradora.trim().isEmpty()) sql.append(" AND g.cidade LIKE ?");
+        if (coberturaMinima != null) sql.append(" AND g.cobertura_percentual >= ?");
         if (grauMonta != null) sql.append(" AND s.grau_monta = ?");
-        if (cidadeSinistro != null && !cidadeSinistro.trim().isEmpty()) sql.append(" AND s.cidade LIKE ?");
-        if (perdaTotal != null) sql.append(" AND s.perda_total = ?");
-        if (marcaPeça != null) sql.append(" AND EXISTS (SELECT 1 FROM peças_sinistros ps JOIN peças p ON p.codigo=ps.peça_codigo WHERE ps.sinistro_id=s.id AND p.marca=?)");
+        if (valorMaximoPeça != null) sql.append(" AND EXISTS (SELECT 1 FROM peças_sinistros ps JOIN peças p ON p.codigo=ps.peça_codigo WHERE ps.sinistro_id=s.id AND p.`preço` <= ?)");
+        if (prazoGarantiaMinimo != null) sql.append(" AND EXISTS (SELECT 1 FROM peças_sinistros ps JOIN peça_mecânica pm ON pm.codigoId=ps.peça_codigo WHERE ps.sinistro_id=s.id AND pm.prazo_garantia >= ?)");
+        if (corAcessório != null && !corAcessório.trim().isEmpty()) sql.append(" AND EXISTS (SELECT 1 FROM peças_sinistros ps JOIN peça_acessórios pa ON pa.codigoId=ps.peça_codigo WHERE ps.sinistro_id=s.id AND pa.cor LIKE ?)");
         sql.append(" ORDER BY o.data, o.sinistro, o.seguradora");
         ArrayList<Orçamento> resultado = new ArrayList<>();
         try (PreparedStatement ps = BD.conexao.prepareStatement(sql.toString())) {
             int i = 0;
-            if (status != null) ps.setString(++i, status.toString());
             if (dataMinima != null) ps.setDate(++i, dataMinima);
-            if (danosOcultos != null) ps.setBoolean(++i, danosOcultos);
-            if (cidadeSeguradora != null && !cidadeSeguradora.trim().isEmpty()) ps.setString(++i, "%" + cidadeSeguradora.trim() + "%");
+            if (coberturaMinima != null) ps.setDouble(++i, coberturaMinima);
             if (grauMonta != null) ps.setString(++i, grauMonta.toString());
-            if (cidadeSinistro != null && !cidadeSinistro.trim().isEmpty()) ps.setString(++i, "%" + cidadeSinistro.trim() + "%");
-            if (perdaTotal != null) ps.setBoolean(++i, perdaTotal);
-            if (marcaPeça != null) ps.setString(++i, marcaPeça.toString());
+            if (valorMaximoPeça != null) ps.setDouble(++i, valorMaximoPeça);
+            if (prazoGarantiaMinimo != null) ps.setInt(++i, prazoGarantiaMinimo);
+            if (corAcessório != null && !corAcessório.trim().isEmpty()) ps.setString(++i, "%" + corAcessório.trim() + "%");
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
-                    Orçamento o = buscarOrçamento(rs.getInt("sinistro"), rs.getString("seguradora"));
-                    if (o != null) resultado.add(o);
+                    Orçamento orçamento = buscarOrçamento(rs.getInt("sinistro"), rs.getString("seguradora"));
+                    if (orçamento != null) resultado.add(orçamento);
                 }
             }
         } catch (SQLException e) { e.printStackTrace(); }

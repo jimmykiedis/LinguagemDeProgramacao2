@@ -27,7 +27,8 @@ CREATE TABLE peças (
     codigo INT PRIMARY KEY,
     nome VARCHAR(50),
     marca VARCHAR(20),
-    preço DECIMAL(10,2)
+    preço DECIMAL(10,2),
+    sob_encomenda BOOLEAN NOT NULL DEFAULT FALSE
 );
 
 CREATE TABLE peças_sinistros (

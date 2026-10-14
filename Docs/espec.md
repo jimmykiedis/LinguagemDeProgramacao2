@@ -24,7 +24,7 @@ Linguagem de Programação II - Etapa *n** - Leonardo Farias de Oliveira
 - Sinistro: id, segurado, cidade, telefone, grau_monta, perda_total, peças
 - Seguradora: nome, cidade, cobertura_percentual, possui_atendimento_24h, - 
 forma_pagamento_preferencial
-- Peça: código, nome, marca, preço
+- Peça: código, nome, marca, preço, sobEncomenda
 - PeçaMecânica : categoria_mecânica, prazo_garantia, mecânico_próprio
 - PeçaAcessórios : categoria_acessórios, cor, funileiro_próprio
 - Orçamento: status, data, sinistro, seguradora, possui_danos_ocultos

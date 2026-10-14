@@ -27,7 +27,13 @@ public class PeçaMecânica extends Peça {
 
     public PeçaMecânica(int codigo, String nome, MarcaPeça marca, double preco,
             CategoriaMecânica categoriaMecânica, Integer prazoGarantia, boolean mecanicoProprio) {
+        this(codigo, nome, marca, preco, categoriaMecânica, prazoGarantia, mecanicoProprio, false);
+    }
+
+    public PeçaMecânica(int codigo, String nome, MarcaPeça marca, double preco,
+            CategoriaMecânica categoriaMecânica, Integer prazoGarantia, boolean mecanicoProprio, boolean sobEncomenda) {
         super(codigo, nome, marca, preco, prazoGarantia, null);
+        setSobEncomenda(sobEncomenda);
         this.categoriaMecânica = categoriaMecânica;
         this.prazoGarantia = prazoGarantia;
         this.mecanicoProprio = mecanicoProprio;
@@ -47,7 +53,7 @@ public class PeçaMecânica extends Peça {
     public void setMecanicoProprio(boolean valor) { mecanicoProprio = valor; }
 
     public static PeçaMecânica buscar(int codigo) {
-        String sql = "SELECT p.codigo,p.nome,p.marca,p.`preço`,m.categoria_mecânica,m.prazo_garantia,m.mecanico_proprio FROM peças p JOIN peça_mecânica m ON m.codigoId=p.codigo WHERE p.codigo=?";
+        String sql = "SELECT p.codigo,p.nome,p.marca,p.`preço`,p.sob_encomenda,m.categoria_mecânica,m.prazo_garantia,m.mecanico_proprio FROM peças p JOIN peça_mecânica m ON m.codigoId=p.codigo WHERE p.codigo=?";
         try (PreparedStatement ps = BD.conexao.prepareStatement(sql)) {
             ps.setInt(1, codigo);
             try (ResultSet rs = ps.executeQuery()) {
@@ -55,7 +61,7 @@ public class PeçaMecânica extends Peça {
                 return new PeçaMecânica(rs.getInt("codigo"), rs.getString("nome"),
                         MarcaPeça.fromTexto(rs.getString("marca")), rs.getDouble("preço"),
                         CategoriaMecânica.fromTexto(rs.getString("categoria_mecânica")),
-                        (Integer) rs.getObject("prazo_garantia"), rs.getBoolean("mecanico_proprio"));
+                        (Integer) rs.getObject("prazo_garantia"), rs.getBoolean("mecanico_proprio"), rs.getBoolean("sob_encomenda"));
             }
         } catch (SQLException e) { e.printStackTrace(); return null; }
     }

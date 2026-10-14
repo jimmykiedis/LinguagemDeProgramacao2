@@ -28,7 +28,13 @@ public class PeçaAcessórios extends Peça {
 
     public PeçaAcessórios(int codigo, String nome, MarcaPeça marca, double preco,
             CategoriaAcessório categoriaAcessório, String cor, boolean funileiroProprio) {
+        this(codigo, nome, marca, preco, categoriaAcessório, cor, funileiroProprio, false);
+    }
+
+    public PeçaAcessórios(int codigo, String nome, MarcaPeça marca, double preco,
+            CategoriaAcessório categoriaAcessório, String cor, boolean funileiroProprio, boolean sobEncomenda) {
         super(codigo, nome, marca, preco, null, cor);
+        setSobEncomenda(sobEncomenda);
         this.categoriaAcessório = categoriaAcessório;
         this.cor = cor;
         this.funileiroProprio = funileiroProprio;
@@ -48,7 +54,7 @@ public class PeçaAcessórios extends Peça {
     public void setFunileiroProprio(boolean valor) { funileiroProprio = valor; }
 
     public static PeçaAcessórios buscar(int codigo) {
-        String sql = "SELECT p.codigo,p.nome,p.marca,p.`preço`,a.categoria_acessorio,a.cor,a.funileiro_proprio FROM peças p JOIN peça_acessórios a ON a.codigoId=p.codigo WHERE p.codigo=?";
+        String sql = "SELECT p.codigo,p.nome,p.marca,p.`preço`,p.sob_encomenda,a.categoria_acessorio,a.cor,a.funileiro_proprio FROM peças p JOIN peça_acessórios a ON a.codigoId=p.codigo WHERE p.codigo=?";
         try (PreparedStatement ps = BD.conexao.prepareStatement(sql)) {
             ps.setInt(1, codigo);
             try (ResultSet rs = ps.executeQuery()) {
@@ -56,7 +62,7 @@ public class PeçaAcessórios extends Peça {
                 return new PeçaAcessórios(rs.getInt("codigo"), rs.getString("nome"),
                         MarcaPeça.fromTexto(rs.getString("marca")), rs.getDouble("preço"),
                         CategoriaAcessório.fromTexto(rs.getString("categoria_acessorio")),
-                        rs.getString("cor"), rs.getBoolean("funileiro_proprio"));
+                        rs.getString("cor"), rs.getBoolean("funileiro_proprio"), rs.getBoolean("sob_encomenda"));
             }
         } catch (SQLException e) { e.printStackTrace(); return null; }
     }
