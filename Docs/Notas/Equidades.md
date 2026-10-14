@@ -1,6 +1,6 @@
 
 | Papel lógico | Música 🎼 | Lançamentos de carros | Avaliação de filmes | Divulgação de Livros | Seguro 🚗 |
-| -------------- | -------------- | ---------------------- | ------------------- | -------------------- | -------------------- |
+| --- | --- | --- | --- | --- | --- |
 | Ação | Apresentação | Lançamento | Avaliações | Mostra | Orçamento |
 | Agente/Destino | Maestro | Agência de publicidade | Amigos | Editora | Seguradora |
 | Contexto | Repertório | Montadora | Filme | Autor | Sinistro |

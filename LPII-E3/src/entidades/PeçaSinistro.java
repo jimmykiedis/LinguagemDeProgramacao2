@@ -33,34 +33,18 @@ public class PeçaSinistro {
         return peca_codigo + " / " + sinistro_id;
     }
 
-    private static Peça criarPeça(ResultSet resultado) throws SQLException {
-        int codigo = resultado.getInt("codigo");
-        String nome = resultado.getString("nome");
-        Peça.MarcaPeça marca = Peça.MarcaPeça.fromTexto(resultado.getString("marca"));
-        double preco = resultado.getDouble("preco");
-        boolean mao_obra_propria = resultado.getBoolean("mao_obra_propria");
-        Integer dias_garantia = resultado.getObject("dias_garantia") == null
-                ? null : resultado.getInt("dias_garantia");
-        String cor = resultado.getString("cor");
-
-        return new Peça(codigo, nome, marca, preco, mao_obra_propria,
-                dias_garantia, cor);
-    }
-
     public static Peça[] buscarPeçasPorSinistro(int sinistroId) {
         ArrayList<Peça> visoes = new ArrayList<>();
-        String sql = "SELECT p.codigo, p.nome, p.marca, p.preco, p.mao_obra_propria, "
-                + "p.dias_garantia, p.cor "
-                + "FROM peças_sinistros ps "
-                + "JOIN peças p ON p.codigo = ps.peça_codigo "
-                + "WHERE ps.sinistro_id = ?";
+        String sql = "SELECT " + Peça.colunas() + Peça.consultaBase()
+                + " JOIN peças_sinistros ps ON ps.peça_codigo=p.codigo"
+                + " WHERE ps.sinistro_id = ?";
 
         try (PreparedStatement comando = BD.conexao.prepareStatement(sql)) {
             comando.setInt(1, sinistroId);
             try (ResultSet resultados = comando.executeQuery()) {
                 while (resultados.next()) {
                     try {
-                        visoes.add(criarPeça(resultados));
+                        visoes.add(Peça.criarVisao(resultados));
                     } catch (IllegalArgumentException excecao_enum) {
                         // Ignora peças com dados fora do domínio esperado.
                     }

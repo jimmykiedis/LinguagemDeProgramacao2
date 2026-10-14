@@ -1,546 +1,134 @@
 package interfaces;
 
-import javax.swing.JOptionPane;
-import javax.swing.ButtonGroup;
 import controles.ControladorCadastroPeças;
 import entidades.Peça;
-import javax.swing.DefaultComboBoxModel;
+import entidades.PeçaAcessórios;
+import entidades.PeçaMecânica;
+import java.awt.BorderLayout;
 import java.awt.Frame;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.awt.FlowLayout;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTabbedPane;
+import javax.swing.JTextField;
 
-public class JanelaCadastroPeças extends javax.swing.JFrame {
-    
-    ControladorCadastroPeças controlador;
-    Peça[] pecas_cadastradas;
-    
-    public JanelaCadastroPeças(ControladorCadastroPeças controlador) {
-        this(controlador, null);
-    }
+public class JanelaCadastroPeças extends JFrame {
+    private final ControladorCadastroPeças controlador;
+    private Peça[] peçasCadastradas;
+    private final JComboBox<Peça> peçasComboBox = new JComboBox<>();
+    // Mantém a escala compacta do formulário antigo, sem expandir os campos pela janela.
+    private final JTextField codigoField = new JTextField(8);
+    private final JTextField nomeField = new JTextField(24);
+    private final JComboBox<Peça.MarcaPeça> marcaComboBox = new JComboBox<>(Peça.MarcaPeça.values());
+    private final JTextField precoField = new JTextField(10);
+    private final PainelPeçaMecânica painelMecânica = new PainelPeçaMecânica();
+    private final PainelPeçaAcessórios painelAcessórios = new PainelPeçaAcessórios();
+    private final JTabbedPane especializaçãoTabbedPane = new JTabbedPane();
 
-    public JanelaCadastroPeças(
-            ControladorCadastroPeças controlador,
-            Frame owner
-    ) {
-        this.controlador = controlador;
-        pecas_cadastradas = Peça.getVisoes();
-        initComponents();
-        atualizarPeçasCadastradas();
-        setSize(new java.awt.Dimension(720, 560));
-        configurarJanelaDependente(owner);
-        limparCampos(null);
-    }
-
-    private void configurarJanelaDependente(Frame owner) {
-        setAutoRequestFocus(true);
-        setAlwaysOnTop(true);
-
-        if (owner == null) {
-            setLocationByPlatform(true);
-            return;
-        }
-
-        posicionarRelativaAoOwner(owner);
-    }
-
-    private void posicionarRelativaAoOwner(Frame owner) {
-        int x = owner.getX() + (owner.getWidth() - getWidth()) / 2;
-        int y = owner.getY() + (owner.getHeight() - getHeight()) / 2;
-        setLocation(x, y);
-    }
-
-    private Peça localizarPeça(int codigo) {
-        for (Peça visao : pecas_cadastradas) {
-            if (visao.getCodigo() == codigo) return visao;
-        }
-        return null;
-    }
-
-    private void atualizarPeçasCadastradas() {
-        atualizarPeçasCadastradas(-1);
-    }
-
-    private void atualizarPeçasCadastradas(int codigo_selecionado) {
-        pecas_cadastradas = Peça.getVisoes();
-        pecas_cadastradasComboBox.setModel(
-                new DefaultComboBoxModel(pecas_cadastradas)
-        );
-
-        Peça visao_selecionada = localizarPeça(codigo_selecionado);
-        if (visao_selecionada != null) {
-            pecas_cadastradasComboBox.setSelectedItem(visao_selecionada);
-        }
-    }
-    
-    private void informarErro(String mensagem) {
-        JOptionPane.showMessageDialog(
-            this,
-            mensagem,
-            "Erro",
-            JOptionPane.ERROR_MESSAGE
-        );
-    }
-
-    private Boolean obterMaoDeObraInformada() {
-        if (maoDeObraSimRadioButton.isSelected()) return true;
-        if (maoDeObraNaoRadioButton.isSelected()) return false;
-        return null;
-    }
-
-    private void definirMaoDeObra(Boolean valor) {
-        maoDeObraButtonGroup.clearSelection();
-        if (valor == null) return;
-
-        if (valor) {
-            maoDeObraSimRadioButton.setSelected(true);
-        } else {
-            maoDeObraNaoRadioButton.setSelected(true);
-        }
-    }
-    
-    private Peça obterPeçasInformada() {
-        String codigoStr = codigoTextField.getText();
-        if (codigoStr.isEmpty()) {
-            throw new IllegalArgumentException("Informe o código da peça.");
-        }
-        
-        int codigo;
-        try {
-            codigo = Integer.parseInt(codigoStr);
-        } catch (NumberFormatException e) {
-            throw new IllegalArgumentException("Código da peça inválido.");
-        }
-        
-        String nome = nomeTextField.getText();
-        if (nome.isEmpty()) {
-            throw new IllegalArgumentException("Informe o nome da peça.");
-        }
-        
-        Peça.MarcaPeça marca =
-                (Peça.MarcaPeça) marcaComboBox.getSelectedItem();
-        if (marca == null) {
-            throw new IllegalArgumentException("Informe a marca da peça.");
-        }
-        
-        String precoStr = precoTextField.getText();
-        if (precoStr.isEmpty()) {
-            throw new IllegalArgumentException("Informe o preço da peça.");
-        }
-        
-        double preco;
-        try {
-            preco = Double.parseDouble(precoStr.replace(",", "."));
-        } catch (NumberFormatException e) {
-            throw new IllegalArgumentException("Preço da peça inválido.");
-        }
-        
-        String cor = corTextField.getText();
-        String prazoGarantiaStr = prazoGarantiaTextField.getText();
-        Integer prazoGarantia = null;
-        if (!prazoGarantiaStr.isEmpty()) {
-            try {
-                prazoGarantia = Integer.parseInt(prazoGarantiaStr);
-            } catch (NumberFormatException e) {
-                throw new IllegalArgumentException("Prazo de garantia inválido.");
-            }
-        }
-        
-        Boolean mao_de_obra = obterMaoDeObraInformada();
-        if (mao_de_obra == null) {
-            throw new IllegalArgumentException("Selecione se a peÃ§a possui mÃ£o de obra.");
-        }
-
-        return new Peça(
-                codigo, nome, marca, preco, mao_de_obra, prazoGarantia,
-                cor.isEmpty() ? null : cor
-        );
-    }
-    
-    @SuppressWarnings("unchecked")
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents() {
-        java.awt.GridBagConstraints gridBagConstraints;
-
-        comandosPanel = new javax.swing.JPanel();
-        inserirPeças = new javax.swing.JButton();
-        alterarPeças = new javax.swing.JButton();
-        consultarPeças = new javax.swing.JButton();
-        removerPeças = new javax.swing.JButton();
-        limparCampos = new javax.swing.JButton();
-
-        codigoLabel = new javax.swing.JLabel();
-        codigoTextField = new javax.swing.JTextField();
-
-        nomeLabel = new javax.swing.JLabel();
-        nomeTextField = new javax.swing.JTextField();
-
-        marcaLabel = new javax.swing.JLabel();
-        marcaComboBox = new javax.swing.JComboBox();
-
-        precoLabel = new javax.swing.JLabel();
-        precoTextField = new javax.swing.JTextField();
-
-        corLabel = new javax.swing.JLabel();
-        corTextField = new javax.swing.JTextField();
-
-        prazoGarantiaLabel = new javax.swing.JLabel();
-        prazoGarantiaTextField = new javax.swing.JTextField();
-
-        maoDeObraLabel = new javax.swing.JLabel();
-        maoDeObraPanel = new javax.swing.JPanel(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 8, 0));
-        maoDeObraButtonGroup = new ButtonGroup();
-        maoDeObraSimRadioButton = new javax.swing.JRadioButton();
-        maoDeObraNaoRadioButton = new javax.swing.JRadioButton();
-
-        pecas_cadastradasComboBox = new javax.swing.JComboBox();
-        pecasCadastradasLabel = new javax.swing.JLabel();
-
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+    public JanelaCadastroPeças(ControladorCadastroPeças controlador) { this(controlador,null); }
+    public JanelaCadastroPeças(ControladorCadastroPeças controlador, Frame owner) {
+        this.controlador=controlador;
         setTitle("Cadastrar Peças");
-        setMinimumSize(new java.awt.Dimension(640, 420));
-        setPreferredSize(new java.awt.Dimension(720, 560));
-
-        java.awt.GridBagLayout layout = new java.awt.GridBagLayout();
-        layout.rowHeights = new int[] {8};
-        getContentPane().setLayout(layout);
-
-        inserirPeças.setText("Inserir");
-        inserirPeças.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                inserirPeças(evt);
-            }
-        });
-        comandosPanel.add(inserirPeças);
-
-        alterarPeças.setText("Alterar");
-        alterarPeças.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                alterarPeças(evt);
-            }
-        });
-        comandosPanel.add(alterarPeças);
-
-        consultarPeças.setText("Consultar");
-        consultarPeças.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                consultarPeças(evt);
-            }
-        });
-        comandosPanel.add(consultarPeças);
-
-        removerPeças.setText("Remover");
-        removerPeças.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                removerPeças(evt);
-            }
-        });
-        comandosPanel.add(removerPeças);
-
-        limparCampos.setText("Limpar");
-        limparCampos.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                limparCampos(evt);
-            }
-        });
-        comandosPanel.add(limparCampos);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 8;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        getContentPane().add(comandosPanel, gridBagConstraints);
-
-        pecasCadastradasLabel.setText("Peças Cadastradas");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
-        gridBagConstraints.insets = new java.awt.Insets(1, 5, 10, 5);
-        getContentPane().add(pecasCadastradasLabel, gridBagConstraints);
-
-        pecas_cadastradasComboBox.setModel(
-            new DefaultComboBoxModel(pecas_cadastradas)
-        );
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(1, 5, 10, 5);
-        getContentPane().add(pecas_cadastradasComboBox, gridBagConstraints);
-
-        codigoLabel.setText("Código");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
-        gridBagConstraints.insets = new java.awt.Insets(1, 5, 10, 5);
-        getContentPane().add(codigoLabel, gridBagConstraints);
-
-        codigoTextField.setColumns(8);
-        codigoTextField.setPreferredSize(new java.awt.Dimension(80, 20));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(1, 5, 10, 5);
-        getContentPane().add(codigoTextField, gridBagConstraints);
-
-        nomeLabel.setText("Nome");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
-        gridBagConstraints.insets = new java.awt.Insets(1, 5, 10, 5);
-        getContentPane().add(nomeLabel, gridBagConstraints);
-
-        nomeTextField.setColumns(24);
-        nomeTextField.setPreferredSize(new java.awt.Dimension(240, 20));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(1, 5, 10, 5);
-        getContentPane().add(nomeTextField, gridBagConstraints);
-
-        marcaLabel.setText("Marca");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 3;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
-        gridBagConstraints.insets = new java.awt.Insets(1, 5, 10, 5);
-        getContentPane().add(marcaLabel, gridBagConstraints);
-
-        marcaComboBox.setModel(
-            new DefaultComboBoxModel(Peça.MarcaPeça.values())
-        );
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 3;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(1, 5, 10, 5);
-        getContentPane().add(marcaComboBox, gridBagConstraints);
-
-        precoLabel.setText("Preço");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 4;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
-        gridBagConstraints.insets = new java.awt.Insets(1, 5, 10, 5);
-        getContentPane().add(precoLabel, gridBagConstraints);
-
-        precoTextField.setColumns(10);
-        precoTextField.setPreferredSize(new java.awt.Dimension(100, 20));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 4;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(1, 5, 10, 5);
-        getContentPane().add(precoTextField, gridBagConstraints);
-
-        corLabel.setText("Cor");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 5;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
-        gridBagConstraints.insets = new java.awt.Insets(1, 5, 10, 5);
-        getContentPane().add(corLabel, gridBagConstraints);
-
-        corTextField.setColumns(10);
-        corTextField.setPreferredSize(new java.awt.Dimension(100, 20));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 5;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(1, 5, 10, 5);
-        getContentPane().add(corTextField, gridBagConstraints);
-
-        prazoGarantiaLabel.setText("Prazo de Garantia");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 6;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
-        gridBagConstraints.insets = new java.awt.Insets(1, 5, 10, 5);
-        getContentPane().add(prazoGarantiaLabel, gridBagConstraints);
-
-        prazoGarantiaTextField.setColumns(10);
-        prazoGarantiaTextField.setPreferredSize(new java.awt.Dimension(100, 20));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 6;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(1, 5, 10, 5);
-        getContentPane().add(prazoGarantiaTextField, gridBagConstraints);
-
-        maoDeObraLabel.setText("Mão de Obra");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 7;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
-        gridBagConstraints.insets = new java.awt.Insets(1, 5, 10, 5);
-        getContentPane().add(maoDeObraLabel, gridBagConstraints);
-
-        maoDeObraButtonGroup.add(maoDeObraSimRadioButton);
-        maoDeObraSimRadioButton.setText("Sim");
-        maoDeObraButtonGroup.add(maoDeObraNaoRadioButton);
-        maoDeObraNaoRadioButton.setText("Não");
-        maoDeObraPanel.add(maoDeObraSimRadioButton);
-        maoDeObraPanel.add(maoDeObraNaoRadioButton);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 7;
-        gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(1, 5, 10, 5);
-        getContentPane().add(maoDeObraPanel, gridBagConstraints);
-
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setResizable(false);
+        setLayout(new BorderLayout(8,8));
+        especializaçãoTabbedPane.addTab("Peça mecânica",painelMecânica);
+        especializaçãoTabbedPane.addTab("Peça de acessórios",painelAcessórios);
+        add(criarCamposComuns(),BorderLayout.NORTH);
+        JPanel abasAlinhadas = new JPanel(new GridBagLayout());
+        abasAlinhadas.setBorder(javax.swing.BorderFactory.createEmptyBorder(8, 8, 8, 8));
+        abasAlinhadas.add(especializaçãoTabbedPane);
+        add(abasAlinhadas,BorderLayout.CENTER);
+        add(criarComandos(),BorderLayout.SOUTH);
+        atualizarPeçasCadastradas(-1);
+        limparCampos();
         pack();
-    }// </editor-fold>//GEN-END:initComponents
-
-    private void inserirPeças(java.awt.event.ActionEvent evt) {
-        Peça pecas;
-        String mensagem_erro = null;
-
-        try {
-            pecas = obterPeçasInformada();
-        } catch (IllegalArgumentException excecao) {
-            informarErro(excecao.getMessage());
-            return;
-        }
-
-        mensagem_erro = controlador.inserirPeças(pecas);
-
-        if (mensagem_erro == null) {
-            Peça visao = pecas.getVisao();
-            atualizarPeçasCadastradas(visao.getCodigo());
-        } else {
-            informarErro(mensagem_erro);
-        }
+        setSize(590, 460);
+        if(owner==null) setLocationByPlatform(true);
+        else setLocation(owner.getX()+(owner.getWidth()-getWidth())/2,owner.getY()+(owner.getHeight()-getHeight())/2);
+        setAlwaysOnTop(true);
     }
 
-    private void alterarPeças(java.awt.event.ActionEvent evt) {
-        Peça pecas;
-        String mensagem_erro = null;
-
+    private JPanel criarCamposComuns() {
+        JPanel painel=new JPanel(new GridBagLayout()); GridBagConstraints c=new GridBagConstraints();
+        c.insets=new Insets(1,5,10,5); c.anchor=GridBagConstraints.WEST;
+        adicionarCampo(painel,c,0,"Peças cadastradas",peçasComboBox);
+        adicionarCampo(painel,c,1,"Código",codigoField);
+        adicionarCampo(painel,c,2,"Nome",nomeField);
+        adicionarCampo(painel,c,3,"Marca",marcaComboBox);
+        adicionarCampo(painel,c,4,"Preço",precoField);
+        return painel;
+    }
+    private void adicionarCampo(JPanel painel,GridBagConstraints c,int linha,String rotulo,java.awt.Component campo) {
+        c.gridx=0;c.gridy=linha; painel.add(new JLabel(rotulo),c);
+        c.gridx=1;c.fill=GridBagConstraints.NONE;c.weightx=0; painel.add(campo,c);
+    }
+    private JPanel criarComandos() {
+        JPanel p=new JPanel(new FlowLayout(FlowLayout.CENTER));
+        JButton inserir=new JButton("Inserir"), consultar=new JButton("Consultar"), alterar=new JButton("Alterar"), remover=new JButton("Remover"), limpar=new JButton("Limpar");
+        inserir.addActionListener(e->inserir()); consultar.addActionListener(e->consultar()); alterar.addActionListener(e->alterar()); remover.addActionListener(e->remover()); limpar.addActionListener(e->limparCampos());
+        p.add(inserir);p.add(consultar);p.add(alterar);p.add(remover);p.add(limpar);return p;
+    }
+    private void atualizarPeçasCadastradas(int codigoSelecionado) {
+        peçasCadastradas=Peça.getVisoes(); peçasComboBox.setModel(new DefaultComboBoxModel<>(peçasCadastradas));
+        for(Peça p:peçasCadastradas) if(p.getCodigo()==codigoSelecionado) { peçasComboBox.setSelectedItem(p);break; }
+    }
+    private Peça obterPeçaInformada() {
+        int codigo; double preco;
+        try { codigo=Integer.parseInt(codigoField.getText().trim()); } catch(NumberFormatException e) { throw new IllegalArgumentException("Informe um código inteiro válido."); }
+        String nome=nomeField.getText().trim(); if(nome.isEmpty()) throw new IllegalArgumentException("Informe o nome da peça.");
+        Peça.MarcaPeça marca=(Peça.MarcaPeça)marcaComboBox.getSelectedItem(); if(marca==null) throw new IllegalArgumentException("Selecione a marca.");
+        try { preco=Double.parseDouble(precoField.getText().trim().replace(',','.')); } catch(NumberFormatException e) { throw new IllegalArgumentException("Informe um preço válido."); }
+        if(preco<0) throw new IllegalArgumentException("O preço não pode ser negativo.");
         try {
-            pecas = obterPeçasInformada();
-        } catch (IllegalArgumentException excecao) {
-            informarErro(excecao.getMessage());
-            return;
-        }
-
-        mensagem_erro = controlador.alterarPeças(pecas);
-
-        if (mensagem_erro == null) {
-            Peça visao =
-                    (Peça) pecas_cadastradasComboBox.getSelectedItem();
-
-            if (visao != null) {
-                visao.setNome(pecas.getNome());
-                visao.setMarca(pecas.getMarca());
-
-                pecas_cadastradasComboBox.updateUI();
+            if(especializaçãoTabbedPane.getSelectedIndex()==0) {
+                PeçaMecânica.CategoriaMecânica categoria=painelMecânica.getCategoriaMecânica();
+                if(categoria==null) throw new IllegalArgumentException("Selecione a categoria mecânica.");
+                Integer prazo=painelMecânica.getPrazoGarantia();
+                if(prazo!=null && prazo<0) throw new IllegalArgumentException("O prazo de garantia não pode ser negativo.");
+                return new PeçaMecânica(codigo,nome,marca,preco,categoria,prazo,painelMecânica.isMecanicoProprio());
             }
-        } else {
-            informarErro(mensagem_erro);
+            PeçaAcessórios.CategoriaAcessório categoria=painelAcessórios.getCategoriaAcessório();
+            if(categoria==null) throw new IllegalArgumentException("Selecione a categoria do acessório.");
+            String cor=painelAcessórios.getCor();
+            return new PeçaAcessórios(codigo,nome,marca,preco,categoria,cor.isEmpty()?null:cor,painelAcessórios.isFunileiroProprio());
+        } catch(NumberFormatException e) { throw new IllegalArgumentException("Informe um prazo de garantia inteiro válido."); }
+    }
+    private void inserir() {
+        try { Peça p=obterPeçaInformada(); String erro=controlador.inserirPeças(p); if(erro!=null) erro(erro); else atualizarPeçasCadastradas(p.getCodigo()); }
+        catch(IllegalArgumentException e) { erro(e.getMessage()); }
+    }
+    private void alterar() {
+        try { Peça p=obterPeçaInformada(); String erro=controlador.alterarPeças(p); if(erro!=null) erro(erro); else atualizarPeçasCadastradas(p.getCodigo()); }
+        catch(IllegalArgumentException e) { erro(e.getMessage()); }
+    }
+    private void consultar() {
+        Peça selecionada=(Peça)peçasComboBox.getSelectedItem(); if(selecionada==null) { erro("Selecione uma peça.");return; }
+        Peça p=Peça.buscarPeças(selecionada.getCodigo()); if(p==null) { erro("Peça não encontrada.");return; }
+        codigoField.setText(Integer.toString(p.getCodigo())); nomeField.setText(p.getNome()); marcaComboBox.setSelectedItem(p.getMarca()); precoField.setText(Double.toString(p.getPreco()));
+        if(p instanceof PeçaMecânica) {
+            PeçaMecânica m=(PeçaMecânica)p; especializaçãoTabbedPane.setSelectedComponent(painelMecânica);
+            painelMecânica.setCategoriaMecânica(m.getCategoriaMecânica()); painelMecânica.setPrazoGarantia(m.getPrazoGarantia()); painelMecânica.setMecanicoProprio(m.isMecanicoProprio());
+        } else if(p instanceof PeçaAcessórios) {
+            PeçaAcessórios a=(PeçaAcessórios)p; especializaçãoTabbedPane.setSelectedComponent(painelAcessórios);
+            painelAcessórios.setCategoriaAcessório(a.getCategoriaAcessório()); painelAcessórios.setCor(a.getCor()); painelAcessórios.setFunileiroProprio(a.isFunileiroProprio());
         }
     }
-
-    private void consultarPeças(java.awt.event.ActionEvent evt) {
-        Peça visao =
-                (Peça) pecas_cadastradasComboBox.getSelectedItem();
-
-        Peça pecas = null;
-        String mensagem_erro = null;
-
-        if (visao != null) {
-            pecas = Peça.buscarPeças(visao.getCodigo());
-
-            if (pecas == null)
-                mensagem_erro = "Peça não cadastrada";
-        } else {
-            mensagem_erro = "Nenhuma Peça selecionada";
-        }
-
-        if (mensagem_erro == null) {
-
-            codigoTextField.setText(
-                    String.valueOf(pecas.getCodigo())
-            );
-
-            nomeTextField.setText(pecas.getNome());
-            marcaComboBox.setSelectedItem(pecas.getMarca());
-
-            precoTextField.setText(
-                    String.valueOf(pecas.getPreco())
-            );
-
-            corTextField.setText(pecas.getCor() != null ? pecas.getCor() : "");
-            prazoGarantiaTextField.setText(
-                    pecas.getDiasGarantia() != null
-                            ? String.valueOf(pecas.getDiasGarantia())
-                            : ""
-            );
-
-            definirMaoDeObra(pecas.getMaoDeObra());
-
-        } else {
-            informarErro(mensagem_erro);
-        }
+    private void remover() {
+        Peça p=(Peça)peçasComboBox.getSelectedItem(); if(p==null) { erro("Selecione uma peça.");return; }
+        String msg=controlador.removerPeças(p.getCodigo()); if(msg!=null) erro(msg); else { atualizarPeçasCadastradas(-1);limparCampos(); }
     }
-
-    private void removerPeças(java.awt.event.ActionEvent evt) {
-        Peça visao =
-                (Peça) pecas_cadastradasComboBox.getSelectedItem();
-
-        String mensagem_erro = null;
-
-        if (visao != null)
-            mensagem_erro = controlador.removerPeças(visao.getCodigo());
-        else
-            mensagem_erro = "Nenhuma Peça selecionada";
-
-        if (mensagem_erro == null) {
-            atualizarPeçasCadastradas();
-            limparCampos(evt);
-        } else {
-            informarErro(mensagem_erro);
-        }
+    private void limparCampos() {
+        codigoField.setText("");nomeField.setText("");marcaComboBox.setSelectedIndex(-1);precoField.setText("");
+        painelMecânica.limparCampos();painelAcessórios.limparCampos();especializaçãoTabbedPane.setSelectedIndex(0);
     }
-
-    private void limparCampos(java.awt.event.ActionEvent evt) {
-        codigoTextField.setText("");
-        nomeTextField.setText("");
-        marcaComboBox.setSelectedIndex(-1);
-        precoTextField.setText("");
-        corTextField.setText("");
-        prazoGarantiaTextField.setText("");
-        maoDeObraButtonGroup.clearSelection();
-    }
-
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton alterarPeças;
-    private javax.swing.JPanel comandosPanel;
-    private javax.swing.JButton consultarPeças;
-    private javax.swing.JLabel codigoLabel;
-    private javax.swing.JTextField codigoTextField;
-    private javax.swing.JLabel nomeLabel;
-    private javax.swing.JTextField nomeTextField;
-    private javax.swing.JLabel marcaLabel;
-    private javax.swing.JComboBox marcaComboBox;
-    private javax.swing.JLabel precoLabel;
-    private javax.swing.JTextField precoTextField;
-    private javax.swing.JLabel corLabel;
-    private javax.swing.JTextField corTextField;
-    private javax.swing.JLabel prazoGarantiaLabel;
-    private javax.swing.JTextField prazoGarantiaTextField;
-    private javax.swing.JLabel maoDeObraLabel;
-    private javax.swing.JPanel maoDeObraPanel;
-    private javax.swing.ButtonGroup maoDeObraButtonGroup;
-    private javax.swing.JRadioButton maoDeObraNaoRadioButton;
-    private javax.swing.JRadioButton maoDeObraSimRadioButton;
-    private javax.swing.JButton inserirPeças;
-    private javax.swing.JButton limparCampos;
-    private javax.swing.JLabel pecasCadastradasLabel;
-    private javax.swing.JComboBox pecas_cadastradasComboBox;
-    private javax.swing.JButton removerPeças;
-    // End of variables declaration//GEN-END:variables
+    private void erro(String msg) { JOptionPane.showMessageDialog(this,msg,"Erro",JOptionPane.ERROR_MESSAGE); }
 }

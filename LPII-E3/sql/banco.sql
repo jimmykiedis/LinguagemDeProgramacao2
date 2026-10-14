@@ -1,4 +1,6 @@
 DROP TABLE IF EXISTS peças_sinistros;
+DROP TABLE IF EXISTS peça_mecânica;
+DROP TABLE IF EXISTS peça_acessórios;
 DROP TABLE IF EXISTS peças;
 DROP TABLE IF EXISTS sinistros;
 DROP TABLE IF EXISTS seguradoras;
@@ -24,10 +26,7 @@ CREATE TABLE peças (
     codigo INT PRIMARY KEY,
     nome VARCHAR(50),
     marca VARCHAR(20),
-    preco DECIMAL(10,2),
-    mao_obra_propria BOOLEAN,
-    dias_garantia INT,
-    cor VARCHAR(20)
+    preço DECIMAL(10,2)
 );
 
 CREATE TABLE peças_sinistros (
@@ -36,4 +35,20 @@ CREATE TABLE peças_sinistros (
     PRIMARY KEY (peça_codigo, sinistro_id),
     FOREIGN KEY (peça_codigo) REFERENCES peças(codigo) ON DELETE CASCADE,
     FOREIGN KEY (sinistro_id) REFERENCES sinistros(id) ON DELETE CASCADE
+);
+
+CREATE TABLE peça_mecânica (
+    categoria_mecânica VARCHAR(40) NOT NULL,
+    prazo_garantia INT,
+    mecanico_proprio BOOLEAN NOT NULL DEFAULT FALSE,
+    codigoId INT NOT NULL,
+    FOREIGN KEY (codigoId) REFERENCES peças (codigo)
+);
+
+CREATE TABLE peça_acessórios (
+    categoria_acessorio VARCHAR(40) NOT NULL,
+    cor VARCHAR(20),
+    funileiro_proprio BOOLEAN NOT NULL DEFAULT FALSE,
+    codigoId INT NOT NULL,
+    FOREIGN KEY (codigoId) REFERENCES peças (codigo)
 );
