@@ -9,15 +9,15 @@ Linguagem de Programação II - Etapa *n** - Leonardo Farias de Oliveira
 - Seguradora : Seguradoras
 - PeçaSinistro : PeçasSinistros
 - PeçaMecânica : PeçasMecânicas
-- PecaLataria : PecasLatarias
+- PeçaAcessório : PeçaAcessórios
 - Orçamento : Orçamentos
 
 ## Relacionamentos
 
 - Sem Referências : Peça, Seguradora
 - Relacionamento Múltiplo : Sinistro [n:n] Peça (PeçaSinistro)
-- Associação : Orcamento [Sinistro, Seguradora]
-- Herança : Peça [PeçaMecânica, PeçaLataria]
+- Associação : Orçamento [Sinistro, Seguradora]
+- Herança : Peça [PeçaMecânica, PeçaAcessório]
 
 ## Atributos e Referências
 

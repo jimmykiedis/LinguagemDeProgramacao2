@@ -58,7 +58,7 @@ public class Peça {
     public Peça getVisao() { return this; }
     @Override public String toString() {
         String subtipo = this instanceof PeçaMecânica ? "Peça Mecânica"
-                : this instanceof PeçaAcessórios ? "Peça Acessórios" : "Peça";
+                : this instanceof PeçaAcessório ? "Peça Acessórios" : "Peça";
         return "[" + codigo + "] " + subtipo + ": " + nome + " [" + marca + "]";
     }
 
@@ -73,8 +73,8 @@ public class Peça {
         if (catMec != null) return new PeçaMecânica(id,nome,marca,preco,
                 PeçaMecânica.CategoriaMecânica.fromTexto(catMec),(Integer)rs.getObject("prazo_garantia"),rs.getBoolean("mecanico_proprio"),sobEncomenda);
         String catAcessorio=rs.getString("categoria_acessorio");
-        if (catAcessorio != null) return new PeçaAcessórios(id,nome,marca,preco,
-                PeçaAcessórios.CategoriaAcessório.fromTexto(catAcessorio),rs.getString("cor"),rs.getBoolean("funileiro_proprio"),sobEncomenda);
+        if (catAcessorio != null) return new PeçaAcessório(id,nome,marca,preco,
+                PeçaAcessório.CategoriaAcessório.fromTexto(catAcessorio),rs.getString("cor"),rs.getBoolean("funileiro_proprio"),sobEncomenda);
         return new Peça(id,nome,marca,preco,null,null,sobEncomenda);
     }
     static String consultaBase() {

@@ -2,7 +2,7 @@ package interfaces;
 
 import controles.ControladorCadastroPeças;
 import entidades.Peça;
-import entidades.PeçaAcessórios;
+import entidades.PeçaAcessório;
 import entidades.PeçaMecânica;
 import java.awt.BorderLayout;
 import java.awt.Frame;
@@ -97,10 +97,10 @@ public class JanelaCadastroPeças extends JFrame {
                 if(prazo!=null && prazo<0) throw new IllegalArgumentException("O prazo de garantia não pode ser negativo.");
                 return new PeçaMecânica(codigo,nome,marca,preco,categoria,prazo,painelMecânica.isMecanicoProprio(),sobEncomendaCheckBox.isSelected());
             }
-            PeçaAcessórios.CategoriaAcessório categoria=painelAcessórios.getCategoriaAcessório();
+            PeçaAcessório.CategoriaAcessório categoria=painelAcessórios.getCategoriaAcessório();
             if(categoria==null) throw new IllegalArgumentException("Selecione a categoria do acessório.");
             String cor=painelAcessórios.getCor();
-            return new PeçaAcessórios(codigo,nome,marca,preco,categoria,cor.isEmpty()?null:cor,painelAcessórios.isFunileiroProprio(),sobEncomendaCheckBox.isSelected());
+            return new PeçaAcessório(codigo,nome,marca,preco,categoria,cor.isEmpty()?null:cor,painelAcessórios.isFunileiroProprio(),sobEncomendaCheckBox.isSelected());
         } catch(NumberFormatException e) { throw new IllegalArgumentException("Informe um prazo de garantia inteiro válido."); }
     }
     private void inserir() {
@@ -119,8 +119,8 @@ public class JanelaCadastroPeças extends JFrame {
         if(p instanceof PeçaMecânica) {
             PeçaMecânica m=(PeçaMecânica)p; especializaçãoTabbedPane.setSelectedComponent(painelMecânica);
             painelMecânica.setCategoriaMecânica(m.getCategoriaMecânica()); painelMecânica.setPrazoGarantia(m.getPrazoGarantia()); painelMecânica.setMecanicoProprio(m.isMecanicoProprio());
-        } else if(p instanceof PeçaAcessórios) {
-            PeçaAcessórios a=(PeçaAcessórios)p; especializaçãoTabbedPane.setSelectedComponent(painelAcessórios);
+        } else if(p instanceof PeçaAcessório) {
+            PeçaAcessório a=(PeçaAcessório)p; especializaçãoTabbedPane.setSelectedComponent(painelAcessórios);
             painelAcessórios.setCategoriaAcessório(a.getCategoriaAcessório()); painelAcessórios.setCor(a.getCor()); painelAcessórios.setFunileiroProprio(a.isFunileiroProprio());
         }
     }

@@ -1,6 +1,6 @@
 package interfaces;
 
-import entidades.PeçaAcessórios;
+import entidades.PeçaAcessório;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -11,8 +11,8 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 public class PainelPeçaAcessórios extends JPanel {
-    private final JComboBox<PeçaAcessórios.CategoriaAcessório> categoriaComboBox =
-            new JComboBox<>(PeçaAcessórios.CategoriaAcessório.values());
+    private final JComboBox<PeçaAcessório.CategoriaAcessório> categoriaComboBox =
+            new JComboBox<>(PeçaAcessório.CategoriaAcessório.values());
     private final JTextField corTextField = new JTextField(10);
     private final JCheckBox funileiroProprioCheckBox = new JCheckBox("Sim");
 
@@ -29,12 +29,12 @@ public class PainelPeçaAcessórios extends JPanel {
         c.gridx = 1; add(funileiroProprioCheckBox, c);
     }
 
-    public PeçaAcessórios.CategoriaAcessório getCategoriaAcessório() {
-        return (PeçaAcessórios.CategoriaAcessório) categoriaComboBox.getSelectedItem();
+    public PeçaAcessório.CategoriaAcessório getCategoriaAcessório() {
+        return (PeçaAcessório.CategoriaAcessório) categoriaComboBox.getSelectedItem();
     }
     public String getCor() { return corTextField.getText().trim(); }
     public boolean isFunileiroProprio() { return funileiroProprioCheckBox.isSelected(); }
-    public void setCategoriaAcessório(PeçaAcessórios.CategoriaAcessório valor) { categoriaComboBox.setSelectedItem(valor); }
+    public void setCategoriaAcessório(PeçaAcessório.CategoriaAcessório valor) { categoriaComboBox.setSelectedItem(valor); }
     public void setCor(String valor) { corTextField.setText(valor == null ? "" : valor); }
     public void setFunileiroProprio(boolean valor) { funileiroProprioCheckBox.setSelected(valor); }
     public void limparCampos() { categoriaComboBox.setSelectedIndex(-1); setCor(null); setFunileiroProprio(false); }

@@ -11,19 +11,24 @@ import java.awt.Insets;
 import java.sql.Date;
 import java.util.ArrayList;
 import javax.swing.JButton;
+import javax.swing.ButtonGroup;
+import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 public class JanelaPesquisaOrçamentos extends JFrame {
     private final JTextField dataMinimaOrçamento = new JTextField(12);
-    private final JTextField valorMáximoPeça = new JTextField(12);
-    private final JTextField coberturaMínima = new JTextField(12);
+    private final JCheckBox sobEncomenda = new JCheckBox("Sim");
+    private final JRadioButton atendimento24hSim = new JRadioButton("Sim");
+    private final JRadioButton atendimento24hNao = new JRadioButton("Não");
+    private final ButtonGroup atendimento24hGrupo = new ButtonGroup();
     private final JComboBox<Sinistro.GrauMonta> grauMonta = new JComboBox<>(Sinistro.GrauMonta.values());
     private final JTextField prazoMínimoGarantia = new JTextField(12);
     private final JTextField corAcessório = new JTextField(12);
@@ -47,8 +52,13 @@ public class JanelaPesquisaOrçamentos extends JFrame {
         c.insets = new Insets(4, 6, 4, 6);
         c.anchor = GridBagConstraints.WEST;
         adicionar(filtros, c, 0, "Data mínima do orçamento (AAAA-MM-DD)", dataMinimaOrçamento);
-        adicionar(filtros, c, 1, "Valor máximo da peça", valorMáximoPeça);
-        adicionar(filtros, c, 2, "Cobertura percentual mínima", coberturaMínima);
+        adicionar(filtros, c, 1, "Peça sob encomenda", sobEncomenda);
+        JPanel atendimento24h = new JPanel(new FlowLayout(FlowLayout.LEFT, 4, 0));
+        atendimento24hGrupo.add(atendimento24hSim);
+        atendimento24hGrupo.add(atendimento24hNao);
+        atendimento24h.add(atendimento24hSim);
+        atendimento24h.add(atendimento24hNao);
+        adicionar(filtros, c, 2, "Seguradora possui atendimento 24h", atendimento24h);
         adicionar(filtros, c, 3, "Grau da monta", grauMonta);
         adicionar(filtros, c, 4, "Prazo mínimo de garantia (Peça Mecânica)", prazoMínimoGarantia);
         adicionar(filtros, c, 5, "Cor (Peça Acessórios)", corAcessório);
@@ -110,18 +120,16 @@ public class JanelaPesquisaOrçamentos extends JFrame {
         try {
             String textoData = dataMinimaOrçamento.getText().trim();
             Date data = textoData.isEmpty() ? null : Date.valueOf(textoData);
-            Double valorMáximo = númeroOpcional(valorMáximoPeça, "valor máximo da peça");
-            Double cobertura = númeroOpcional(coberturaMínima, "cobertura mínima");
-            if (cobertura != null && cobertura > 100) {
-                throw new IllegalArgumentException("A cobertura percentual deve estar entre 0 e 100.");
-            }
+            Boolean atendimentoSelecionado = atendimento24hSim.isSelected() ? Boolean.TRUE
+                    : atendimento24hNao.isSelected() ? Boolean.FALSE : null;
             Sinistro.GrauMonta grau = (Sinistro.GrauMonta) grauMonta.getSelectedItem();
             Integer prazo = inteiroOpcional(prazoMínimoGarantia, "prazo mínimo de garantia");
             String cor = corAcessório.getText().trim();
             if (cor.isEmpty()) cor = null;
 
             ArrayList<Orçamento> encontrados = Orçamento.pesquisarOrçamentos(
-                    data, valorMáximo, cobertura, grau, prazo, cor);
+                    data, sobEncomenda.isSelected() ? Boolean.TRUE : null,
+                    atendimentoSelecionado, grau, prazo, cor);
             resultados.setText("");
             for (Orçamento orçamento : encontrados) {
                 if (resultados.getDocument().getLength() > 0) resultados.append("\n\n");
@@ -136,8 +144,8 @@ public class JanelaPesquisaOrçamentos extends JFrame {
 
     private void limparFiltros() {
         dataMinimaOrçamento.setText("");
-        valorMáximoPeça.setText("");
-        coberturaMínima.setText("");
+        sobEncomenda.setSelected(false);
+        atendimento24hGrupo.clearSelection();
         grauMonta.setSelectedIndex(-1);
         prazoMínimoGarantia.setText("");
         corAcessório.setText("");

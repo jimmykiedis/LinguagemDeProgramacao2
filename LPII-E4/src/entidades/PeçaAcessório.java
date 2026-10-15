@@ -6,7 +6,7 @@ import java.sql.SQLException;
 import java.util.Locale;
 import persistência.BD;
 
-public class PeçaAcessórios extends Peça {
+public class PeçaAcessório extends Peça {
     public enum CategoriaAcessório {
         CARROCERIA("carroceria"), FAROL_LANTERNA("farol_lanterna"),
         PARABRISAS_VIGIA("parabrisas_vigia"), PAINEL("painel"), PEDAL("pedal"),
@@ -26,12 +26,12 @@ public class PeçaAcessórios extends Peça {
     private String cor;
     private boolean funileiroProprio;
 
-    public PeçaAcessórios(int codigo, String nome, MarcaPeça marca, double preco,
+    public PeçaAcessório(int codigo, String nome, MarcaPeça marca, double preco,
             CategoriaAcessório categoriaAcessório, String cor, boolean funileiroProprio) {
         this(codigo, nome, marca, preco, categoriaAcessório, cor, funileiroProprio, false);
     }
 
-    public PeçaAcessórios(int codigo, String nome, MarcaPeça marca, double preco,
+    public PeçaAcessório(int codigo, String nome, MarcaPeça marca, double preco,
             CategoriaAcessório categoriaAcessório, String cor, boolean funileiroProprio, boolean sobEncomenda) {
         super(codigo, nome, marca, preco, null, cor);
         setSobEncomenda(sobEncomenda);
@@ -40,12 +40,12 @@ public class PeçaAcessórios extends Peça {
         this.funileiroProprio = funileiroProprio;
     }
 
-    public PeçaAcessórios(int codigo, String nome, MarcaPeça marca, double preco,
+    public PeçaAcessório(int codigo, String nome, MarcaPeça marca, double preco,
             String categoriaAcessório, String cor) {
         this(codigo, nome, marca, preco, CategoriaAcessório.fromTexto(categoriaAcessório), cor, false);
     }
 
-    public PeçaAcessórios() { this(0, null, null, 0.0, (CategoriaAcessório) null, null, false); }
+    public PeçaAcessório() { this(0, null, null, 0.0, (CategoriaAcessório) null, null, false); }
     public CategoriaAcessório getCategoriaAcessório() { return categoriaAcessório; }
     @Override public String getCor() { return cor; }
     public boolean isFunileiroProprio() { return funileiroProprio; }
@@ -53,13 +53,13 @@ public class PeçaAcessórios extends Peça {
     @Override public void setCor(String valor) { cor = valor; super.setCor(valor); }
     public void setFunileiroProprio(boolean valor) { funileiroProprio = valor; }
 
-    public static PeçaAcessórios buscar(int codigo) {
+    public static PeçaAcessório buscar(int codigo) {
         String sql = "SELECT p.codigo,p.nome,p.marca,p.`preço`,p.sob_encomenda,a.categoria_acessorio,a.cor,a.funileiro_proprio FROM peças p JOIN peça_acessórios a ON a.codigoId=p.codigo WHERE p.codigo=?";
         try (PreparedStatement ps = BD.conexao.prepareStatement(sql)) {
             ps.setInt(1, codigo);
             try (ResultSet rs = ps.executeQuery()) {
                 if (!rs.next()) return null;
-                return new PeçaAcessórios(rs.getInt("codigo"), rs.getString("nome"),
+                return new PeçaAcessório(rs.getInt("codigo"), rs.getString("nome"),
                         MarcaPeça.fromTexto(rs.getString("marca")), rs.getDouble("preço"),
                         CategoriaAcessório.fromTexto(rs.getString("categoria_acessorio")),
                         rs.getString("cor"), rs.getBoolean("funileiro_proprio"), rs.getBoolean("sob_encomenda"));
