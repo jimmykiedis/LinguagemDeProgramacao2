@@ -12,7 +12,6 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import javax.swing.JButton;
 import javax.swing.ButtonGroup;
-import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -43,47 +42,70 @@ public class JanelaPesquisaOrçamentos extends JFrame {
 
     private void construirInterface() {
         filtros = new JPanel(new GridBagLayout());
-        filtros.setBorder(javax.swing.BorderFactory.createTitledBorder(
-                "Um filtro por entidade: Orçamento, Peça, Seguradora, Sinistro e subclasses"));
         GridBagConstraints c = new GridBagConstraints();
         c.insets = new Insets(4, 6, 4, 6);
-        c.anchor = GridBagConstraints.WEST;
+        c.anchor = GridBagConstraints.NORTHWEST;
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.weightx = 1.0;
+
         dataLabel = new JLabel("Data mínima (AAAA-MM-DD HH:MM:SS)");
-        encomendaLabel = new JLabel("Peça sob encomenda");
+        marcaLabel = new JLabel("Marca");
         atendimentoLabel = new JLabel("Seguradora possui atendimento 24h");
         grauLabel = new JLabel("Grau da monta");
         prazoLabel = new JLabel("Prazo mínimo de garantia (Peça Mecânica)");
         corLabel = new JLabel("Cor (Peça Acessórios)");
         dataMinimaOrçamento = new JTextField(12);
-        sobEncomenda = new JCheckBox("Sim");
+        marcaPeça = new JComboBox<>(Peça.MarcaPeça.values());
         atendimento24hSim = new JRadioButton("Sim"); atendimento24hNao = new JRadioButton("Não");
         atendimento24hGrupo = new ButtonGroup();
         grauMonta = new JComboBox<>(Sinistro.GrauMonta.values());
         prazoMínimoGarantia = new JTextField(12); corAcessório = new JTextField(12);
         resultados = new JTextArea(18, 70);
-        adicionar(filtros, c, 0, dataLabel.getText(), dataMinimaOrçamento);
-        adicionar(filtros, c, 1, encomendaLabel.getText(), sobEncomenda);
+
+        painelOrçamento = criarPainelFiltro("Filtro de Orçamento");
+        GridBagConstraints orçamentoC = criarConstraintsInternos();
+        adicionar(painelOrçamento, orçamentoC, 0, dataLabel.getText(), dataMinimaOrçamento);
+
+        painelSeguradora = criarPainelFiltro("Filtro de Seguradora");
         atendimento24h = new JPanel(new FlowLayout(FlowLayout.LEFT, 4, 0));
         atendimento24hGrupo.add(atendimento24hSim);
         atendimento24hGrupo.add(atendimento24hNao);
         atendimento24h.add(atendimento24hSim);
         atendimento24h.add(atendimento24hNao);
-        adicionar(filtros, c, 2, atendimentoLabel.getText(), atendimento24h);
-        adicionar(filtros, c, 3, grauLabel.getText(), grauMonta);
+        GridBagConstraints seguradoraC = criarConstraintsInternos();
+        adicionar(painelSeguradora, seguradoraC, 0, atendimentoLabel.getText(), atendimento24h);
+
+        painelSinistro = criarPainelFiltro("Filtro de Sinistro");
+        GridBagConstraints sinistroC = criarConstraintsInternos();
+        adicionar(painelSinistro, sinistroC, 0, grauLabel.getText(), grauMonta);
+
+        painelPeças = criarPainelFiltro("Filtros de Peças");
+        GridBagConstraints peçasC = criarConstraintsInternos();
+        adicionar(painelPeças, peçasC, 0, marcaLabel.getText(), marcaPeça);
 
         painelMecânica = new JPanel(new GridBagLayout());
         painelAcessórios = new JPanel(new GridBagLayout());
         subclassesTabbedPane = new JTabbedPane();
-        adicionar(painelMecânica, c, 0, prazoLabel.getText(), prazoMínimoGarantia);
-        adicionar(painelAcessórios, c, 0, corLabel.getText(), corAcessório);
+        GridBagConstraints subclasseC = criarConstraintsInternos();
+        adicionar(painelMecânica, subclasseC, 0, prazoLabel.getText(), prazoMínimoGarantia);
+        subclasseC = criarConstraintsInternos();
+        adicionar(painelAcessórios, subclasseC, 0, corLabel.getText(), corAcessório);
         subclassesTabbedPane.addTab("Peça mecânica", painelMecânica);
         subclassesTabbedPane.addTab("Peça de acessórios", painelAcessórios);
-        abasAlinhadasPanel = new JPanel(new GridBagLayout());
-        abasAlinhadasPanel.setBorder(javax.swing.BorderFactory.createEmptyBorder(4, 4, 4, 4));
-        abasAlinhadasPanel.add(subclassesTabbedPane);
-        c.gridx = 0; c.gridy = 4; c.gridwidth = 2;
-        c.fill = GridBagConstraints.HORIZONTAL; c.weightx = 1.0;
-        filtros.add(abasAlinhadasPanel, c);
+        abasAlinhadasPanel = new JPanel(new BorderLayout());
+        abasAlinhadasPanel.add(subclassesTabbedPane, BorderLayout.CENTER);
+        peçasC = criarConstraintsInternos();
+        peçasC.gridy = 1;
+        peçasC.gridwidth = 2;
+        peçasC.fill = GridBagConstraints.BOTH;
+        peçasC.weightx = 1.0;
+        peçasC.weighty = 1.0;
+        painelPeças.add(abasAlinhadasPanel, peçasC);
+
+        adicionarPainel(filtros, c, 0, painelOrçamento);
+        adicionarPainel(filtros, c, 1, painelSeguradora);
+        adicionarPainel(filtros, c, 2, painelSinistro);
+        adicionarPainel(filtros, c, 3, painelPeças);
 
         resultados.setEditable(false);
         resultados.setLineWrap(true);
@@ -111,6 +133,30 @@ public class JanelaPesquisaOrçamentos extends JFrame {
         painel.add(new JLabel(rotulo), c);
         c.gridx = 1;
         painel.add(componente, c);
+    }
+
+    private JPanel criarPainelFiltro(String título) {
+        JPanel painel = new JPanel(new GridBagLayout());
+        painel.setBorder(javax.swing.BorderFactory.createTitledBorder(título));
+        return painel;
+    }
+
+    private GridBagConstraints criarConstraintsInternos() {
+        GridBagConstraints c = new GridBagConstraints();
+        c.insets = new Insets(4, 6, 4, 6);
+        c.anchor = GridBagConstraints.WEST;
+        return c;
+    }
+
+    private void adicionarPainel(JPanel painel, GridBagConstraints c, int linha,
+            JPanel painelFiltro) {
+        c.gridx = 0;
+        c.gridy = linha;
+        c.gridwidth = 1;
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.weightx = 1.0;
+        c.weighty = 0;
+        painel.add(painelFiltro, c);
     }
 
     private Double númeroOpcional(JTextField campo, String descrição) {
@@ -148,8 +194,9 @@ public class JanelaPesquisaOrçamentos extends JFrame {
             String cor = corAcessório.getText().trim();
             if (cor.isEmpty()) cor = null;
 
+            Peça.MarcaPeça marca = (Peça.MarcaPeça) marcaPeça.getSelectedItem();
             ArrayList<Orçamento> encontrados = Orçamento.pesquisarOrçamentos(
-                    data, sobEncomenda.isSelected() ? Boolean.TRUE : null,
+                    data, marca,
                     atendimentoSelecionado, grau, prazo, cor);
             resultados.setText("");
             for (Orçamento orçamento : encontrados) {
@@ -173,7 +220,7 @@ public class JanelaPesquisaOrçamentos extends JFrame {
 
     private void limparFiltros() {
         dataMinimaOrçamento.setText("");
-        sobEncomenda.setSelected(false);
+        marcaPeça.setSelectedIndex(-1);
         atendimento24hGrupo.clearSelection();
         grauMonta.setSelectedIndex(-1);
         prazoMínimoGarantia.setText("");
@@ -183,15 +230,16 @@ public class JanelaPesquisaOrçamentos extends JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private JTextField dataMinimaOrçamento;
-    private JCheckBox sobEncomenda;
+    private JComboBox<Peça.MarcaPeça> marcaPeça;
     private JRadioButton atendimento24hSim, atendimento24hNao;
     private ButtonGroup atendimento24hGrupo;
     private JComboBox<Sinistro.GrauMonta> grauMonta;
     private JTextField prazoMínimoGarantia, corAcessório;
     private JTextArea resultados;
-    private JPanel filtros, atendimento24h, botoes, painelMecânica, painelAcessórios, abasAlinhadasPanel;
+    private JPanel filtros, atendimento24h, botoes, painelOrçamento, painelSeguradora,
+            painelSinistro, painelPeças, painelMecânica, painelAcessórios, abasAlinhadasPanel;
     private JTabbedPane subclassesTabbedPane;
-    private JLabel dataLabel, encomendaLabel, atendimentoLabel, grauLabel, prazoLabel, corLabel;
+    private JLabel dataLabel, marcaLabel, atendimentoLabel, grauLabel, prazoLabel, corLabel;
     private JButton pesquisarButton, limparButton, limparPesquisaButton;
     private JScrollPane resultadosScrollPane;
     // End of variables declaration//GEN-END:variables

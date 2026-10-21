@@ -129,15 +129,15 @@ public class Orçamento {
 
     /** Pesquisa orçamento e entidades relacionadas com um filtro específico por entidade. */
     public static ArrayList<Orçamento> pesquisarOrçamentos(Timestamp dataMinima,
-            Boolean sobEncomenda, Boolean atendimento24h, Sinistro.GrauMonta grauMonta,
+            Peça.MarcaPeça marca, Boolean atendimento24h, Sinistro.GrauMonta grauMonta,
             Integer prazoGarantiaMinimo, String corAcessório) {
-        StringBuilder sql = new StringBuilder("SELECT DISTINCT o.sinistro, o.seguradora "
+        StringBuilder sql = new StringBuilder("SELECT DISTINCT o.data, o.sinistro, o.seguradora "
                 + "FROM Orçamentos o JOIN sinistros s ON s.id=o.sinistro "
                 + "JOIN seguradoras g ON g.nome=o.seguradora WHERE 1=1");
         if (dataMinima != null) sql.append(" AND o.data >= ?");
         if (atendimento24h != null) sql.append(" AND g.possui_atendimento_24h = ?");
         if (grauMonta != null) sql.append(" AND s.grau_monta = ?");
-        if (sobEncomenda != null) sql.append(" AND EXISTS (SELECT 1 FROM peças_sinistros ps JOIN peças p ON p.codigo=ps.peça_codigo WHERE ps.sinistro_id=s.id AND p.sob_encomenda = ?)");
+        if (marca != null) sql.append(" AND EXISTS (SELECT 1 FROM peças_sinistros ps JOIN peças p ON p.codigo=ps.peça_codigo WHERE ps.sinistro_id=s.id AND p.marca = ?)");
         if (prazoGarantiaMinimo != null) sql.append(" AND EXISTS (SELECT 1 FROM peças_sinistros ps JOIN peça_mecânica pm ON pm.codigoId=ps.peça_codigo WHERE ps.sinistro_id=s.id AND pm.prazo_garantia >= ?)");
         if (corAcessório != null && !corAcessório.trim().isEmpty()) sql.append(" AND EXISTS (SELECT 1 FROM peças_sinistros ps JOIN peça_acessórios pa ON pa.codigoId=ps.peça_codigo WHERE ps.sinistro_id=s.id AND pa.cor LIKE ?)");
         sql.append(" ORDER BY o.data, o.sinistro, o.seguradora");
@@ -147,7 +147,7 @@ public class Orçamento {
             if (dataMinima != null) ps.setTimestamp(++i, dataMinima);
             if (atendimento24h != null) ps.setBoolean(++i, atendimento24h);
             if (grauMonta != null) ps.setString(++i, grauMonta.toString());
-            if (sobEncomenda != null) ps.setBoolean(++i, sobEncomenda);
+            if (marca != null) ps.setString(++i, marca.toString());
             if (prazoGarantiaMinimo != null) ps.setInt(++i, prazoGarantiaMinimo);
             if (corAcessório != null && !corAcessório.trim().isEmpty()) ps.setString(++i, "%" + corAcessório.trim() + "%");
             try (ResultSet rs = ps.executeQuery()) {

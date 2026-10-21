@@ -1,5 +1,6 @@
 package entidades;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -112,11 +113,87 @@ public class Peça {
     }
     public static String alterarPeças(Peça p) { return p.alterar(); }
     public static String removerPeças(int codigo) {
-        try(PreparedStatement ps=BD.conexao.prepareStatement("DELETE FROM peças WHERE codigo=?")) { ps.setInt(1,codigo); ps.executeUpdate(); return null; }
-        catch(SQLException e) { e.printStackTrace(); return "Erro ao remover peça"; }
+        return removerPeçasPor("codigo", codigo);
     }
     public static String removerPeças(String nome) {
-        try(PreparedStatement ps=BD.conexao.prepareStatement("DELETE FROM peças WHERE nome=?")) { ps.setString(1,nome); ps.executeUpdate(); return null; }
-        catch(SQLException e) { e.printStackTrace(); return "Erro ao remover peça"; }
+        return removerPeçasPor("nome", nome);
+    }
+
+    /**
+     * Remove uma peça e todos os seus vínculos em uma única transação.
+     * A remoção explícita do lado dependente mantém o código correto mesmo
+     * quando o banco foi criado com uma versão antiga do esquema, sem
+     * ON DELETE CASCADE.
+     */
+    private static String removerPeçasPor(String coluna, Object valor) {
+        Connection conexao = BD.conexao;
+        boolean autoCommitAnterior = true;
+        boolean transacaoIniciada = false;
+        ArrayList<Integer> codigos = new ArrayList<>();
+
+        try {
+            autoCommitAnterior = conexao.getAutoCommit();
+            conexao.setAutoCommit(false);
+            transacaoIniciada = true;
+
+            try (PreparedStatement consulta = conexao.prepareStatement(
+                    "SELECT codigo FROM peças WHERE " + coluna + " = ?")) {
+                consulta.setObject(1, valor);
+                try (ResultSet resultados = consulta.executeQuery()) {
+                    while (resultados.next()) codigos.add(resultados.getInt("codigo"));
+                }
+            }
+
+            if (codigos.isEmpty()) {
+                conexao.rollback();
+                return "Peça não cadastrada";
+            }
+
+            for (int codigo : codigos) {
+                try (PreparedStatement removerVinculos = conexao.prepareStatement(
+                        "DELETE FROM peças_sinistros WHERE peça_codigo = ?")) {
+                    removerVinculos.setInt(1, codigo);
+                    removerVinculos.executeUpdate();
+                }
+                try (PreparedStatement removerMecanica = conexao.prepareStatement(
+                        "DELETE FROM `peça_mecânica` WHERE codigoId = ?")) {
+                    removerMecanica.setInt(1, codigo);
+                    removerMecanica.executeUpdate();
+                }
+                try (PreparedStatement removerAcessorios = conexao.prepareStatement(
+                        "DELETE FROM `peça_acessórios` WHERE codigoId = ?")) {
+                    removerAcessorios.setInt(1, codigo);
+                    removerAcessorios.executeUpdate();
+                }
+                try (PreparedStatement removerPeca = conexao.prepareStatement(
+                        "DELETE FROM peças WHERE codigo = ?")) {
+                    removerPeca.setInt(1, codigo);
+                    if (removerPeca.executeUpdate() != 1) {
+                        throw new SQLException("A peça " + codigo + " não foi removida");
+                    }
+                }
+            }
+
+            conexao.commit();
+            return null;
+        } catch (SQLException | RuntimeException e) {
+            if (transacaoIniciada) {
+                try {
+                    conexao.rollback();
+                } catch (SQLException rollback) {
+                    e.addSuppressed(rollback);
+                }
+            }
+            e.printStackTrace();
+            return "Erro ao remover peça";
+        } finally {
+            if (transacaoIniciada) {
+                try {
+                    conexao.setAutoCommit(autoCommitAnterior);
+                } catch (SQLException restauraAutoCommit) {
+                    restauraAutoCommit.printStackTrace();
+                }
+            }
+        }
     }
 }
