@@ -148,19 +148,19 @@ public class JanelaCadastroSeguradoras extends javax.swing.JFrame {
         coberturaPercentualLabel = new javax.swing.JLabel();
         coberturaPercentualTextField = new javax.swing.JTextField();
         possuiAtendimento24hLabel = new javax.swing.JLabel();
-        possuiAtendimento24hPanel = new javax.swing.JPanel(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 8, 0));
-        possuiAtendimento24hButtonGroup = new ButtonGroup();
+        possuiAtendimento24hPanel = new javax.swing.JPanel();
         possuiAtendimento24hSimRadioButton = new javax.swing.JRadioButton();
         possuiAtendimento24hNaoRadioButton = new javax.swing.JRadioButton();
-        formaPagamentoPreferencialLabel = new javax.swing.JLabel();
+        possuiAtendimento24hButtonGroup = new javax.swing.ButtonGroup();
         formaPagamentoPreferencialComboBox = new javax.swing.JComboBox();
+        formaPagamentoPreferencialComboBox.setModel(new DefaultComboBoxModel(Seguradora.FormaPagamentoPreferencial.values()));
         seguradorasCadastradasLabel = new javax.swing.JLabel();
         seguradorasCadastradasComboBox = new javax.swing.JComboBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Cadastrar Seguradoras");
-        setMinimumSize(new java.awt.Dimension(680, 440));
-        setPreferredSize(new java.awt.Dimension(760, 540));
+        setMinimumSize(new java.awt.Dimension(620, 360));
+        setPreferredSize(new java.awt.Dimension(700, 460));
         getContentPane().setLayout(new java.awt.GridBagLayout());
 
         inserirSeguradora.setText("Inserir");
@@ -205,7 +205,7 @@ public class JanelaCadastroSeguradoras extends javax.swing.JFrame {
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 7;
+        gridBagConstraints.gridy = 5;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         getContentPane().add(comandosPanel, gridBagConstraints);
 
@@ -260,7 +260,6 @@ public class JanelaCadastroSeguradoras extends javax.swing.JFrame {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 3;
-        gridBagConstraints.ipadx = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(1, 5, 10, 5);
         getContentPane().add(coberturaPercentualTextField, gridBagConstraints);
@@ -273,12 +272,17 @@ public class JanelaCadastroSeguradoras extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(1, 16, 10, 10);
         getContentPane().add(possuiAtendimento24hLabel, gridBagConstraints);
 
+        possuiAtendimento24hPanel.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
+
         possuiAtendimento24hButtonGroup.add(possuiAtendimento24hSimRadioButton);
-        possuiAtendimento24hSimRadioButton.setText("Sim");
         possuiAtendimento24hButtonGroup.add(possuiAtendimento24hNaoRadioButton);
-        possuiAtendimento24hNaoRadioButton.setText("Não");
+
+        possuiAtendimento24hSimRadioButton.setText("Sim");
         possuiAtendimento24hPanel.add(possuiAtendimento24hSimRadioButton);
+
+        possuiAtendimento24hNaoRadioButton.setText("Não");
         possuiAtendimento24hPanel.add(possuiAtendimento24hNaoRadioButton);
+
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 4;
@@ -286,26 +290,6 @@ public class JanelaCadastroSeguradoras extends javax.swing.JFrame {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(1, 5, 10, 5);
         getContentPane().add(possuiAtendimento24hPanel, gridBagConstraints);
-
-        formaPagamentoPreferencialLabel.setText("Forma Pagamento Preferencial");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 5;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
-        gridBagConstraints.insets = new java.awt.Insets(1, 16, 10, 10);
-        getContentPane().add(formaPagamentoPreferencialLabel, gridBagConstraints);
-
-        formaPagamentoPreferencialComboBox.setModel(
-                new DefaultComboBoxModel(
-                        new String[] {"boleto", "cartao", "pix", "debito_automatico"}
-                )
-        );
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 5;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(1, 5, 10, 5);
-        getContentPane().add(formaPagamentoPreferencialComboBox, gridBagConstraints);
 
         seguradorasCadastradasLabel.setText("Seguradoras Cadastradas");
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -491,19 +475,18 @@ public class JanelaCadastroSeguradoras extends javax.swing.JFrame {
     private javax.swing.JTextField coberturaPercentualTextField;
     private javax.swing.JPanel comandosPanel;
     private javax.swing.JButton consultarSeguradora;
-    private javax.swing.JLabel formaPagamentoPreferencialLabel;
-    private javax.swing.JComboBox formaPagamentoPreferencialComboBox;
     private javax.swing.JButton inserirSeguradora;
     private javax.swing.JButton limparCampos;
     private javax.swing.JLabel nomeLabel;
     private javax.swing.JTextField nomeTextField;
-    private javax.swing.JPanel possuiAtendimento24hPanel;
+    private javax.swing.JLabel possuiAtendimento24hLabel;
     private javax.swing.ButtonGroup possuiAtendimento24hButtonGroup;
     private javax.swing.JRadioButton possuiAtendimento24hNaoRadioButton;
+    private javax.swing.JPanel possuiAtendimento24hPanel;
     private javax.swing.JRadioButton possuiAtendimento24hSimRadioButton;
-    private javax.swing.JLabel possuiAtendimento24hLabel;
+    private javax.swing.JComboBox formaPagamentoPreferencialComboBox;
     private javax.swing.JButton removerSeguradora;
-    private javax.swing.JLabel seguradorasCadastradasLabel;
     private javax.swing.JComboBox seguradorasCadastradasComboBox;
+    private javax.swing.JLabel seguradorasCadastradasLabel;
     // End of variables declaration//GEN-END:variables
 }

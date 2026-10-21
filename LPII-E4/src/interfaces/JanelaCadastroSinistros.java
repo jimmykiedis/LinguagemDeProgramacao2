@@ -497,8 +497,8 @@ public class JanelaCadastroSinistros extends javax.swing.JFrame {
     private javax.swing.JButton removerSinistro;
     private javax.swing.JLabel seguradoLabel;
     private javax.swing.JTextField seguradoTextField;
-    private javax.swing.JLabel sinistrosCadastradosLabel;
     private javax.swing.JComboBox sinistrosCadastradosComboBox;
+    private javax.swing.JLabel sinistrosCadastradosLabel;
     private javax.swing.JLabel telefoneLabel;
     private javax.swing.JTextField telefoneTextField;
     // End of variables declaration//GEN-END:variables

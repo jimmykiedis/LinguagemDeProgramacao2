@@ -21,28 +21,18 @@ import javax.swing.JTextField;
 
 public class JanelaCadastroOrçamentos extends JFrame {
     private final ControladorCadastroOrçamentos controlador;
-    private final JComboBox<Orçamento> orçamentos = new JComboBox<>();
-    private final JComboBox<Sinistro> sinistros = new JComboBox<>();
-    private final JComboBox<Seguradora> seguradoras = new JComboBox<>();
-    private final JComboBox<Orçamento.Status> status = new JComboBox<>(Orçamento.Status.values());
-    private final JTextField data = new JTextField(10);
-    private final JTextField valorTotal = new JTextField(12);
-    private final javax.swing.JCheckBox danosOcultos = new javax.swing.JCheckBox("Possui danos ocultos");
     private int idSinistroConsultado = -1;
     private String seguradoraConsultada;
 
     public JanelaCadastroOrçamentos(ControladorCadastroOrçamentos controlador) {
         this.controlador = controlador;
+        initComponents();
         setTitle("Cadastrar Orçamentos");
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setResizable(false);
-        setLayout(new BorderLayout(8, 8));
 
         sinistros.setModel(new DefaultComboBoxModel<>(Sinistro.getVisoes()));
         seguradoras.setModel(new DefaultComboBoxModel<>(Seguradora.getVisoes()));
         orçamentos.setModel(new DefaultComboBoxModel<>(Orçamento.getVisoes()));
-        add(criarCampos(), BorderLayout.CENTER);
-        add(criarComandos(), BorderLayout.SOUTH);
         atualizarLista(-1, null);
         limparCampos();
         pack();
@@ -50,39 +40,68 @@ public class JanelaCadastroOrçamentos extends JFrame {
         JanelaUtil.posicionarNoCanto(this);
     }
 
-    private JPanel criarCampos() {
-        JPanel painel = new JPanel(new GridBagLayout());
-        GridBagConstraints c = new GridBagConstraints();
-        c.insets = new Insets(4, 6, 4, 6);
-        c.anchor = GridBagConstraints.WEST;
-        adicionarCampo(painel, c, 0, "Orçamentos cadastrados", orçamentos);
-        adicionarCampo(painel, c, 1, "Sinistro", sinistros);
-        adicionarCampo(painel, c, 2, "Seguradora", seguradoras);
-        adicionarCampo(painel, c, 3, "Status", status);
-        adicionarCampo(painel, c, 4, "Data (AAAA-MM-DD)", data);
-        adicionarCampo(painel, c, 5, "Valor total (R$)", valorTotal);
-        adicionarCampo(painel, c, 6, "Danos ocultos", danosOcultos);
-        return painel;
-    }
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+        java.awt.GridBagConstraints c = new java.awt.GridBagConstraints();
+        orçamentosLabel = new javax.swing.JLabel();
+        sinistrosLabel = new javax.swing.JLabel();
+        seguradorasLabel = new javax.swing.JLabel();
+        statusLabel = new javax.swing.JLabel();
+        dataLabel = new javax.swing.JLabel();
+        valorTotalLabel = new javax.swing.JLabel();
+        danosOcultosLabel = new javax.swing.JLabel();
+        orçamentos = new javax.swing.JComboBox<>();
+        sinistros = new javax.swing.JComboBox<>();
+        seguradoras = new javax.swing.JComboBox<>();
+        status = new javax.swing.JComboBox<>(Orçamento.Status.values());
+        data = new javax.swing.JTextField(10);
+        valorTotal = new javax.swing.JTextField(12);
+        danosOcultos = new javax.swing.JCheckBox("Possui danos ocultos");
+        comandosPanel = new javax.swing.JPanel();
+        inserirButton = new javax.swing.JButton("Inserir");
+        consultarButton = new javax.swing.JButton("Consultar");
+        alterarButton = new javax.swing.JButton("Alterar");
+        removerButton = new javax.swing.JButton("Remover");
+        limparButton = new javax.swing.JButton("Limpar");
 
-    private void adicionarCampo(JPanel painel, GridBagConstraints c, int linha,
-            String rotulo, java.awt.Component campo) {
-        c.gridx = 0; c.gridy = linha; c.fill = GridBagConstraints.NONE; c.weightx = 0;
-        painel.add(new JLabel(rotulo), c);
-        c.gridx = 1; painel.add(campo, c);
-    }
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Cadastrar Orçamentos");
+        getContentPane().setLayout(new java.awt.BorderLayout(8, 8));
+        getContentPane().setLayout(new java.awt.GridBagLayout());
+        c.insets = new java.awt.Insets(4, 6, 4, 6);
+        c.anchor = java.awt.GridBagConstraints.WEST;
+        adicionarCampoGerado(getContentPane(), c, 0, orçamentosLabel, "Orçamentos cadastrados", orçamentos);
+        adicionarCampoGerado(getContentPane(), c, 1, sinistrosLabel, "Sinistro", sinistros);
+        adicionarCampoGerado(getContentPane(), c, 2, seguradorasLabel, "Seguradora", seguradoras);
+        adicionarCampoGerado(getContentPane(), c, 3, statusLabel, "Status", status);
+        adicionarCampoGerado(getContentPane(), c, 4, dataLabel, "Data (AAAA-MM-DD)", data);
+        adicionarCampoGerado(getContentPane(), c, 5, valorTotalLabel, "Valor total (R$)", valorTotal);
+        adicionarCampoGerado(getContentPane(), c, 6, danosOcultosLabel, "Danos ocultos", danosOcultos);
 
-    private JPanel criarComandos() {
-        JPanel painel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        JButton inserir = new JButton("Inserir"), consultar = new JButton("Consultar");
-        JButton alterar = new JButton("Alterar"), remover = new JButton("Remover"), limpar = new JButton("Limpar");
-        inserir.addActionListener(e -> inserir());
-        consultar.addActionListener(e -> consultar());
-        alterar.addActionListener(e -> alterar());
-        remover.addActionListener(e -> remover());
-        limpar.addActionListener(e -> limparCampos());
-        painel.add(inserir); painel.add(consultar); painel.add(alterar); painel.add(remover); painel.add(limpar);
-        return painel;
+        comandosPanel.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER));
+        comandosPanel.add(inserirButton);
+        comandosPanel.add(consultarButton);
+        comandosPanel.add(alterarButton);
+        comandosPanel.add(removerButton);
+        comandosPanel.add(limparButton);
+        c.gridx = 0; c.gridy = 7; c.gridwidth = 2; c.anchor = java.awt.GridBagConstraints.CENTER;
+        getContentPane().add(comandosPanel, c);
+        inserirButton.addActionListener(e -> inserir());
+        consultarButton.addActionListener(e -> consultar());
+        alterarButton.addActionListener(e -> alterar());
+        removerButton.addActionListener(e -> remover());
+        limparButton.addActionListener(e -> limparCampos());
+        pack();
+    }// </editor-fold>//GEN-END:initComponents
+
+    private void adicionarCampoGerado(java.awt.Container painel, java.awt.GridBagConstraints c,
+            int linha, javax.swing.JLabel rotulo, String texto, java.awt.Component campo) {
+        rotulo.setText(texto);
+        c.gridx = 0; c.gridy = linha; c.fill = java.awt.GridBagConstraints.NONE; c.weightx = 0;
+        painel.add(rotulo, c);
+        c.gridx = 1;
+        painel.add(campo, c);
     }
 
     private Orçamento obterInformado() {
@@ -181,4 +200,27 @@ public class JanelaCadastroOrçamentos extends JFrame {
     private void erro(String mensagem) {
         JOptionPane.showMessageDialog(this, mensagem, "Erro", JOptionPane.ERROR_MESSAGE);
     }
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel comandosPanel;
+    private javax.swing.JLabel danosOcultosLabel;
+    private javax.swing.JLabel dataLabel;
+    private javax.swing.JButton inserirButton;
+    private javax.swing.JButton consultarButton;
+    private javax.swing.JButton alterarButton;
+    private javax.swing.JButton removerButton;
+    private javax.swing.JButton limparButton;
+    private javax.swing.JLabel orçamentosLabel;
+    private javax.swing.JLabel seguradorasLabel;
+    private javax.swing.JLabel sinistrosLabel;
+    private javax.swing.JLabel statusLabel;
+    private javax.swing.JLabel valorTotalLabel;
+    private javax.swing.JComboBox<Orçamento> orçamentos;
+    private javax.swing.JComboBox<Sinistro> sinistros;
+    private javax.swing.JComboBox<Seguradora> seguradoras;
+    private javax.swing.JComboBox<Orçamento.Status> status;
+    private javax.swing.JTextField data;
+    private javax.swing.JTextField valorTotal;
+    private javax.swing.JCheckBox danosOcultos;
+    // End of variables declaration//GEN-END:variables
 }

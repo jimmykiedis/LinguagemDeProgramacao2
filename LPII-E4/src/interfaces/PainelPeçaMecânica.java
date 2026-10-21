@@ -11,22 +11,29 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 public class PainelPeçaMecânica extends JPanel {
-    private final JComboBox<PeçaMecânica.CategoriaMecânica> categoriaComboBox =
-            new JComboBox<>(PeçaMecânica.CategoriaMecânica.values());
-    private final JTextField prazoGarantiaTextField = new JTextField(10);
-    private final JCheckBox mecanicoProprioCheckBox = new JCheckBox("Sim");
-
     public PainelPeçaMecânica() {
-        setLayout(new GridBagLayout());
+        initComponents();
+    }
+
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
         GridBagConstraints c = new GridBagConstraints();
-        c.insets = new Insets(1, 5, 10, 5);
-        c.anchor = GridBagConstraints.WEST;
-        c.gridx = 0; c.gridy = 0; add(new JLabel("Categoria mecânica"), c);
-        c.gridx = 1; add(categoriaComboBox, c);
-        c.gridx = 0; c.gridy = 1; add(new JLabel("Prazo de garantia (dias)"), c);
-        c.gridx = 1; add(prazoGarantiaTextField, c);
-        c.gridx = 0; c.gridy = 2; add(new JLabel("Mecânico próprio"), c);
-        c.gridx = 1; add(mecanicoProprioCheckBox, c);
+        categoriaLabel = new JLabel("Categoria mecânica");
+        prazoGarantiaLabel = new JLabel("Prazo de garantia (dias)");
+        mecanicoProprioLabel = new JLabel("Mecânico próprio");
+        categoriaComboBox = new JComboBox<>(PeçaMecânica.CategoriaMecânica.values());
+        prazoGarantiaTextField = new JTextField(10);
+        mecanicoProprioCheckBox = new JCheckBox("Sim");
+        setLayout(new GridBagLayout());
+        c.insets = new Insets(1, 5, 10, 5); c.anchor = GridBagConstraints.WEST;
+        adicionar(c, 0, categoriaLabel, categoriaComboBox);
+        adicionar(c, 1, prazoGarantiaLabel, prazoGarantiaTextField);
+        adicionar(c, 2, mecanicoProprioLabel, mecanicoProprioCheckBox);
+    }// </editor-fold>//GEN-END:initComponents
+
+    private void adicionar(GridBagConstraints c, int linha, JLabel rotulo, java.awt.Component campo) {
+        c.gridx = 0; c.gridy = linha; add(rotulo, c); c.gridx = 1; add(campo, c);
     }
 
     public PeçaMecânica.CategoriaMecânica getCategoriaMecânica() {
@@ -41,4 +48,11 @@ public class PainelPeçaMecânica extends JPanel {
     public void setPrazoGarantia(Integer valor) { prazoGarantiaTextField.setText(valor == null ? "" : valor.toString()); }
     public void setMecanicoProprio(boolean valor) { mecanicoProprioCheckBox.setSelected(valor); }
     public void limparCampos() { categoriaComboBox.setSelectedIndex(-1); setPrazoGarantia(null); setMecanicoProprio(false); }
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private JComboBox<PeçaMecânica.CategoriaMecânica> categoriaComboBox;
+    private JTextField prazoGarantiaTextField;
+    private JCheckBox mecanicoProprioCheckBox;
+    private JLabel categoriaLabel, prazoGarantiaLabel, mecanicoProprioLabel;
+    // End of variables declaration//GEN-END:variables
 }

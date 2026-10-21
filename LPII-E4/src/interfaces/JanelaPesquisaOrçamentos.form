@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
+
 <Form version="1.3" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
   <Properties>
     <Property name="defaultCloseOperation" type="int" value="2"/>
-    <Property name="title" type="java.lang.String" value="Pesquisar Orçamentos"/>
+    <Property name="title" type="java.lang.String" value="Pesquisar Or&#xe7;amentos"/>
   </Properties>
   <SyntheticProperties>
     <SyntheticProperty name="formSizePolicy" type="int" value="1"/>
@@ -18,7 +19,118 @@
     <AuxValue name="FormSettings_listenerGenerationStyle" type="java.lang.Integer" value="0"/>
     <AuxValue name="FormSettings_variablesLocal" type="java.lang.Boolean" value="false"/>
     <AuxValue name="FormSettings_variablesModifier" type="java.lang.Integer" value="2"/>
+    <AuxValue name="designerSize" type="java.awt.Dimension" value="-84,-19,0,5,115,114,0,18,106,97,118,97,46,97,119,116,46,68,105,109,101,110,115,105,111,110,65,-114,-39,-41,-84,95,68,20,2,0,2,73,0,6,104,101,105,103,104,116,73,0,5,119,105,100,116,104,120,112,0,0,1,44,0,0,2,-113"/>
   </AuxValues>
+
   <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout"/>
-  <SubComponents/>
+  <SubComponents>
+    <Container class="javax.swing.JPanel" name="filtros">
+
+      <Layout class="org.netbeans.modules.form.compat2.layouts.DesignFlowLayout"/>
+      <SubComponents>
+        <Component class="javax.swing.JLabel" name="dataLabel">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Data m&#xed;nima do or&#xe7;amento (AAAA-MM-DD)"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JTextField" name="dataMinimaOr&#xe7;amento">
+          <Properties>
+            <Property name="columns" type="int" value="12"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="encomendaLabel">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Pe&#xe7;a sob encomenda"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JCheckBox" name="sobEncomenda">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Sim"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="atendimentoLabel">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Seguradora possui atendimento 24h"/>
+          </Properties>
+        </Component>
+        <Container class="javax.swing.JPanel" name="atendimento24h">
+
+          <Layout class="org.netbeans.modules.form.compat2.layouts.DesignFlowLayout"/>
+          <SubComponents>
+            <Component class="javax.swing.JRadioButton" name="atendimento24hSim">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Sim"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JRadioButton" name="atendimento24hNao">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="N&#xe3;o"/>
+              </Properties>
+            </Component>
+          </SubComponents>
+        </Container>
+        <Component class="javax.swing.JLabel" name="grauLabel">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Grau da monta"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JComboBox" name="grauMonta">
+        </Component>
+        <Component class="javax.swing.JLabel" name="prazoLabel">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Prazo m&#xed;nimo de garantia (Pe&#xe7;a Mec&#xe2;nica)"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JTextField" name="prazoM&#xed;nimoGarantia">
+          <Properties>
+            <Property name="columns" type="int" value="12"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="corLabel">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Cor (Pe&#xe7;a Acess&#xf3;rios)"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JTextField" name="corAcess&#xf3;rio">
+          <Properties>
+            <Property name="columns" type="int" value="12"/>
+          </Properties>
+        </Component>
+      </SubComponents>
+    </Container>
+    <Container class="javax.swing.JScrollPane" name="resultadosScrollPane">
+
+      <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
+      <SubComponents>
+        <Component class="javax.swing.JTextArea" name="resultados">
+          <Properties>
+            <Property name="editable" type="boolean" value="false"/>
+            <Property name="lineWrap" type="boolean" value="true"/>
+            <Property name="wrapStyleWord" type="boolean" value="true"/>
+          </Properties>
+        </Component>
+      </SubComponents>
+    </Container>
+    <Container class="javax.swing.JPanel" name="botoes">
+
+      <Layout class="org.netbeans.modules.form.compat2.layouts.DesignFlowLayout"/>
+      <SubComponents>
+        <Component class="javax.swing.JButton" name="pesquisarButton">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Pesquisar"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JButton" name="limparButton">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Limpar Filtros"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JButton" name="limparPesquisaButton">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Limpar Pesquisa"/>
+          </Properties>
+        </Component>
+      </SubComponents>
+    </Container>
+  </SubComponents>
 </Form>

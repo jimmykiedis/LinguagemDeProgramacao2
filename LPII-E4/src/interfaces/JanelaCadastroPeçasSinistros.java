@@ -139,7 +139,7 @@ public class JanelaCadastroPeçasSinistros extends javax.swing.JFrame {
         pecasSinistroList = new javax.swing.JList();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Cadastro de Peça por Sinistro");
+        setTitle("Cadastro de Peças por Sinistro");
         setMinimumSize(new java.awt.Dimension(680, 430));
         setPreferredSize(new java.awt.Dimension(760, 520));
         getContentPane().setLayout(new java.awt.GridBagLayout());
@@ -277,11 +277,11 @@ public class JanelaCadastroPeçasSinistros extends javax.swing.JFrame {
     private javax.swing.JPanel comandosPanel;
     private javax.swing.JButton inserirPeça;
     private javax.swing.JButton limparCampos;
+    private javax.swing.JComboBox pecasCadastradasComboBox;
     private javax.swing.JLabel pecasCadastradasLabel;
     private javax.swing.JLabel pecasSinistroLabel;
     private javax.swing.JList pecasSinistroList;
     private javax.swing.JScrollPane pecasSinistroScrollPane;
-    private javax.swing.JComboBox pecasCadastradasComboBox;
     private javax.swing.JButton removerPeça;
     private javax.swing.JLabel sinistroLabel;
     private javax.swing.JTextField sinistroTextField;
