@@ -9,7 +9,7 @@ import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.sql.Date;
+import java.sql.Timestamp;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -55,8 +55,13 @@ public class JanelaCadastroOrçamentos extends JFrame {
         sinistros = new javax.swing.JComboBox<>();
         seguradoras = new javax.swing.JComboBox<>();
         status = new javax.swing.JComboBox<>(Orçamento.Status.values());
-        data = new javax.swing.JTextField(10);
-        valorTotal = new javax.swing.JTextField(12);
+        data = new javax.swing.JTextField(19);
+        data.setEditable(false);
+        valorTotal = new javax.swing.JTextField(20);
+        java.awt.Dimension tamanhoValorTotal = valorTotal.getPreferredSize();
+        tamanhoValorTotal.width = 220;
+        valorTotal.setPreferredSize(tamanhoValorTotal);
+        valorTotal.setMinimumSize(tamanhoValorTotal);
         danosOcultos = new javax.swing.JCheckBox("Possui danos ocultos");
         comandosPanel = new javax.swing.JPanel();
         inserirButton = new javax.swing.JButton("Inserir");
@@ -75,7 +80,7 @@ public class JanelaCadastroOrçamentos extends JFrame {
         adicionarCampoGerado(getContentPane(), c, 1, sinistrosLabel, "Sinistro", sinistros);
         adicionarCampoGerado(getContentPane(), c, 2, seguradorasLabel, "Seguradora", seguradoras);
         adicionarCampoGerado(getContentPane(), c, 3, statusLabel, "Status", status);
-        adicionarCampoGerado(getContentPane(), c, 4, dataLabel, "Data (AAAA-MM-DD)", data);
+        adicionarCampoGerado(getContentPane(), c, 4, dataLabel, "Data e hora", data);
         adicionarCampoGerado(getContentPane(), c, 5, valorTotalLabel, "Valor total (R$)", valorTotal);
         adicionarCampoGerado(getContentPane(), c, 6, danosOcultosLabel, "Danos ocultos", danosOcultos);
 
@@ -97,10 +102,20 @@ public class JanelaCadastroOrçamentos extends JFrame {
 
     private void adicionarCampoGerado(java.awt.Container painel, java.awt.GridBagConstraints c,
             int linha, javax.swing.JLabel rotulo, String texto, java.awt.Component campo) {
+        adicionarCampoGerado(painel, c, linha, rotulo, texto, campo,
+                campo != status && campo != valorTotal);
+    }
+
+    private void adicionarCampoGerado(java.awt.Container painel, java.awt.GridBagConstraints c,
+            int linha, javax.swing.JLabel rotulo, String texto, java.awt.Component campo,
+            boolean expandir) {
         rotulo.setText(texto);
         c.gridx = 0; c.gridy = linha; c.fill = java.awt.GridBagConstraints.NONE; c.weightx = 0;
         painel.add(rotulo, c);
+        // Mantém os campos estáveis quando um novo modelo é carregado ou limpo.
         c.gridx = 1;
+        c.fill = expandir ? java.awt.GridBagConstraints.HORIZONTAL : java.awt.GridBagConstraints.NONE;
+        c.weightx = expandir ? 1.0 : 0;
         painel.add(campo, c);
     }
 
@@ -110,7 +125,8 @@ public class JanelaCadastroOrçamentos extends JFrame {
         Orçamento.Status statusSelecionado = (Orçamento.Status) status.getSelectedItem();
         if (sinistro == null || seguradora == null || statusSelecionado == null)
             throw new IllegalArgumentException("Selecione o sinistro, a seguradora e o status.");
-        Date dataInformada = Date.valueOf(data.getText().trim());
+        Timestamp dataInformada = new Timestamp(System.currentTimeMillis());
+        data.setText(dataInformada.toString());
         double valor = Double.parseDouble(valorTotal.getText().trim().replace(',', '.'));
         if (valor < 0) throw new IllegalArgumentException("O valor total não pode ser negativo.");
         return new Orçamento(statusSelecionado, dataInformada, sinistro, seguradora, valor, danosOcultos.isSelected());
@@ -124,7 +140,7 @@ public class JanelaCadastroOrçamentos extends JFrame {
             atualizarLista(o.getSinistro().getId(), o.getSeguradora().getNome());
             limparCampos();
         } catch (IllegalArgumentException e) {
-            erro("Informe uma data válida (AAAA-MM-DD), um valor válido e os campos obrigatórios.");
+            erro("Informe um valor válido e preencha os campos obrigatórios.");
         }
     }
 
@@ -154,7 +170,7 @@ public class JanelaCadastroOrçamentos extends JFrame {
             atualizarLista(idSinistroConsultado, seguradoraConsultada);
             limparCampos();
         } catch (IllegalArgumentException e) {
-            erro("Informe uma data válida (AAAA-MM-DD), um valor válido e os campos obrigatórios.");
+            erro("Informe um valor válido e preencha os campos obrigatórios.");
         }
     }
 
@@ -194,7 +210,8 @@ public class JanelaCadastroOrçamentos extends JFrame {
     private void limparCampos() {
         idSinistroConsultado = -1; seguradoraConsultada = null;
         sinistros.setSelectedIndex(-1); seguradoras.setSelectedIndex(-1); status.setSelectedIndex(-1);
-        data.setText(""); valorTotal.setText(""); danosOcultos.setSelected(false);
+        data.setText(new Timestamp(System.currentTimeMillis()).toString());
+        valorTotal.setText(""); danosOcultos.setSelected(false);
     }
 
     private void erro(String mensagem) {

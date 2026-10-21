@@ -1,9 +1,9 @@
 package entidades;
 
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import persistência.BD;
 
@@ -23,13 +23,13 @@ public class Orçamento {
     }
 
     private Status status;
-    private Date data;
+    private Timestamp data;
     private Sinistro sinistro;
     private Seguradora seguradora;
     private double valorTotal;
     private boolean possuiDanosOcultos;
 
-    public Orçamento(Status status, Date data, Sinistro sinistro, Seguradora seguradora,
+    public Orçamento(Status status, Timestamp data, Sinistro sinistro, Seguradora seguradora,
             double valorTotal, boolean possuiDanosOcultos) {
         this.status = status;
         this.data = data;
@@ -40,14 +40,14 @@ public class Orçamento {
     }
 
     public Status getStatus() { return status; }
-    public Date getData() { return data; }
+    public Timestamp getData() { return data; }
     public Sinistro getSinistro() { return sinistro; }
     public Seguradora getSeguradora() { return seguradora; }
     public double getValorTotal() { return valorTotal; }
     public boolean getPossuiDanosOcultos() { return possuiDanosOcultos; }
     public boolean isPossuiDanosOcultos() { return possuiDanosOcultos; }
     public void setStatus(Status status) { this.status = status; }
-    public void setData(Date data) { this.data = data; }
+    public void setData(Timestamp data) { this.data = data; }
     public void setValorTotal(double valorTotal) { this.valorTotal = valorTotal; }
     public void setPossuiDanosOcultos(boolean possuiDanosOcultos) { this.possuiDanosOcultos = possuiDanosOcultos; }
 
@@ -70,7 +70,7 @@ public class Orçamento {
     private static Orçamento criar(ResultSet rs) throws SQLException {
         int idSinistro = rs.getInt("sinistro");
         String nomeSeguradora = rs.getString("seguradora");
-        return new Orçamento(Status.fromTexto(rs.getString("status")), rs.getDate("data"),
+        return new Orçamento(Status.fromTexto(rs.getString("status")), rs.getTimestamp("data"),
                 Sinistro.buscarSinistro(idSinistro), Seguradora.buscarSeguradora(nomeSeguradora),
                 rs.getDouble("valor_total"), rs.getBoolean("possui_danos_ocultos"));
     }
@@ -105,7 +105,7 @@ public class Orçamento {
     public static String inserirOrçamento(Orçamento o) {
         String sql = "INSERT INTO Orçamentos (data, sinistro, seguradora, status, valor_total, possui_danos_ocultos) VALUES (?, ?, ?, ?, ?, ?)";
         try (PreparedStatement ps = BD.conexao.prepareStatement(sql)) {
-            ps.setDate(1, o.data); ps.setInt(2, o.sinistro.getId()); ps.setString(3, o.seguradora.getNome());
+            ps.setTimestamp(1, o.data); ps.setInt(2, o.sinistro.getId()); ps.setString(3, o.seguradora.getNome());
             ps.setString(4, o.status.toString()); ps.setDouble(5, o.valorTotal); ps.setBoolean(6, o.possuiDanosOcultos);
             ps.executeUpdate(); return null;
         } catch (SQLException e) { e.printStackTrace(); return "Erro ao inserir orçamento no banco de dados"; }
@@ -114,7 +114,7 @@ public class Orçamento {
     public static String alterarOrçamento(Orçamento o) {
         String sql = "UPDATE Orçamentos SET data = ?, status = ?, valor_total = ?, possui_danos_ocultos = ? WHERE sinistro = ? AND seguradora = ?";
         try (PreparedStatement ps = BD.conexao.prepareStatement(sql)) {
-            ps.setDate(1, o.data); ps.setString(2, o.status.toString()); ps.setDouble(3, o.valorTotal);
+            ps.setTimestamp(1, o.data); ps.setString(2, o.status.toString()); ps.setDouble(3, o.valorTotal);
             ps.setBoolean(4, o.possuiDanosOcultos); ps.setInt(5, o.sinistro.getId()); ps.setString(6, o.seguradora.getNome());
             return ps.executeUpdate() == 1 ? null : "Orçamento não cadastrado";
         } catch (SQLException e) { e.printStackTrace(); return "Erro ao alterar orçamento no banco de dados"; }
@@ -128,7 +128,7 @@ public class Orçamento {
     }
 
     /** Pesquisa orçamento e entidades relacionadas com um filtro específico por entidade. */
-    public static ArrayList<Orçamento> pesquisarOrçamentos(Date dataMinima,
+    public static ArrayList<Orçamento> pesquisarOrçamentos(Timestamp dataMinima,
             Boolean sobEncomenda, Boolean atendimento24h, Sinistro.GrauMonta grauMonta,
             Integer prazoGarantiaMinimo, String corAcessório) {
         StringBuilder sql = new StringBuilder("SELECT DISTINCT o.sinistro, o.seguradora "
@@ -144,7 +144,7 @@ public class Orçamento {
         ArrayList<Orçamento> resultado = new ArrayList<>();
         try (PreparedStatement ps = BD.conexao.prepareStatement(sql.toString())) {
             int i = 0;
-            if (dataMinima != null) ps.setDate(++i, dataMinima);
+            if (dataMinima != null) ps.setTimestamp(++i, dataMinima);
             if (atendimento24h != null) ps.setBoolean(++i, atendimento24h);
             if (grauMonta != null) ps.setString(++i, grauMonta.toString());
             if (sobEncomenda != null) ps.setBoolean(++i, sobEncomenda);

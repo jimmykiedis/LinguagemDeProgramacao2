@@ -30,7 +30,7 @@
       <SubComponents>
         <Component class="javax.swing.JLabel" name="dataLabel">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Data m&#xed;nima do or&#xe7;amento (AAAA-MM-DD)"/>
+            <Property name="text" type="java.lang.String" value="Data m&#xed;nima (AAAA-MM-DD HH:MM:SS)"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="dataMinimaOr&#xe7;amento">
@@ -76,26 +76,14 @@
         </Component>
         <Component class="javax.swing.JComboBox" name="grauMonta">
         </Component>
-        <Component class="javax.swing.JLabel" name="prazoLabel">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Prazo m&#xed;nimo de garantia (Pe&#xe7;a Mec&#xe2;nica)"/>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JTextField" name="prazoM&#xed;nimoGarantia">
-          <Properties>
-            <Property name="columns" type="int" value="12"/>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JLabel" name="corLabel">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Cor (Pe&#xe7;a Acess&#xf3;rios)"/>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JTextField" name="corAcess&#xf3;rio">
-          <Properties>
-            <Property name="columns" type="int" value="12"/>
-          </Properties>
-        </Component>
+        <Container class="javax.swing.JPanel" name="abasAlinhadasPanel">
+          <Layout class="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout"/>
+          <SubComponents>
+            <Container class="javax.swing.JTabbedPane" name="subclassesTabbedPane">
+              <Layout class="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout"/>
+            </Container>
+          </SubComponents>
+        </Container>
       </SubComponents>
     </Container>
     <Container class="javax.swing.JScrollPane" name="resultadosScrollPane">

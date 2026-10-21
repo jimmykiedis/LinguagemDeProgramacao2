@@ -8,7 +8,7 @@ import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import javax.swing.JButton;
 import javax.swing.ButtonGroup;
@@ -20,22 +20,11 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
+import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 public class JanelaPesquisaOrçamentos extends JFrame {
-    private JTextField dataMinimaOrçamento;
-    private JCheckBox sobEncomenda;
-    private JRadioButton atendimento24hSim, atendimento24hNao;
-    private ButtonGroup atendimento24hGrupo;
-    private JComboBox<Sinistro.GrauMonta> grauMonta;
-    private JTextField prazoMínimoGarantia, corAcessório;
-    private JTextArea resultados;
-    private JPanel filtros, atendimento24h, botoes;
-    private JLabel dataLabel, encomendaLabel, atendimentoLabel, grauLabel, prazoLabel, corLabel;
-    private JButton pesquisarButton, limparButton, limparPesquisaButton;
-    private JScrollPane resultadosScrollPane;
-
     public JanelaPesquisaOrçamentos() {
         initComponents();
         limparFiltros();
@@ -59,7 +48,7 @@ public class JanelaPesquisaOrçamentos extends JFrame {
         GridBagConstraints c = new GridBagConstraints();
         c.insets = new Insets(4, 6, 4, 6);
         c.anchor = GridBagConstraints.WEST;
-        dataLabel = new JLabel("Data mínima do orçamento (AAAA-MM-DD)");
+        dataLabel = new JLabel("Data mínima (AAAA-MM-DD HH:MM:SS)");
         encomendaLabel = new JLabel("Peça sob encomenda");
         atendimentoLabel = new JLabel("Seguradora possui atendimento 24h");
         grauLabel = new JLabel("Grau da monta");
@@ -81,8 +70,20 @@ public class JanelaPesquisaOrçamentos extends JFrame {
         atendimento24h.add(atendimento24hNao);
         adicionar(filtros, c, 2, atendimentoLabel.getText(), atendimento24h);
         adicionar(filtros, c, 3, grauLabel.getText(), grauMonta);
-        adicionar(filtros, c, 4, prazoLabel.getText(), prazoMínimoGarantia);
-        adicionar(filtros, c, 5, corLabel.getText(), corAcessório);
+
+        painelMecânica = new JPanel(new GridBagLayout());
+        painelAcessórios = new JPanel(new GridBagLayout());
+        subclassesTabbedPane = new JTabbedPane();
+        adicionar(painelMecânica, c, 0, prazoLabel.getText(), prazoMínimoGarantia);
+        adicionar(painelAcessórios, c, 0, corLabel.getText(), corAcessório);
+        subclassesTabbedPane.addTab("Peça mecânica", painelMecânica);
+        subclassesTabbedPane.addTab("Peça de acessórios", painelAcessórios);
+        abasAlinhadasPanel = new JPanel(new GridBagLayout());
+        abasAlinhadasPanel.setBorder(javax.swing.BorderFactory.createEmptyBorder(4, 4, 4, 4));
+        abasAlinhadasPanel.add(subclassesTabbedPane);
+        c.gridx = 0; c.gridy = 4; c.gridwidth = 2;
+        c.fill = GridBagConstraints.HORIZONTAL; c.weightx = 1.0;
+        filtros.add(abasAlinhadasPanel, c);
 
         resultados.setEditable(false);
         resultados.setLineWrap(true);
@@ -139,7 +140,7 @@ public class JanelaPesquisaOrçamentos extends JFrame {
     private void pesquisar() {
         try {
             String textoData = dataMinimaOrçamento.getText().trim();
-            Date data = textoData.isEmpty() ? null : Date.valueOf(textoData);
+            Timestamp data = textoData.isEmpty() ? null : obterTimestamp(textoData);
             Boolean atendimentoSelecionado = atendimento24hSim.isSelected() ? Boolean.TRUE
                     : atendimento24hNao.isSelected() ? Boolean.FALSE : null;
             Sinistro.GrauMonta grau = (Sinistro.GrauMonta) grauMonta.getSelectedItem();
@@ -157,8 +158,16 @@ public class JanelaPesquisaOrçamentos extends JFrame {
             }
         } catch (IllegalArgumentException e) {
             JOptionPane.showMessageDialog(this,
-                    e.getMessage() == null ? "Informe a data no formato AAAA-MM-DD." : e.getMessage(),
+                    e.getMessage() == null ? "Informe a data no formato AAAA-MM-DD HH:MM:SS." : e.getMessage(),
                     "Filtro inválido", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    private Timestamp obterTimestamp(String texto) {
+        try {
+            return Timestamp.valueOf(texto.length() == 10 ? texto + " 00:00:00" : texto);
+        } catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException("Informe a data no formato AAAA-MM-DD HH:MM:SS.");
         }
     }
 
@@ -169,6 +178,22 @@ public class JanelaPesquisaOrçamentos extends JFrame {
         grauMonta.setSelectedIndex(-1);
         prazoMínimoGarantia.setText("");
         corAcessório.setText("");
+        subclassesTabbedPane.setSelectedIndex(0);
     }
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private JTextField dataMinimaOrçamento;
+    private JCheckBox sobEncomenda;
+    private JRadioButton atendimento24hSim, atendimento24hNao;
+    private ButtonGroup atendimento24hGrupo;
+    private JComboBox<Sinistro.GrauMonta> grauMonta;
+    private JTextField prazoMínimoGarantia, corAcessório;
+    private JTextArea resultados;
+    private JPanel filtros, atendimento24h, botoes, painelMecânica, painelAcessórios, abasAlinhadasPanel;
+    private JTabbedPane subclassesTabbedPane;
+    private JLabel dataLabel, encomendaLabel, atendimentoLabel, grauLabel, prazoLabel, corLabel;
+    private JButton pesquisarButton, limparButton, limparPesquisaButton;
+    private JScrollPane resultadosScrollPane;
+    // End of variables declaration//GEN-END:variables
 
 }

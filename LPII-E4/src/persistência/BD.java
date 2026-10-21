@@ -69,12 +69,22 @@ public class BD {
     private static void atualizarEsquemaEtapa4() throws SQLException {
         try (Statement comando = conexao.createStatement()) {
             comando.executeUpdate("CREATE TABLE IF NOT EXISTS `Orçamentos` ("
-                    + "data DATE NOT NULL, sinistro INT NOT NULL, seguradora VARCHAR(50) NOT NULL, "
+                    + "data TIMESTAMP NOT NULL, sinistro INT NOT NULL, seguradora VARCHAR(50) NOT NULL, "
                     + "status VARCHAR(10) NOT NULL, valor_total DECIMAL(10,2) NOT NULL, "
                     + "possui_danos_ocultos BOOLEAN NOT NULL DEFAULT FALSE, "
                     + "PRIMARY KEY (sinistro, seguradora), "
                     + "FOREIGN KEY (sinistro) REFERENCES sinistros(id), "
                     + "FOREIGN KEY (seguradora) REFERENCES seguradoras(nome))");
+            // Converte a coluna criada na etapa anterior para preservar também hora, minuto e segundo.
+            try (PreparedStatement consulta = conexao.prepareStatement(
+                    "SELECT DATA_TYPE FROM INFORMATION_SCHEMA.COLUMNS "
+                    + "WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'Orçamentos' AND COLUMN_NAME = 'data'")) {
+                try (ResultSet resultado = consulta.executeQuery()) {
+                    if (resultado.next() && "date".equalsIgnoreCase(resultado.getString(1))) {
+                        comando.executeUpdate("ALTER TABLE `Orçamentos` MODIFY COLUMN data TIMESTAMP NOT NULL");
+                    }
+                }
+            }
         }
     }
 
