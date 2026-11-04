@@ -33,136 +33,243 @@ public class JanelaPesquisaOrçamentos extends JFrame {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        java.awt.GridBagConstraints gridBagConstraints;
+
+        atendimento24hGrupo = new javax.swing.ButtonGroup();
+        filtros = new javax.swing.JPanel();
+        painelOrçamento = new javax.swing.JPanel();
+        dataLabel = new javax.swing.JLabel();
+        dataMinimaOrçamento = new javax.swing.JTextField();
+        painelSeguradora = new javax.swing.JPanel();
+        atendimentoLabel = new javax.swing.JLabel();
+        atendimento24h = new javax.swing.JPanel();
+        atendimento24hSim = new javax.swing.JRadioButton();
+        atendimento24hNao = new javax.swing.JRadioButton();
+        painelSinistro = new javax.swing.JPanel();
+        grauLabel = new javax.swing.JLabel();
+        grauMonta = new javax.swing.JComboBox();
+        grauMonta.setModel(new javax.swing.DefaultComboBoxModel<>(Sinistro.GrauMonta.values()));
+        painelPeças = new javax.swing.JPanel();
+        marcaLabel = new javax.swing.JLabel();
+        marcaPeça = new javax.swing.JComboBox();
+        marcaPeça.setModel(new javax.swing.DefaultComboBoxModel<>(Peça.MarcaPeça.values()));
+        todosObjetosCheckBox = new javax.swing.JCheckBox();
+        subclassesTabbedPane = new javax.swing.JTabbedPane();
+        painelMecânica = new javax.swing.JPanel();
+        prazoLabel = new javax.swing.JLabel();
+        prazoMínimoGarantia = new javax.swing.JTextField();
+        painelAcessórios = new javax.swing.JPanel();
+        corLabel = new javax.swing.JLabel();
+        corAcessório = new javax.swing.JTextField();
+        resultadosScrollPane = new javax.swing.JScrollPane();
+        resultados = new javax.swing.JTextArea();
+        botoes = new javax.swing.JPanel();
+        pesquisarButton = new javax.swing.JButton();
+        limparButton = new javax.swing.JButton();
+        limparPesquisaButton = new javax.swing.JButton();
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Pesquisar Orçamentos");
-        setLayout(new BorderLayout(8, 8));
-        construirInterface();
-        pack();
-    }// </editor-fold>//GEN-END:initComponents
+        setMinimumSize(new java.awt.Dimension(600, 800));
+        setPreferredSize(new java.awt.Dimension(600, 810));
+        getContentPane().setLayout(new java.awt.GridBagLayout());
 
-    private void construirInterface() {
-        filtros = new JPanel(new GridBagLayout());
-        GridBagConstraints c = new GridBagConstraints();
-        c.insets = new Insets(4, 6, 4, 6);
-        c.anchor = GridBagConstraints.NORTHWEST;
-        c.fill = GridBagConstraints.HORIZONTAL;
-        c.weightx = 1.0;
+        filtros.setLayout(new java.awt.GridBagLayout());
 
-        dataLabel = new JLabel("Data mínima (AAAA-MM-DD HH:MM:SS)");
-        marcaLabel = new JLabel("Marca");
-        atendimentoLabel = new JLabel("Seguradora possui atendimento 24h");
-        grauLabel = new JLabel("Grau da monta");
-        prazoLabel = new JLabel("Prazo mínimo de garantia (Peça Mecânica)");
-        corLabel = new JLabel("Cor (Peça Acessórios)");
-        dataMinimaOrçamento = new JTextField(12);
-        marcaPeça = new JComboBox<>(Peça.MarcaPeça.values());
-        atendimento24hSim = new JRadioButton("Sim"); atendimento24hNao = new JRadioButton("Não");
-        atendimento24hGrupo = new ButtonGroup();
-        grauMonta = new JComboBox<>(Sinistro.GrauMonta.values());
-        prazoMínimoGarantia = new JTextField(12); corAcessório = new JTextField(12);
-        resultados = new JTextArea(18, 70);
+        painelOrçamento.setBorder(javax.swing.BorderFactory.createTitledBorder("Filtro de Orçamento"));
+        painelOrçamento.setLayout(new java.awt.GridBagLayout());
 
-        painelOrçamento = criarPainelFiltro("Filtro de Orçamento");
-        GridBagConstraints orçamentoC = criarConstraintsInternos();
-        adicionar(painelOrçamento, orçamentoC, 0, dataLabel.getText(), dataMinimaOrçamento);
+        dataLabel.setText("Data mínima (AAAA-MM-DD HH:MM:SS)");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        painelOrçamento.add(dataLabel, gridBagConstraints);
 
-        painelSeguradora = criarPainelFiltro("Filtro de Seguradora");
-        atendimento24h = new JPanel(new FlowLayout(FlowLayout.LEFT, 4, 0));
-        atendimento24hGrupo.add(atendimento24hSim);
-        atendimento24hGrupo.add(atendimento24hNao);
+        dataMinimaOrçamento.setColumns(16);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        painelOrçamento.add(dataMinimaOrçamento, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 1.0;
+        filtros.add(painelOrçamento, gridBagConstraints);
+
+        painelSeguradora.setBorder(javax.swing.BorderFactory.createTitledBorder("Filtro de Seguradora"));
+        painelSeguradora.setLayout(new java.awt.GridBagLayout());
+
+        atendimentoLabel.setText("Seguradora possui atendimento 24h");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        painelSeguradora.add(atendimentoLabel, gridBagConstraints);
+
+        atendimento24h.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
+
+        atendimento24hSim.setText("Sim");
         atendimento24h.add(atendimento24hSim);
+
+        atendimento24hNao.setText("Não");
         atendimento24h.add(atendimento24hNao);
-        GridBagConstraints seguradoraC = criarConstraintsInternos();
-        adicionar(painelSeguradora, seguradoraC, 0, atendimentoLabel.getText(), atendimento24h);
 
-        painelSinistro = criarPainelFiltro("Filtro de Sinistro");
-        GridBagConstraints sinistroC = criarConstraintsInternos();
-        adicionar(painelSinistro, sinistroC, 0, grauLabel.getText(), grauMonta);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        painelSeguradora.add(atendimento24h, gridBagConstraints);
 
-        painelPeças = criarPainelFiltro("Filtros de Peças");
-        GridBagConstraints peçasC = criarConstraintsInternos();
-        adicionar(painelPeças, peçasC, 0, marcaLabel.getText(), marcaPeça);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 1.0;
+        filtros.add(painelSeguradora, gridBagConstraints);
 
-        painelMecânica = new JPanel(new GridBagLayout());
-        painelAcessórios = new JPanel(new GridBagLayout());
-        subclassesTabbedPane = new JTabbedPane();
-        GridBagConstraints subclasseC = criarConstraintsInternos();
-        adicionar(painelMecânica, subclasseC, 0, prazoLabel.getText(), prazoMínimoGarantia);
-        subclasseC = criarConstraintsInternos();
-        adicionar(painelAcessórios, subclasseC, 0, corLabel.getText(), corAcessório);
+        painelSinistro.setBorder(javax.swing.BorderFactory.createTitledBorder("Filtro de Sinistro"));
+        painelSinistro.setLayout(new java.awt.GridBagLayout());
+
+        grauLabel.setText("Grau da monta");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        painelSinistro.add(grauLabel, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        painelSinistro.add(grauMonta, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 1.0;
+        filtros.add(painelSinistro, gridBagConstraints);
+
+        painelPeças.setBorder(javax.swing.BorderFactory.createTitledBorder("Filtros de Peças"));
+        painelPeças.setLayout(new java.awt.GridBagLayout());
+
+        marcaLabel.setText("Marca da peça");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        painelPeças.add(marcaLabel, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        painelPeças.add(marcaPeça, gridBagConstraints);
+
+        todosObjetosCheckBox.setText("Todos os objetos do sinistro");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        painelPeças.add(todosObjetosCheckBox, gridBagConstraints);
+
+        painelMecânica.setLayout(new java.awt.GridBagLayout());
+
+        prazoLabel.setText("Prazo mínimo de garantia");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        painelMecânica.add(prazoLabel, gridBagConstraints);
+
+        prazoMínimoGarantia.setColumns(12);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        painelMecânica.add(prazoMínimoGarantia, gridBagConstraints);
+
         subclassesTabbedPane.addTab("Peça mecânica", painelMecânica);
-        subclassesTabbedPane.addTab("Peça de acessórios", painelAcessórios);
-        todosObjetosCheckBox = new javax.swing.JCheckBox("Todos os objetos do sinistro");
-        GridBagConstraints abrangenciaC = criarConstraintsInternos();
-        abrangenciaC.gridy = 1;
-        abrangenciaC.gridwidth = 2;
-        painelPeças.add(todosObjetosCheckBox, abrangenciaC);
-        abasAlinhadasPanel = new JPanel(new BorderLayout());
-        abasAlinhadasPanel.add(subclassesTabbedPane, BorderLayout.CENTER);
-        peçasC = criarConstraintsInternos();
-        peçasC.gridy = 2;
-        peçasC.gridwidth = 2;
-        peçasC.fill = GridBagConstraints.BOTH;
-        peçasC.weightx = 1.0;
-        peçasC.weighty = 1.0;
-        painelPeças.add(abasAlinhadasPanel, peçasC);
 
-        adicionarPainel(filtros, c, 0, painelOrçamento);
-        adicionarPainel(filtros, c, 1, painelSeguradora);
-        adicionarPainel(filtros, c, 2, painelSinistro);
-        adicionarPainel(filtros, c, 3, painelPeças);
+        painelAcessórios.setLayout(new java.awt.GridBagLayout());
+
+        corLabel.setText("Cor");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        painelAcessórios.add(corLabel, gridBagConstraints);
+
+        corAcessório.setColumns(12);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        painelAcessórios.add(corAcessório, gridBagConstraints);
+
+        subclassesTabbedPane.addTab("Peça de acessórios", painelAcessórios);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        painelPeças.add(subclassesTabbedPane, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        filtros.add(painelPeças, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(4, 6, 4, 6);
+        getContentPane().add(filtros, gridBagConstraints);
 
         resultados.setEditable(false);
         resultados.setLineWrap(true);
         resultados.setWrapStyleWord(true);
-        botoes = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        pesquisarButton = new JButton("Pesquisar");
-        limparButton = new JButton("Limpar Filtros");
-        limparPesquisaButton = new JButton("Limpar Pesquisa");
-        pesquisarButton.addActionListener(e -> pesquisar());
-        limparButton.addActionListener(e -> limparFiltros());
-        limparPesquisaButton.addActionListener(e -> resultados.setText(""));
-        botoes.add(pesquisarButton); botoes.add(limparButton); botoes.add(limparPesquisaButton);
-        resultadosScrollPane = new JScrollPane(resultados);
-        add(filtros, BorderLayout.NORTH);
-        add(resultadosScrollPane, BorderLayout.CENTER);
-        add(botoes, BorderLayout.SOUTH);
-    }
+        resultadosScrollPane.setViewportView(resultados);
 
-    private void adicionar(JPanel painel, GridBagConstraints c, int linha,
-            String rotulo, java.awt.Component componente) {
-        c.gridy = linha;
-        c.gridx = 0;
-        c.fill = GridBagConstraints.NONE;
-        c.weightx = 0;
-        painel.add(new JLabel(rotulo), c);
-        c.gridx = 1;
-        painel.add(componente, c);
-    }
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(4, 6, 4, 6);
+        getContentPane().add(resultadosScrollPane, gridBagConstraints);
 
-    private JPanel criarPainelFiltro(String título) {
-        JPanel painel = new JPanel(new GridBagLayout());
-        painel.setBorder(javax.swing.BorderFactory.createTitledBorder(título));
-        return painel;
-    }
+        pesquisarButton.setText("Pesquisar");
+        botoes.add(pesquisarButton);
 
-    private GridBagConstraints criarConstraintsInternos() {
-        GridBagConstraints c = new GridBagConstraints();
-        c.insets = new Insets(4, 6, 4, 6);
-        c.anchor = GridBagConstraints.WEST;
-        return c;
-    }
+        limparButton.setText("Limpar Filtros");
+        botoes.add(limparButton);
 
-    private void adicionarPainel(JPanel painel, GridBagConstraints c, int linha,
-            JPanel painelFiltro) {
-        c.gridx = 0;
-        c.gridy = linha;
-        c.gridwidth = 1;
-        c.fill = GridBagConstraints.HORIZONTAL;
-        c.weightx = 1.0;
-        c.weighty = 0;
-        painel.add(painelFiltro, c);
-    }
+        limparPesquisaButton.setText("Limpar Pesquisa");
+        botoes.add(limparPesquisaButton);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(4, 6, 4, 6);
+        getContentPane().add(botoes, gridBagConstraints);
+
+        pack();
+    }// </editor-fold>//GEN-END:initComponents
 
     private Double númeroOpcional(JTextField campo, String descrição) {
         String texto = campo.getText().trim();
@@ -236,20 +343,36 @@ public class JanelaPesquisaOrçamentos extends JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private JTextField dataMinimaOrçamento;
-    private JComboBox<Peça.MarcaPeça> marcaPeça;
-    private JRadioButton atendimento24hSim, atendimento24hNao;
-    private ButtonGroup atendimento24hGrupo;
-    private JComboBox<Sinistro.GrauMonta> grauMonta;
-    private JTextField prazoMínimoGarantia, corAcessório;
+    private javax.swing.JPanel atendimento24h;
+    private javax.swing.ButtonGroup atendimento24hGrupo;
+    private javax.swing.JRadioButton atendimento24hNao;
+    private javax.swing.JRadioButton atendimento24hSim;
+    private javax.swing.JLabel atendimentoLabel;
+    private javax.swing.JPanel botoes;
+    private javax.swing.JTextField corAcessório;
+    private javax.swing.JLabel corLabel;
+    private javax.swing.JLabel dataLabel;
+    private javax.swing.JTextField dataMinimaOrçamento;
+    private javax.swing.JPanel filtros;
+    private javax.swing.JLabel grauLabel;
+    private javax.swing.JComboBox grauMonta;
+    private javax.swing.JButton limparButton;
+    private javax.swing.JButton limparPesquisaButton;
+    private javax.swing.JLabel marcaLabel;
+    private javax.swing.JComboBox marcaPeça;
+    private javax.swing.JPanel painelAcessórios;
+    private javax.swing.JPanel painelMecânica;
+    private javax.swing.JPanel painelOrçamento;
+    private javax.swing.JPanel painelPeças;
+    private javax.swing.JPanel painelSeguradora;
+    private javax.swing.JPanel painelSinistro;
+    private javax.swing.JButton pesquisarButton;
+    private javax.swing.JLabel prazoLabel;
+    private javax.swing.JTextField prazoMínimoGarantia;
+    private javax.swing.JTextArea resultados;
+    private javax.swing.JScrollPane resultadosScrollPane;
+    private javax.swing.JTabbedPane subclassesTabbedPane;
     private javax.swing.JCheckBox todosObjetosCheckBox;
-    private JTextArea resultados;
-    private JPanel filtros, atendimento24h, botoes, painelOrçamento, painelSeguradora,
-            painelSinistro, painelPeças, painelMecânica, painelAcessórios, abasAlinhadasPanel;
-    private JTabbedPane subclassesTabbedPane;
-    private JLabel dataLabel, marcaLabel, atendimentoLabel, grauLabel, prazoLabel, corLabel;
-    private JButton pesquisarButton, limparButton, limparPesquisaButton;
-    private JScrollPane resultadosScrollPane;
     // End of variables declaration//GEN-END:variables
 
 }
