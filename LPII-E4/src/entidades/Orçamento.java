@@ -72,7 +72,7 @@ public class Orçamento {
                 .append(sinistro.getTelefone()).append(" - ")
                 .append(sinistro.getGrauMonta()).append(" - perda total: ")
                 .append(sinistro.isPerdaTotal() ? "sim" : "não")
-                .append(" --- ")
+                .append("\n\t--- ")
                 .append(seguradora.getNome()).append("[").append(seguradora.getCidade()).append("] - ")
                 .append(seguradora.getCoberturaPercentual()).append("% - atendimento 24h: ")
                 .append(seguradora.isPossuiAtendimento24h() ? "sim" : "não").append(" - ")
@@ -80,10 +80,10 @@ public class Orçamento {
 
         Peça[] pecas = sinistro.getPeças();
         if (pecas.length == 0) {
-            texto.append(" --- sem peças");
+            texto.append("\n\t--- sem peças");
         } else {
             for (Peça peca : pecas) {
-                texto.append(" --- ").append(formatarPeça(peca));
+                texto.append("\n\t--- ").append(formatarPeça(peca));
             }
         }
         return texto.toString().trim();
