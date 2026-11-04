@@ -18,23 +18,57 @@ public class PainelPeçaAcessórios extends JPanel {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-        GridBagConstraints c = new GridBagConstraints();
         categoriaLabel = new JLabel("Categoria do acessório");
         corLabel = new JLabel("Cor");
         funileiroProprioLabel = new JLabel("Funileiro próprio");
         categoriaComboBox = new JComboBox<>(PeçaAcessório.CategoriaAcessório.values());
         corTextField = new JTextField(10);
         funileiroProprioCheckBox = new JCheckBox("Sim");
-        setLayout(new GridBagLayout());
-        c.insets = new Insets(1, 5, 10, 5); c.anchor = GridBagConstraints.WEST;
-        adicionar(c, 0, categoriaLabel, categoriaComboBox);
-        adicionar(c, 1, corLabel, corTextField);
-        adicionar(c, 2, funileiroProprioLabel, funileiroProprioCheckBox);
-    }// </editor-fold>//GEN-END:initComponents
 
-    private void adicionar(GridBagConstraints c, int linha, JLabel rotulo, java.awt.Component campo) {
-        c.gridx = 0; c.gridy = linha; add(rotulo, c); c.gridx = 1; add(campo, c);
-    }
+        setLayout(new GridBagLayout());
+
+        GridBagConstraints categoriaLabelConstraints = new GridBagConstraints();
+        categoriaLabelConstraints.gridx = 0;
+        categoriaLabelConstraints.gridy = 0;
+        categoriaLabelConstraints.insets = new Insets(1, 5, 10, 5);
+        categoriaLabelConstraints.anchor = GridBagConstraints.WEST;
+        add(categoriaLabel, categoriaLabelConstraints);
+
+        GridBagConstraints categoriaComboBoxConstraints = new GridBagConstraints();
+        categoriaComboBoxConstraints.gridx = 1;
+        categoriaComboBoxConstraints.gridy = 0;
+        categoriaComboBoxConstraints.insets = new Insets(1, 5, 10, 5);
+        categoriaComboBoxConstraints.anchor = GridBagConstraints.WEST;
+        add(categoriaComboBox, categoriaComboBoxConstraints);
+
+        GridBagConstraints corLabelConstraints = new GridBagConstraints();
+        corLabelConstraints.gridx = 0;
+        corLabelConstraints.gridy = 1;
+        corLabelConstraints.insets = new Insets(1, 5, 10, 5);
+        corLabelConstraints.anchor = GridBagConstraints.WEST;
+        add(corLabel, corLabelConstraints);
+
+        GridBagConstraints corTextFieldConstraints = new GridBagConstraints();
+        corTextFieldConstraints.gridx = 1;
+        corTextFieldConstraints.gridy = 1;
+        corTextFieldConstraints.insets = new Insets(1, 5, 10, 5);
+        corTextFieldConstraints.anchor = GridBagConstraints.WEST;
+        add(corTextField, corTextFieldConstraints);
+
+        GridBagConstraints funileiroProprioLabelConstraints = new GridBagConstraints();
+        funileiroProprioLabelConstraints.gridx = 0;
+        funileiroProprioLabelConstraints.gridy = 2;
+        funileiroProprioLabelConstraints.insets = new Insets(1, 5, 10, 5);
+        funileiroProprioLabelConstraints.anchor = GridBagConstraints.WEST;
+        add(funileiroProprioLabel, funileiroProprioLabelConstraints);
+
+        GridBagConstraints funileiroProprioCheckBoxConstraints = new GridBagConstraints();
+        funileiroProprioCheckBoxConstraints.gridx = 1;
+        funileiroProprioCheckBoxConstraints.gridy = 2;
+        funileiroProprioCheckBoxConstraints.insets = new Insets(1, 5, 10, 5);
+        funileiroProprioCheckBoxConstraints.anchor = GridBagConstraints.WEST;
+        add(funileiroProprioCheckBox, funileiroProprioCheckBoxConstraints);
+    }// </editor-fold>//GEN-END:initComponents
 
     public PeçaAcessório.CategoriaAcessório getCategoriaAcessório() {
         return (PeçaAcessório.CategoriaAcessório) categoriaComboBox.getSelectedItem();

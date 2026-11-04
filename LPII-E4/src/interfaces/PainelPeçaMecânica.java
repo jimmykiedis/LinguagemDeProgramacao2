@@ -18,23 +18,57 @@ public class PainelPeçaMecânica extends JPanel {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-        GridBagConstraints c = new GridBagConstraints();
         categoriaLabel = new JLabel("Categoria mecânica");
         prazoGarantiaLabel = new JLabel("Prazo de garantia (dias)");
         mecanicoProprioLabel = new JLabel("Mecânico próprio");
         categoriaComboBox = new JComboBox<>(PeçaMecânica.CategoriaMecânica.values());
         prazoGarantiaTextField = new JTextField(10);
         mecanicoProprioCheckBox = new JCheckBox("Sim");
-        setLayout(new GridBagLayout());
-        c.insets = new Insets(1, 5, 10, 5); c.anchor = GridBagConstraints.WEST;
-        adicionar(c, 0, categoriaLabel, categoriaComboBox);
-        adicionar(c, 1, prazoGarantiaLabel, prazoGarantiaTextField);
-        adicionar(c, 2, mecanicoProprioLabel, mecanicoProprioCheckBox);
-    }// </editor-fold>//GEN-END:initComponents
 
-    private void adicionar(GridBagConstraints c, int linha, JLabel rotulo, java.awt.Component campo) {
-        c.gridx = 0; c.gridy = linha; add(rotulo, c); c.gridx = 1; add(campo, c);
-    }
+        setLayout(new GridBagLayout());
+
+        GridBagConstraints categoriaLabelConstraints = new GridBagConstraints();
+        categoriaLabelConstraints.gridx = 0;
+        categoriaLabelConstraints.gridy = 0;
+        categoriaLabelConstraints.insets = new Insets(1, 5, 10, 5);
+        categoriaLabelConstraints.anchor = GridBagConstraints.WEST;
+        add(categoriaLabel, categoriaLabelConstraints);
+
+        GridBagConstraints categoriaComboBoxConstraints = new GridBagConstraints();
+        categoriaComboBoxConstraints.gridx = 1;
+        categoriaComboBoxConstraints.gridy = 0;
+        categoriaComboBoxConstraints.insets = new Insets(1, 5, 10, 5);
+        categoriaComboBoxConstraints.anchor = GridBagConstraints.WEST;
+        add(categoriaComboBox, categoriaComboBoxConstraints);
+
+        GridBagConstraints prazoGarantiaLabelConstraints = new GridBagConstraints();
+        prazoGarantiaLabelConstraints.gridx = 0;
+        prazoGarantiaLabelConstraints.gridy = 1;
+        prazoGarantiaLabelConstraints.insets = new Insets(1, 5, 10, 5);
+        prazoGarantiaLabelConstraints.anchor = GridBagConstraints.WEST;
+        add(prazoGarantiaLabel, prazoGarantiaLabelConstraints);
+
+        GridBagConstraints prazoGarantiaTextFieldConstraints = new GridBagConstraints();
+        prazoGarantiaTextFieldConstraints.gridx = 1;
+        prazoGarantiaTextFieldConstraints.gridy = 1;
+        prazoGarantiaTextFieldConstraints.insets = new Insets(1, 5, 10, 5);
+        prazoGarantiaTextFieldConstraints.anchor = GridBagConstraints.WEST;
+        add(prazoGarantiaTextField, prazoGarantiaTextFieldConstraints);
+
+        GridBagConstraints mecanicoProprioLabelConstraints = new GridBagConstraints();
+        mecanicoProprioLabelConstraints.gridx = 0;
+        mecanicoProprioLabelConstraints.gridy = 2;
+        mecanicoProprioLabelConstraints.insets = new Insets(1, 5, 10, 5);
+        mecanicoProprioLabelConstraints.anchor = GridBagConstraints.WEST;
+        add(mecanicoProprioLabel, mecanicoProprioLabelConstraints);
+
+        GridBagConstraints mecanicoProprioCheckBoxConstraints = new GridBagConstraints();
+        mecanicoProprioCheckBoxConstraints.gridx = 1;
+        mecanicoProprioCheckBoxConstraints.gridy = 2;
+        mecanicoProprioCheckBoxConstraints.insets = new Insets(1, 5, 10, 5);
+        mecanicoProprioCheckBoxConstraints.anchor = GridBagConstraints.WEST;
+        add(mecanicoProprioCheckBox, mecanicoProprioCheckBoxConstraints);
+    }// </editor-fold>//GEN-END:initComponents
 
     public PeçaMecânica.CategoriaMecânica getCategoriaMecânica() {
         return (PeçaMecânica.CategoriaMecânica) categoriaComboBox.getSelectedItem();
