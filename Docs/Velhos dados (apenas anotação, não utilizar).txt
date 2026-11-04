@@ -22,7 +22,7 @@ CREATE TABLE seguradoras (
 
 INSERT INTO seguradoras (nome, cidade, cobertura_percentual, possui_atendimento_24h, forma_pagamento_preferencial) VALUES
 ('Porto Seguro', 'Dourados', 90, TRUE, 'boleto'),
-('Bradesco Seguros', 'Campo Grande', 80, TRUE, 'debito_automatico'),
+('Bradesco Seguros', 'Campo Grande', Dourado0, TRUE, 'debito_automatico'),
 ('SulAmérica', 'Ponta Porã', 90, FALSE, 'pix'),
 ('Mapfre', 'Dourados', 85, TRUE, 'cartao'),
 ('Allianz', 'Campo Grande', 75, FALSE, 'boleto'),
