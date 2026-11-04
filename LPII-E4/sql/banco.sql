@@ -56,7 +56,7 @@ CREATE TABLE peça_acessórios (
 );
 
 CREATE TABLE Orçamentos (
-    data DATE NOT NULL,
+    data TIMESTAMP NOT NULL,
     sinistro INT NOT NULL,
     seguradora VARCHAR(50) NOT NULL,
     -- Enumerado: aprovado, pendente ou recusado.

@@ -38,16 +38,6 @@
             <Property name="columns" type="int" value="12"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="encomendaLabel">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Pe&#xe7;a sob encomenda"/>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JCheckBox" name="sobEncomenda">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Sim"/>
-          </Properties>
-        </Component>
         <Component class="javax.swing.JLabel" name="atendimentoLabel">
           <Properties>
             <Property name="text" type="java.lang.String" value="Seguradora possui atendimento 24h"/>
@@ -75,6 +65,11 @@
           </Properties>
         </Component>
         <Component class="javax.swing.JComboBox" name="grauMonta">
+        </Component>
+        <Component class="javax.swing.JCheckBox" name="todosObjetosCheckBox">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Todos os objetos do sinistro"/>
+          </Properties>
         </Component>
         <Container class="javax.swing.JPanel" name="abasAlinhadasPanel">
           <Layout class="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout"/>

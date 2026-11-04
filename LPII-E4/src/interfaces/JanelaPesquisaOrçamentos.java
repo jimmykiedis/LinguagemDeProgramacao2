@@ -92,10 +92,15 @@ public class JanelaPesquisaOrçamentos extends JFrame {
         adicionar(painelAcessórios, subclasseC, 0, corLabel.getText(), corAcessório);
         subclassesTabbedPane.addTab("Peça mecânica", painelMecânica);
         subclassesTabbedPane.addTab("Peça de acessórios", painelAcessórios);
+        todosObjetosCheckBox = new javax.swing.JCheckBox("Todos os objetos do sinistro");
+        GridBagConstraints abrangenciaC = criarConstraintsInternos();
+        abrangenciaC.gridy = 1;
+        abrangenciaC.gridwidth = 2;
+        painelPeças.add(todosObjetosCheckBox, abrangenciaC);
         abasAlinhadasPanel = new JPanel(new BorderLayout());
         abasAlinhadasPanel.add(subclassesTabbedPane, BorderLayout.CENTER);
         peçasC = criarConstraintsInternos();
-        peçasC.gridy = 1;
+        peçasC.gridy = 2;
         peçasC.gridwidth = 2;
         peçasC.fill = GridBagConstraints.BOTH;
         peçasC.weightx = 1.0;
@@ -197,7 +202,8 @@ public class JanelaPesquisaOrçamentos extends JFrame {
             Peça.MarcaPeça marca = (Peça.MarcaPeça) marcaPeça.getSelectedItem();
             ArrayList<Orçamento> encontrados = Orçamento.pesquisarOrçamentos(
                     data, marca,
-                    atendimentoSelecionado, grau, prazo, cor);
+                    atendimentoSelecionado, grau, prazo, cor,
+                    todosObjetosCheckBox.isSelected());
             resultados.setText("");
             for (Orçamento orçamento : encontrados) {
                 if (resultados.getDocument().getLength() > 0) resultados.append("\n\n");
@@ -225,6 +231,7 @@ public class JanelaPesquisaOrçamentos extends JFrame {
         grauMonta.setSelectedIndex(-1);
         prazoMínimoGarantia.setText("");
         corAcessório.setText("");
+        todosObjetosCheckBox.setSelected(false);
         subclassesTabbedPane.setSelectedIndex(0);
     }
 
@@ -235,6 +242,7 @@ public class JanelaPesquisaOrçamentos extends JFrame {
     private ButtonGroup atendimento24hGrupo;
     private JComboBox<Sinistro.GrauMonta> grauMonta;
     private JTextField prazoMínimoGarantia, corAcessório;
+    private javax.swing.JCheckBox todosObjetosCheckBox;
     private JTextArea resultados;
     private JPanel filtros, atendimento24h, botoes, painelOrçamento, painelSeguradora,
             painelSinistro, painelPeças, painelMecânica, painelAcessórios, abasAlinhadasPanel;
