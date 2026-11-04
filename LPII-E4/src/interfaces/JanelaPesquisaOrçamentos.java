@@ -26,8 +26,17 @@ import javax.swing.JTextField;
 public class JanelaPesquisaOrçamentos extends JFrame {
     public JanelaPesquisaOrçamentos() {
         initComponents();
+        configurarEventos();
         limparFiltros();
-        JanelaUtil.posicionarNoCanto(this);
+        setLocationByPlatform(true);
+    }
+
+    private void configurarEventos() {
+        atendimento24hGrupo.add(atendimento24hSim);
+        atendimento24hGrupo.add(atendimento24hNao);
+        pesquisarButton.addActionListener(e -> pesquisar());
+        limparButton.addActionListener(e -> limparFiltros());
+        limparPesquisaButton.addActionListener(e -> resultados.setText(""));
     }
 
     @SuppressWarnings("unchecked")
@@ -48,11 +57,9 @@ public class JanelaPesquisaOrçamentos extends JFrame {
         painelSinistro = new javax.swing.JPanel();
         grauLabel = new javax.swing.JLabel();
         grauMonta = new javax.swing.JComboBox();
-        grauMonta.setModel(new javax.swing.DefaultComboBoxModel<>(Sinistro.GrauMonta.values()));
         painelPeças = new javax.swing.JPanel();
         marcaLabel = new javax.swing.JLabel();
         marcaPeça = new javax.swing.JComboBox();
-        marcaPeça.setModel(new javax.swing.DefaultComboBoxModel<>(Peça.MarcaPeça.values()));
         todosObjetosCheckBox = new javax.swing.JCheckBox();
         subclassesTabbedPane = new javax.swing.JTabbedPane();
         painelMecânica = new javax.swing.JPanel();
@@ -140,6 +147,8 @@ public class JanelaPesquisaOrçamentos extends JFrame {
         gridBagConstraints.gridy = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         painelSinistro.add(grauLabel, gridBagConstraints);
+
+        grauMonta.setModel(new javax.swing.DefaultComboBoxModel(Sinistro.GrauMonta.values()));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
@@ -162,6 +171,8 @@ public class JanelaPesquisaOrçamentos extends JFrame {
         gridBagConstraints.gridy = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         painelPeças.add(marcaLabel, gridBagConstraints);
+
+        marcaPeça.setModel(new javax.swing.DefaultComboBoxModel(Peça.MarcaPeça.values()));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
@@ -302,9 +313,14 @@ public class JanelaPesquisaOrçamentos extends JFrame {
             Boolean atendimentoSelecionado = atendimento24hSim.isSelected() ? Boolean.TRUE
                     : atendimento24hNao.isSelected() ? Boolean.FALSE : null;
             Sinistro.GrauMonta grau = (Sinistro.GrauMonta) grauMonta.getSelectedItem();
-            Integer prazo = inteiroOpcional(prazoMínimoGarantia, "prazo mínimo de garantia");
-            String cor = corAcessório.getText().trim();
-            if (cor.isEmpty()) cor = null;
+            // Somente o filtro da aba selecionada participa da pesquisa. Isso
+            // evita que um valor antigo da outra subclasse seja aplicado sem
+            // que o usuário perceba.
+            Integer prazo = subclassesTabbedPane.getSelectedIndex() == 0
+                    ? inteiroOpcional(prazoMínimoGarantia, "prazo mínimo de garantia") : null;
+            String cor = subclassesTabbedPane.getSelectedIndex() == 1
+                    ? corAcessório.getText().trim() : null;
+            if (cor != null && cor.isEmpty()) cor = null;
 
             Peça.MarcaPeça marca = (Peça.MarcaPeça) marcaPeça.getSelectedItem();
             ArrayList<Orçamento> encontrados = Orçamento.pesquisarOrçamentos(
@@ -312,6 +328,10 @@ public class JanelaPesquisaOrçamentos extends JFrame {
                     atendimentoSelecionado, grau, prazo, cor,
                     todosObjetosCheckBox.isSelected());
             resultados.setText("");
+            if (encontrados.isEmpty()) {
+                resultados.setText("Nenhum orçamento encontrado para os filtros informados.");
+                return;
+            }
             for (Orçamento orçamento : encontrados) {
                 if (resultados.getDocument().getLength() > 0) resultados.append("\n\n");
                 resultados.append(orçamento.toStringFull());

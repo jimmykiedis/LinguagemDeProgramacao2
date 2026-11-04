@@ -36,7 +36,15 @@ public class JanelaCadastroPeças extends JFrame {
         limparCampos();
         pack();
         setSize(590, 460);
-        JanelaUtil.posicionarNoCanto(this);
+        if (owner == null) {
+            setLocationByPlatform(true);
+        } else {
+            setLocation(
+                    owner.getX() + (owner.getWidth() - getWidth()) / 2,
+                    owner.getY() + (owner.getHeight() - getHeight()) / 2
+            );
+        }
+        setAlwaysOnTop(true);
     }
 
     @SuppressWarnings("unchecked")

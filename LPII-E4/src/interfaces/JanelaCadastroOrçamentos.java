@@ -37,7 +37,7 @@ public class JanelaCadastroOrçamentos extends JFrame {
         limparCampos();
         pack();
         setSize(590, 460);
-        JanelaUtil.posicionarNoCanto(this);
+        setLocationByPlatform(true);
     }
 
     @SuppressWarnings("unchecked")

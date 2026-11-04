@@ -11,7 +11,7 @@ public class JanelaSistema extends javax.swing.JFrame {
     public JanelaSistema() {
         BD.criaConexao();
         initComponents();
-        JanelaUtil.posicionarNoCanto(this);
+        setLocationByPlatform(true);
     }
 
     @SuppressWarnings("unchecked")
