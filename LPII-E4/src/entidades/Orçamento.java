@@ -60,11 +60,59 @@ public class Orçamento {
     }
 
     public String toStringFull() {
-        return "Orçamento " + status + " em " + data + "\n"
-                + "  Sinistro: " + sinistro + "\n"
-                + "  Seguradora: " + seguradora + "\n"
-                + "  Valor total: R$ " + String.format(java.util.Locale.forLanguageTag("pt-BR"), "%.2f", valorTotal) + "\n"
-                + "  Possui danos ocultos: " + (possuiDanosOcultos ? "sim" : "não");
+        StringBuilder texto = new StringBuilder();
+        texto.append(status).append(" - ")
+                .append(formatarData(data)).append(" - R$ ")
+                .append(String.format(java.util.Locale.forLanguageTag("pt-BR"), "%.2f", valorTotal))
+                .append(" - danos ocultos: ").append(possuiDanosOcultos ? "sim" : "não")
+                .append(" --- ")
+                .append("#").append(sinistro.getId()).append(" - ")
+                .append(sinistro.getSegurado()).append(" - ")
+                .append(sinistro.getCidade()).append(" - ")
+                .append(sinistro.getTelefone()).append(" - ")
+                .append(sinistro.getGrauMonta()).append(" - perda total: ")
+                .append(sinistro.isPerdaTotal() ? "sim" : "não")
+                .append(" --- ")
+                .append(seguradora.getNome()).append("[").append(seguradora.getCidade()).append("] - ")
+                .append(seguradora.getCoberturaPercentual()).append("% - atendimento 24h: ")
+                .append(seguradora.isPossuiAtendimento24h() ? "sim" : "não").append(" - ")
+                .append(seguradora.getFormaPagamentoPreferencial());
+
+        Peça[] pecas = sinistro.getPeças();
+        if (pecas.length == 0) {
+            texto.append(" --- sem peças");
+        } else {
+            for (Peça peca : pecas) {
+                texto.append(" --- ").append(formatarPeça(peca));
+            }
+        }
+        return texto.toString().trim();
+    }
+
+    private String formatarPeça(Peça peca) {
+        StringBuilder texto = new StringBuilder();
+        texto.append("#").append(peca.getCodigo()).append(" - ")
+                .append(peca.getNome()).append("[").append(peca.getMarca()).append("] - R$ ")
+                .append(String.format(java.util.Locale.forLanguageTag("pt-BR"), "%.2f", peca.getPreco()))
+                .append(" - sob encomenda: ").append(peca.isSobEncomenda() ? "sim" : "não");
+
+        if (peca instanceof PeçaMecânica) {
+            PeçaMecânica mecânica = (PeçaMecânica) peca;
+            texto.append(" - mecânica - ").append(mecânica.getCategoriaMecânica())
+                    .append(" - ").append(mecânica.getPrazoGarantia()).append(" dias - mecânico próprio: ")
+                    .append(mecânica.isMecanicoProprio() ? "sim" : "não");
+        } else if (peca instanceof PeçaAcessório) {
+            PeçaAcessório acessório = (PeçaAcessório) peca;
+            texto.append(" - acessório - ").append(acessório.getCategoriaAcessório())
+                    .append(" - ").append(acessório.getCor()).append(" - funileiro próprio: ")
+                    .append(acessório.isFunileiroProprio() ? "sim" : "não");
+        }
+        return texto.toString();
+    }
+
+    private String formatarData(Timestamp valor) {
+        if (valor == null) return "";
+        return new java.text.SimpleDateFormat("dd/MM/yyyy HH:mm'hs'").format(valor);
     }
 
     private static Orçamento criar(ResultSet rs) throws SQLException {
