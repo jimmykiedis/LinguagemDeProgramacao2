@@ -201,7 +201,12 @@ public class Orçamento {
         ArrayList<Orçamento> resultado = new ArrayList<>();
         try (PreparedStatement ps = BD.conexao.prepareStatement(sql.toString())) {
             int i = 0;
-            if (dataMinima != null) ps.setTimestamp(++i, dataMinima);
+            // A janela recebe a data mínima como horário local (meia-noite
+            // quando o usuário informa somente AAAA-MM-DD). Enviar como
+            // Timestamp permite ao driver aplicar conversão de fuso horário
+            // e deslocar esse limite para o dia anterior. O MySQL interpreta
+            // esta representação SQL diretamente na comparação com o campo.
+            if (dataMinima != null) ps.setString(++i, dataMinima.toString());
             if (atendimento24h != null) ps.setBoolean(++i, atendimento24h);
             if (grauMonta != null) ps.setString(++i, grauMonta.toString());
             if (marca != null) ps.setString(++i, marca.toString());
