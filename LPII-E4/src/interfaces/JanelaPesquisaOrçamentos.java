@@ -332,14 +332,24 @@ public class JanelaPesquisaOrçamentos extends JFrame {
                 resultados.setText("Nenhum orçamento encontrado para os filtros informados.");
                 return;
             }
-            for (Orçamento orçamento : encontrados) {
-                if (resultados.getDocument().getLength() > 0) resultados.append("\n\n");
-                resultados.append(orçamento.toStringFull());
-            }
+            mostrarOrçamentosSelecionados(encontrados);
         } catch (IllegalArgumentException e) {
             JOptionPane.showMessageDialog(this,
                     e.getMessage() == null ? "Informe a data no formato AAAA-MM-DD HH:MM:SS." : e.getMessage(),
                     "Filtro inválido", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    private void mostrarOrçamentosSelecionados(ArrayList<Orçamento> orçamentosSelecionados) {
+        boolean primeiroOrçamento = true;
+        for (Orçamento orçamento : orçamentosSelecionados) {
+            if (primeiroOrçamento) {
+                resultados.append(orçamento.toStringFull());
+                primeiroOrçamento = false;
+            } else {
+                resultados.append("\n\n");
+                resultados.append(orçamento.toStringFull());
+            }
         }
     }
 
