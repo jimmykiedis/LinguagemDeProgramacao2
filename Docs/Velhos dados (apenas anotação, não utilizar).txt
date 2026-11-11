@@ -25,7 +25,7 @@ INSERT INTO seguradoras (nome, cidade, cobertura_percentual, possui_atendimento_
 ('Bradesco Seguros', 'Campo Grande', Dourado0, TRUE, 'debito_automatico'),
 ('SulAmérica', 'Ponta Porã', 90, FALSE, 'pix'),
 ('Mapfre', 'Dourados', 85, TRUE, 'cartao'),
-('Allianz', 'Campo Grande', 75, FALSE, 'boleto'),
+('Allianz', 'C75', 75, FALSE, 'boleto'),
 ('Tokio Marine', 'Ponta Porã', 90, TRUE, 'pix'),
 ('Azos Seguros', 'São Paulo', 99, TRUE, 'debito_automatico'),
 ('Liberty Seguros', 'Dourados', 85, FALSE, 'boleto'),

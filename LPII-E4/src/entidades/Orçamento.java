@@ -57,7 +57,8 @@ public class Orçamento {
 
     @Override public String toString() {
         return "[" + sinistro.getId() + "] " + sinistro.getSegurado()
-                + " [" + sinistro.getGrauMonta() + "] - " + seguradora.getNome();
+                + " [" + sinistro.getGrauMonta() + "] - " + seguradora.getNome()
+                + " - " + status;
     }
 
     public String toStringFull() {
