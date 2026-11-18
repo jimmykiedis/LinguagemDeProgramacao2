@@ -10,8 +10,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-public class PainelPeçaAcessórios extends JPanel {
-    public PainelPeçaAcessórios() {
+public class PainelPeçaAcessório extends JPanel {
+    public PainelPeçaAcessório() {
         initComponents();
     }
 

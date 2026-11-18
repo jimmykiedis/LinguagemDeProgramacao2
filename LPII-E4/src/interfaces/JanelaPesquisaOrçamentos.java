@@ -55,7 +55,7 @@ public class JanelaPesquisaOrçamentos extends JFrame {
         todosObjetosCheckBox = new javax.swing.JCheckBox();
         subclassesTabbedPane = new javax.swing.JTabbedPane();
         painelMecânica = new PainelFiltrosPeçaMecânica();
-        painelAcessórios = new PainelFiltrosPeçaAcessórios();
+        painelAcessórios = new PainelFiltrosPeçaAcessório();
         resultadosScrollPane = new javax.swing.JScrollPane();
         resultados = new javax.swing.JTextArea();
         botoes = new javax.swing.JPanel();
@@ -318,7 +318,7 @@ public class JanelaPesquisaOrçamentos extends JFrame {
     private javax.swing.JButton limparPesquisaButton;
     private javax.swing.JLabel marcaLabel;
     private javax.swing.JComboBox marcaPeça;
-    private PainelFiltrosPeçaAcessórios painelAcessórios;
+    private PainelFiltrosPeçaAcessório painelAcessórios;
     private PainelFiltrosPeçaMecânica painelMecânica;
     private javax.swing.JPanel painelOrçamento;
     private javax.swing.JPanel painelPeças;

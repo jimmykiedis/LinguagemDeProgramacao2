@@ -6,8 +6,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-public class PainelFiltrosPeçaAcessórios extends JPanel {
-    public PainelFiltrosPeçaAcessórios() { initComponents(); }
+public class PainelFiltrosPeçaAcessório extends JPanel {
+    public PainelFiltrosPeçaAcessório() { initComponents(); }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
