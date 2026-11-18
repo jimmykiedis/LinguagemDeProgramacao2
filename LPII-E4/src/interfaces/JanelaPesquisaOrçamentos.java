@@ -3,25 +3,17 @@ package interfaces;
 import entidades.Orçamento;
 import entidades.Peça;
 import entidades.Sinistro;
-import java.awt.BorderLayout;
-import java.awt.FlowLayout;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import javax.swing.JButton;
 import javax.swing.ButtonGroup;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
-import javax.swing.JTextField;
 
 public class JanelaPesquisaOrçamentos extends JFrame {
     public JanelaPesquisaOrçamentos() {
@@ -62,12 +54,8 @@ public class JanelaPesquisaOrçamentos extends JFrame {
         marcaPeça = new javax.swing.JComboBox();
         todosObjetosCheckBox = new javax.swing.JCheckBox();
         subclassesTabbedPane = new javax.swing.JTabbedPane();
-        painelMecânica = new javax.swing.JPanel();
-        prazoLabel = new javax.swing.JLabel();
-        prazoMínimoGarantia = new javax.swing.JTextField();
-        painelAcessórios = new javax.swing.JPanel();
-        corLabel = new javax.swing.JLabel();
-        corAcessório = new javax.swing.JTextField();
+        painelMecânica = new PainelFiltrosPeçaMecânica();
+        painelAcessórios = new PainelFiltrosPeçaAcessórios();
         resultadosScrollPane = new javax.swing.JScrollPane();
         resultados = new javax.swing.JTextArea();
         botoes = new javax.swing.JPanel();
@@ -187,40 +175,7 @@ public class JanelaPesquisaOrçamentos extends JFrame {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         painelPeças.add(todosObjetosCheckBox, gridBagConstraints);
 
-        painelMecânica.setLayout(new java.awt.GridBagLayout());
-
-        prazoLabel.setText("Prazo mínimo de garantia");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        painelMecânica.add(prazoLabel, gridBagConstraints);
-
-        prazoMínimoGarantia.setColumns(12);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        painelMecânica.add(prazoMínimoGarantia, gridBagConstraints);
-
         subclassesTabbedPane.addTab("Peça mecânica", painelMecânica);
-
-        painelAcessórios.setLayout(new java.awt.GridBagLayout());
-
-        corLabel.setText("Cor");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        painelAcessórios.add(corLabel, gridBagConstraints);
-
-        corAcessório.setColumns(12);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        painelAcessórios.add(corAcessório, gridBagConstraints);
-
         subclassesTabbedPane.addTab("Peça de acessórios", painelAcessórios);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -282,30 +237,6 @@ public class JanelaPesquisaOrçamentos extends JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private Double númeroOpcional(JTextField campo, String descrição) {
-        String texto = campo.getText().trim();
-        if (texto.isEmpty()) return null;
-        try {
-            double valor = Double.parseDouble(texto.replace(',', '.'));
-            if (valor < 0) throw new NumberFormatException();
-            return valor;
-        } catch (NumberFormatException e) {
-            throw new IllegalArgumentException("Informe um valor válido e não negativo para " + descrição + ".");
-        }
-    }
-
-    private Integer inteiroOpcional(JTextField campo, String descrição) {
-        String texto = campo.getText().trim();
-        if (texto.isEmpty()) return null;
-        try {
-            int valor = Integer.parseInt(texto);
-            if (valor < 0) throw new NumberFormatException();
-            return valor;
-        } catch (NumberFormatException e) {
-            throw new IllegalArgumentException("Informe um número inteiro não negativo para " + descrição + ".");
-        }
-    }
-
     private void pesquisar() {
         try {
             String textoData = dataMinimaOrçamento.getText().trim();
@@ -317,10 +248,9 @@ public class JanelaPesquisaOrçamentos extends JFrame {
             // evita que um valor antigo da outra subclasse seja aplicado sem
             // que o usuário perceba.
             Integer prazo = subclassesTabbedPane.getSelectedIndex() == 0
-                    ? inteiroOpcional(prazoMínimoGarantia, "prazo mínimo de garantia") : null;
+                    ? painelMecânica.getPrazoMínimoGarantia() : null;
             String cor = subclassesTabbedPane.getSelectedIndex() == 1
-                    ? corAcessório.getText().trim() : null;
-            if (cor != null && cor.isEmpty()) cor = null;
+                    ? painelAcessórios.getCor() : null;
 
             Peça.MarcaPeça marca = (Peça.MarcaPeça) marcaPeça.getSelectedItem();
             ArrayList<Orçamento> encontrados = Orçamento.pesquisarOrçamentos(
@@ -366,8 +296,8 @@ public class JanelaPesquisaOrçamentos extends JFrame {
         marcaPeça.setSelectedIndex(-1);
         atendimento24hGrupo.clearSelection();
         grauMonta.setSelectedIndex(-1);
-        prazoMínimoGarantia.setText("");
-        corAcessório.setText("");
+        painelMecânica.limparFiltros();
+        painelAcessórios.limparFiltros();
         todosObjetosCheckBox.setSelected(false);
         subclassesTabbedPane.setSelectedIndex(0);
     }
@@ -379,8 +309,6 @@ public class JanelaPesquisaOrçamentos extends JFrame {
     private javax.swing.JRadioButton atendimento24hSim;
     private javax.swing.JLabel atendimentoLabel;
     private javax.swing.JPanel botoes;
-    private javax.swing.JTextField corAcessório;
-    private javax.swing.JLabel corLabel;
     private javax.swing.JLabel dataLabel;
     private javax.swing.JTextField dataMinimaOrçamento;
     private javax.swing.JPanel filtros;
@@ -390,15 +318,13 @@ public class JanelaPesquisaOrçamentos extends JFrame {
     private javax.swing.JButton limparPesquisaButton;
     private javax.swing.JLabel marcaLabel;
     private javax.swing.JComboBox marcaPeça;
-    private javax.swing.JPanel painelAcessórios;
-    private javax.swing.JPanel painelMecânica;
+    private PainelFiltrosPeçaAcessórios painelAcessórios;
+    private PainelFiltrosPeçaMecânica painelMecânica;
     private javax.swing.JPanel painelOrçamento;
     private javax.swing.JPanel painelPeças;
     private javax.swing.JPanel painelSeguradora;
     private javax.swing.JPanel painelSinistro;
     private javax.swing.JButton pesquisarButton;
-    private javax.swing.JLabel prazoLabel;
-    private javax.swing.JTextField prazoMínimoGarantia;
     private javax.swing.JTextArea resultados;
     private javax.swing.JScrollPane resultadosScrollPane;
     private javax.swing.JTabbedPane subclassesTabbedPane;
