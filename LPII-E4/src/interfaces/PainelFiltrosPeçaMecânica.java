@@ -14,22 +14,22 @@ public class PainelFiltrosPeçaMecânica extends JPanel {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-        prazoLabel = new JLabel();
-        prazoMínimoGarantia = new JTextField();
+        prazo_label = new JLabel();
+        prazo_mínimo_garantia = new JTextField();
 
-        prazoLabel.setText("Prazo mínimo de garantia");
-        prazoMínimoGarantia.setColumns(12);
+        prazo_label.setText("Prazo mínimo de garantia");
+        prazo_mínimo_garantia.setColumns(12);
 
         setLayout(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
         c.gridx = 0; c.gridy = 0; c.anchor = GridBagConstraints.WEST;
-        add(prazoLabel, c);
+        add(prazo_label, c);
         c.gridx = 1;
-        add(prazoMínimoGarantia, c);
+        add(prazo_mínimo_garantia, c);
     }// </editor-fold>//GEN-END:initComponents
 
     public Integer getPrazoMínimoGarantia() {
-        String valor = prazoMínimoGarantia.getText().trim();
+        String valor = prazo_mínimo_garantia.getText().trim();
         if (valor.isEmpty()) return null;
         try {
             int prazo = Integer.parseInt(valor);
@@ -40,10 +40,10 @@ public class PainelFiltrosPeçaMecânica extends JPanel {
         }
     }
 
-    public void limparFiltros() { prazoMínimoGarantia.setText(""); }
+    public void limparFiltros() { prazo_mínimo_garantia.setText(""); }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private JLabel prazoLabel;
-    private JTextField prazoMínimoGarantia;
+    private JLabel prazo_label;
+    private JTextField prazo_mínimo_garantia;
     // End of variables declaration//GEN-END:variables
 }

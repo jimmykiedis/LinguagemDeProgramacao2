@@ -1,7 +1,6 @@
 package interfaces;
 
 import javax.swing.JOptionPane;
-import javax.swing.ButtonGroup;
 import controles.ControladorCadastroSeguradoras;
 import entidades.Seguradora;
 import javax.swing.DefaultComboBoxModel;
@@ -10,7 +9,7 @@ import java.awt.Frame;
 public class JanelaCadastroSeguradoras extends javax.swing.JFrame {
 
     ControladorCadastroSeguradoras controlador;
-    Seguradora[] seguradorasCadastradas;
+    Seguradora[] seguradoras_cadastradas;
 
     public JanelaCadastroSeguradoras(ControladorCadastroSeguradoras controlador) {
         this(controlador, null);
@@ -21,7 +20,7 @@ public class JanelaCadastroSeguradoras extends javax.swing.JFrame {
             Frame owner
     ) {
         this.controlador = controlador;
-        seguradorasCadastradas = Seguradora.getVisoes();
+        seguradoras_cadastradas = Seguradora.getVisoes();
         initComponents();
         atualizarSeguradorasCadastradas();
         setSize(new java.awt.Dimension(760, 540));
@@ -45,7 +44,7 @@ public class JanelaCadastroSeguradoras extends javax.swing.JFrame {
 
     private Seguradora localizarSeguradora(String nome) {
         if (nome == null) return null;
-        for (Seguradora visao : seguradorasCadastradas) {
+        for (Seguradora visao : seguradoras_cadastradas) {
             if (nome.equals(visao.getNome())) return visao;
         }
         return null;
@@ -55,16 +54,24 @@ public class JanelaCadastroSeguradoras extends javax.swing.JFrame {
         atualizarSeguradorasCadastradas(null);
     }
 
-    private void atualizarSeguradorasCadastradas(String nomeSelecionado) {
-        seguradorasCadastradas = Seguradora.getVisoes();
-        seguradorasCadastradasComboBox.setModel(
-                new DefaultComboBoxModel(seguradorasCadastradas)
+    private void atualizarSeguradorasCadastradas(String nome_selecionado) {
+        seguradoras_cadastradas = Seguradora.getVisoes();
+        seguradoras_cadastradas_combo_box.setModel(
+                new DefaultComboBoxModel(seguradoras_cadastradas)
         );
 
-        Seguradora visaoSelecionada = localizarSeguradora(nomeSelecionado);
-        if (visaoSelecionada != null) {
-            seguradorasCadastradasComboBox.setSelectedItem(visaoSelecionada);
+        Seguradora visao_selecionada = localizarSeguradora(nome_selecionado);
+        if (visao_selecionada != null) {
+            seguradoras_cadastradas_combo_box.setSelectedItem(visao_selecionada);
         }
+    }
+
+    private void definirFormaPagamentoPreferencial(Seguradora.FormaPagamentoPreferencial valor) {
+        forma_pagamento_preferencial_button_group.clearSelection();
+        if (valor == Seguradora.FormaPagamentoPreferencial.BOLETO) forma_pagamento_boleto_radio_button.setSelected(true);
+        else if (valor == Seguradora.FormaPagamentoPreferencial.CARTAO) forma_pagamento_cartao_radio_button.setSelected(true);
+        else if (valor == Seguradora.FormaPagamentoPreferencial.PIX) forma_pagamento_pix_radio_button.setSelected(true);
+        else if (valor == Seguradora.FormaPagamentoPreferencial.DEBITO_AUTOMATICO) forma_pagamento_debito_automatico_radio_button.setSelected(true);
     }
 
     private void informarErro(String mensagem) {
@@ -76,96 +83,96 @@ public class JanelaCadastroSeguradoras extends javax.swing.JFrame {
         );
     }
 
-    private Boolean obterPossuiAtendimento24hInformado() {
-        if (possuiAtendimento24hSimRadioButton.isSelected()) return true;
-        if (possuiAtendimento24hNaoRadioButton.isSelected()) return false;
-        return null;
+    private boolean obterPossuiAtendimento24hInformado() {
+        return possui_atendimento_24h_check_box.isSelected();
     }
 
-    private void definirPossuiAtendimento24h(Boolean valor) {
-        possuiAtendimento24hButtonGroup.clearSelection();
-        if (valor == null) return;
-
-        if (valor) {
-            possuiAtendimento24hSimRadioButton.setSelected(true);
-        } else {
-            possuiAtendimento24hNaoRadioButton.setSelected(true);
-        }
+    private void definirPossuiAtendimento24h(boolean valor) {
+        possui_atendimento_24h_check_box.setSelected(valor);
     }
 
     private Seguradora.FormaPagamentoPreferencial obterFormaPagamentoPreferencialSelecionada() {
-        Object selecionado = formaPagamentoPreferencialComboBox.getSelectedItem();
-        if (selecionado == null) {
-            return null;
-        }
-
-        return Seguradora.FormaPagamentoPreferencial.fromTexto(selecionado.toString());
+        if (forma_pagamento_boleto_radio_button.isSelected()) return Seguradora.FormaPagamentoPreferencial.BOLETO;
+        if (forma_pagamento_cartao_radio_button.isSelected()) return Seguradora.FormaPagamentoPreferencial.CARTAO;
+        if (forma_pagamento_pix_radio_button.isSelected()) return Seguradora.FormaPagamentoPreferencial.PIX;
+        if (forma_pagamento_debito_automatico_radio_button.isSelected()) return Seguradora.FormaPagamentoPreferencial.DEBITO_AUTOMATICO;
+        return null;
     }
 
     private Seguradora obterSeguradoraInformada() {
 
-        String nome = nomeTextField.getText();
+        String nome = nome_text_field.getText();
         if (nome.isEmpty()) return null;
 
-        String cidade = cidadeTextField.getText();
+        String cidade = cidade_text_field.getText();
         if (cidade.isEmpty()) cidade = null;
 
-        String coberturaStr = coberturaPercentualTextField.getText();
-        if (coberturaStr.isEmpty()) return null;
+        String cobertura_str = cobertura_percentual_text_field.getText();
+        if (cobertura_str.isEmpty()) return null;
 
-        double coberturaPercentual;
+        double cobertura_percentual;
 
         try {
-            coberturaPercentual =
-                    Double.parseDouble(coberturaStr.replace(",", "."));
+            cobertura_percentual =
+                    Double.parseDouble(cobertura_str.replace(",", "."));
         } catch (NumberFormatException e) {
             return null;
         }
 
-        Boolean possuiAtendimento24h =
-                obterPossuiAtendimento24hInformado();
-        if (possuiAtendimento24h == null) return null;
+        boolean possui_atendimento_24h = obterPossuiAtendimento24hInformado();
 
-        Seguradora.FormaPagamentoPreferencial formaPagamentoPreferencial =
+        Seguradora.FormaPagamentoPreferencial forma_pagamento_preferencial =
                 obterFormaPagamentoPreferencialSelecionada();
-        if (formaPagamentoPreferencial == null) return null;
+        if (forma_pagamento_preferencial == null) return null;
 
         return new Seguradora(
             nome,
             cidade,
-            coberturaPercentual,
-            possuiAtendimento24h,
-            formaPagamentoPreferencial
+            cobertura_percentual,
+            possui_atendimento_24h,
+            forma_pagamento_preferencial
         );
     }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-        java.awt.GridBagConstraints gridBagConstraints;
+        java.awt.GridBagConstraints grid_bag_constraints;
 
-        comandosPanel = new javax.swing.JPanel();
-        inserirSeguradora = new javax.swing.JButton();
-        alterarSeguradora = new javax.swing.JButton();
-        consultarSeguradora = new javax.swing.JButton();
-        removerSeguradora = new javax.swing.JButton();
-        limparCampos = new javax.swing.JButton();
-        nomeLabel = new javax.swing.JLabel();
-        nomeTextField = new javax.swing.JTextField();
-        cidadeLabel = new javax.swing.JLabel();
-        cidadeTextField = new javax.swing.JTextField();
-        coberturaPercentualLabel = new javax.swing.JLabel();
-        coberturaPercentualTextField = new javax.swing.JTextField();
-        possuiAtendimento24hLabel = new javax.swing.JLabel();
-        possuiAtendimento24hPanel = new javax.swing.JPanel();
-        possuiAtendimento24hSimRadioButton = new javax.swing.JRadioButton();
-        possuiAtendimento24hNaoRadioButton = new javax.swing.JRadioButton();
-        possuiAtendimento24hButtonGroup = new javax.swing.ButtonGroup();
-        formaPagamentoPreferencialComboBox = new javax.swing.JComboBox();
-        formaPagamentoPreferencialComboBox.setModel(new DefaultComboBoxModel(Seguradora.FormaPagamentoPreferencial.values()));
-        formaPagamentoPreferencialLabel = new javax.swing.JLabel();
-        seguradorasCadastradasLabel = new javax.swing.JLabel();
-        seguradorasCadastradasComboBox = new javax.swing.JComboBox();
+        comandos_panel = new javax.swing.JPanel();
+        inserir_seguradora = new javax.swing.JButton();
+        alterar_seguradora = new javax.swing.JButton();
+        consultar_seguradora = new javax.swing.JButton();
+        remover_seguradora = new javax.swing.JButton();
+        limpar_campos = new javax.swing.JButton();
+        nome_label = new javax.swing.JLabel();
+        nome_text_field = new javax.swing.JTextField();
+        cidade_label = new javax.swing.JLabel();
+        cidade_text_field = new javax.swing.JTextField();
+        cobertura_percentual_label = new javax.swing.JLabel();
+        cobertura_percentual_text_field = new javax.swing.JTextField();
+        possui_atendimento_24h_label = new javax.swing.JLabel();
+        possui_atendimento_24h_panel = new javax.swing.JPanel();
+        possui_atendimento_24h_check_box = new javax.swing.JCheckBox();
+        forma_pagamento_preferencial_panel = new javax.swing.JPanel();
+        forma_pagamento_preferencial_button_group = new javax.swing.ButtonGroup();
+        forma_pagamento_boleto_radio_button = new javax.swing.JRadioButton(Seguradora.FormaPagamentoPreferencial.BOLETO.toString());
+        forma_pagamento_cartao_radio_button = new javax.swing.JRadioButton(Seguradora.FormaPagamentoPreferencial.CARTAO.toString());
+        forma_pagamento_pix_radio_button = new javax.swing.JRadioButton(Seguradora.FormaPagamentoPreferencial.PIX.toString());
+        forma_pagamento_debito_automatico_radio_button = new javax.swing.JRadioButton(Seguradora.FormaPagamentoPreferencial.DEBITO_AUTOMATICO.toString());
+        forma_pagamento_preferencial_button_group.add(forma_pagamento_boleto_radio_button);
+        forma_pagamento_preferencial_button_group.add(forma_pagamento_cartao_radio_button);
+        forma_pagamento_preferencial_button_group.add(forma_pagamento_pix_radio_button);
+        forma_pagamento_preferencial_button_group.add(forma_pagamento_debito_automatico_radio_button);
+        forma_pagamento_preferencial_panel.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
+        forma_pagamento_preferencial_panel.add(forma_pagamento_boleto_radio_button);
+        forma_pagamento_preferencial_panel.add(forma_pagamento_cartao_radio_button);
+        forma_pagamento_preferencial_panel.add(forma_pagamento_pix_radio_button);
+        forma_pagamento_preferencial_panel.add(forma_pagamento_debito_automatico_radio_button);
+        forma_pagamento_boleto_radio_button.setSelected(true);
+        forma_pagamento_preferencial_label = new javax.swing.JLabel();
+        seguradoras_cadastradas_label = new javax.swing.JLabel();
+        seguradoras_cadastradas_combo_box = new javax.swing.JComboBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Cadastrar Seguradoras");
@@ -173,167 +180,160 @@ public class JanelaCadastroSeguradoras extends javax.swing.JFrame {
         setPreferredSize(new java.awt.Dimension(700, 460));
         getContentPane().setLayout(new java.awt.GridBagLayout());
 
-        inserirSeguradora.setText("Inserir");
-        inserirSeguradora.addActionListener(new java.awt.event.ActionListener() {
+        inserir_seguradora.setText("Inserir");
+        inserir_seguradora.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 inserirSeguradora(evt);
             }
         });
-        comandosPanel.add(inserirSeguradora);
+        comandos_panel.add(inserir_seguradora);
 
-        alterarSeguradora.setText("Alterar");
-        alterarSeguradora.addActionListener(new java.awt.event.ActionListener() {
+        alterar_seguradora.setText("Alterar");
+        alterar_seguradora.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 alterarSeguradora(evt);
             }
         });
-        comandosPanel.add(alterarSeguradora);
+        comandos_panel.add(alterar_seguradora);
 
-        consultarSeguradora.setText("Consultar");
-        consultarSeguradora.addActionListener(new java.awt.event.ActionListener() {
+        consultar_seguradora.setText("Consultar");
+        consultar_seguradora.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 consultarSeguradora(evt);
             }
         });
-        comandosPanel.add(consultarSeguradora);
+        comandos_panel.add(consultar_seguradora);
 
-        removerSeguradora.setText("Remover");
-        removerSeguradora.addActionListener(new java.awt.event.ActionListener() {
+        remover_seguradora.setText("Remover");
+        remover_seguradora.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 removerSeguradora(evt);
             }
         });
-        comandosPanel.add(removerSeguradora);
+        comandos_panel.add(remover_seguradora);
 
-        limparCampos.setText("Limpar");
-        limparCampos.addActionListener(new java.awt.event.ActionListener() {
+        limpar_campos.setText("Limpar");
+        limpar_campos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 limparCampos(evt);
             }
         });
-        comandosPanel.add(limparCampos);
+        comandos_panel.add(limpar_campos);
 
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 6;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        getContentPane().add(comandosPanel, gridBagConstraints);
+        grid_bag_constraints = new java.awt.GridBagConstraints();
+        grid_bag_constraints.gridx = 1;
+        grid_bag_constraints.gridy = 6;
+        grid_bag_constraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        getContentPane().add(comandos_panel, grid_bag_constraints);
 
-        nomeLabel.setText("Nome");
-        nomeLabel.setMaximumSize(null);
-        nomeLabel.setMinimumSize(null);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
-        gridBagConstraints.insets = new java.awt.Insets(1, 16, 10, 10);
-        getContentPane().add(nomeLabel, gridBagConstraints);
+        nome_label.setText("Nome");
+        nome_label.setMaximumSize(null);
+        nome_label.setMinimumSize(null);
+        grid_bag_constraints = new java.awt.GridBagConstraints();
+        grid_bag_constraints.gridx = 0;
+        grid_bag_constraints.gridy = 1;
+        grid_bag_constraints.anchor = java.awt.GridBagConstraints.EAST;
+        grid_bag_constraints.insets = new java.awt.Insets(1, 16, 10, 10);
+        getContentPane().add(nome_label, grid_bag_constraints);
 
-        nomeTextField.setColumns(24);
-        nomeTextField.setPreferredSize(new java.awt.Dimension(240, 20));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.ipadx = 80;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(1, 5, 10, 5);
-        getContentPane().add(nomeTextField, gridBagConstraints);
+        nome_text_field.setColumns(24);
+        nome_text_field.setPreferredSize(new java.awt.Dimension(240, 20));
+        grid_bag_constraints = new java.awt.GridBagConstraints();
+        grid_bag_constraints.gridx = 1;
+        grid_bag_constraints.gridy = 1;
+        grid_bag_constraints.ipadx = 80;
+        grid_bag_constraints.anchor = java.awt.GridBagConstraints.WEST;
+        grid_bag_constraints.insets = new java.awt.Insets(1, 5, 10, 5);
+        getContentPane().add(nome_text_field, grid_bag_constraints);
 
-        cidadeLabel.setText("Cidade");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
-        gridBagConstraints.insets = new java.awt.Insets(1, 16, 10, 10);
-        getContentPane().add(cidadeLabel, gridBagConstraints);
+        cidade_label.setText("Cidade");
+        grid_bag_constraints = new java.awt.GridBagConstraints();
+        grid_bag_constraints.gridx = 0;
+        grid_bag_constraints.gridy = 2;
+        grid_bag_constraints.anchor = java.awt.GridBagConstraints.EAST;
+        grid_bag_constraints.insets = new java.awt.Insets(1, 16, 10, 10);
+        getContentPane().add(cidade_label, grid_bag_constraints);
 
-        cidadeTextField.setColumns(18);
-        cidadeTextField.setPreferredSize(new java.awt.Dimension(180, 20));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.ipadx = 20;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(1, 5, 10, 5);
-        getContentPane().add(cidadeTextField, gridBagConstraints);
+        cidade_text_field.setColumns(18);
+        cidade_text_field.setPreferredSize(new java.awt.Dimension(180, 20));
+        grid_bag_constraints = new java.awt.GridBagConstraints();
+        grid_bag_constraints.gridx = 1;
+        grid_bag_constraints.gridy = 2;
+        grid_bag_constraints.ipadx = 20;
+        grid_bag_constraints.anchor = java.awt.GridBagConstraints.WEST;
+        grid_bag_constraints.insets = new java.awt.Insets(1, 5, 10, 5);
+        getContentPane().add(cidade_text_field, grid_bag_constraints);
 
-        coberturaPercentualLabel.setText("Cobertura Percentual");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 3;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
-        gridBagConstraints.insets = new java.awt.Insets(1, 16, 10, 10);
-        getContentPane().add(coberturaPercentualLabel, gridBagConstraints);
+        cobertura_percentual_label.setText("Cobertura Percentual");
+        grid_bag_constraints = new java.awt.GridBagConstraints();
+        grid_bag_constraints.gridx = 0;
+        grid_bag_constraints.gridy = 3;
+        grid_bag_constraints.anchor = java.awt.GridBagConstraints.EAST;
+        grid_bag_constraints.insets = new java.awt.Insets(1, 16, 10, 10);
+        getContentPane().add(cobertura_percentual_label, grid_bag_constraints);
 
-        coberturaPercentualTextField.setColumns(10);
-        coberturaPercentualTextField.setPreferredSize(new java.awt.Dimension(100, 20));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 3;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(1, 5, 10, 5);
-        getContentPane().add(coberturaPercentualTextField, gridBagConstraints);
+        cobertura_percentual_text_field.setColumns(10);
+        cobertura_percentual_text_field.setPreferredSize(new java.awt.Dimension(100, 20));
+        grid_bag_constraints = new java.awt.GridBagConstraints();
+        grid_bag_constraints.gridx = 1;
+        grid_bag_constraints.gridy = 3;
+        grid_bag_constraints.anchor = java.awt.GridBagConstraints.WEST;
+        grid_bag_constraints.insets = new java.awt.Insets(1, 5, 10, 5);
+        getContentPane().add(cobertura_percentual_text_field, grid_bag_constraints);
 
-        possuiAtendimento24hLabel.setText("Possui Atendimento 24h");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 4;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
-        gridBagConstraints.insets = new java.awt.Insets(1, 16, 10, 10);
-        getContentPane().add(possuiAtendimento24hLabel, gridBagConstraints);
+        possui_atendimento_24h_label.setText("Possui Atendimento 24h");
+        grid_bag_constraints = new java.awt.GridBagConstraints();
+        grid_bag_constraints.gridx = 0;
+        grid_bag_constraints.gridy = 4;
+        grid_bag_constraints.anchor = java.awt.GridBagConstraints.EAST;
+        grid_bag_constraints.insets = new java.awt.Insets(1, 16, 10, 10);
+        getContentPane().add(possui_atendimento_24h_label, grid_bag_constraints);
 
-        possuiAtendimento24hPanel.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
+        possui_atendimento_24h_panel.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
+        possui_atendimento_24h_check_box.setText("Sim");
+        possui_atendimento_24h_panel.add(possui_atendimento_24h_check_box);
 
-        possuiAtendimento24hButtonGroup.add(possuiAtendimento24hSimRadioButton);
-        possuiAtendimento24hButtonGroup.add(possuiAtendimento24hNaoRadioButton);
+        grid_bag_constraints = new java.awt.GridBagConstraints();
+        grid_bag_constraints.gridx = 1;
+        grid_bag_constraints.gridy = 4;
+        grid_bag_constraints.gridwidth = 2;
+        grid_bag_constraints.anchor = java.awt.GridBagConstraints.WEST;
+        grid_bag_constraints.insets = new java.awt.Insets(1, 5, 10, 5);
+        getContentPane().add(possui_atendimento_24h_panel, grid_bag_constraints);
 
-        possuiAtendimento24hSimRadioButton.setText("Sim");
-        possuiAtendimento24hPanel.add(possuiAtendimento24hSimRadioButton);
+        forma_pagamento_preferencial_label.setText("Forma de Pagamento Preferencial");
+        grid_bag_constraints = new java.awt.GridBagConstraints();
+        grid_bag_constraints.gridx = 0;
+        grid_bag_constraints.gridy = 5;
+        grid_bag_constraints.anchor = java.awt.GridBagConstraints.EAST;
+        grid_bag_constraints.insets = new java.awt.Insets(1, 16, 10, 10);
+        getContentPane().add(forma_pagamento_preferencial_label, grid_bag_constraints);
 
-        possuiAtendimento24hNaoRadioButton.setText("Não");
-        possuiAtendimento24hPanel.add(possuiAtendimento24hNaoRadioButton);
+        grid_bag_constraints = new java.awt.GridBagConstraints();
+        grid_bag_constraints.gridx = 1;
+        grid_bag_constraints.gridy = 5;
+        grid_bag_constraints.anchor = java.awt.GridBagConstraints.WEST;
+        grid_bag_constraints.insets = new java.awt.Insets(1, 5, 10, 5);
+        getContentPane().add(forma_pagamento_preferencial_panel, grid_bag_constraints);
 
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 4;
-        gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(1, 5, 10, 5);
-        getContentPane().add(possuiAtendimento24hPanel, gridBagConstraints);
+        seguradoras_cadastradas_label.setText("Seguradoras Cadastradas");
+        grid_bag_constraints = new java.awt.GridBagConstraints();
+        grid_bag_constraints.anchor = java.awt.GridBagConstraints.EAST;
+        grid_bag_constraints.insets = new java.awt.Insets(0, 12, 0, 5);
+        getContentPane().add(seguradoras_cadastradas_label, grid_bag_constraints);
 
-        formaPagamentoPreferencialLabel.setText("Forma de Pagamento Preferencial");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 5;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
-        gridBagConstraints.insets = new java.awt.Insets(1, 16, 10, 10);
-        getContentPane().add(formaPagamentoPreferencialLabel, gridBagConstraints);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 5;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(1, 5, 10, 5);
-        getContentPane().add(formaPagamentoPreferencialComboBox, gridBagConstraints);
-
-        seguradorasCadastradasLabel.setText("Seguradoras Cadastradas");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
-        gridBagConstraints.insets = new java.awt.Insets(0, 12, 0, 5);
-        getContentPane().add(seguradorasCadastradasLabel, gridBagConstraints);
-
-        seguradorasCadastradasComboBox.setModel(new DefaultComboBoxModel(seguradorasCadastradas));
-        seguradorasCadastradasComboBox.addActionListener(new java.awt.event.ActionListener() {
+        seguradoras_cadastradas_combo_box.setModel(new DefaultComboBoxModel(seguradoras_cadastradas));
+        seguradoras_cadastradas_combo_box.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 seguradorasCadastradasComboBoxActionPerformed(evt);
             }
         });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(1, 5, 10, 5);
-        getContentPane().add(seguradorasCadastradasComboBox, gridBagConstraints);
+        grid_bag_constraints = new java.awt.GridBagConstraints();
+        grid_bag_constraints.gridx = 1;
+        grid_bag_constraints.gridy = 0;
+        grid_bag_constraints.anchor = java.awt.GridBagConstraints.WEST;
+        grid_bag_constraints.insets = new java.awt.Insets(1, 5, 10, 5);
+        getContentPane().add(seguradoras_cadastradas_combo_box, grid_bag_constraints);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -342,19 +342,19 @@ public class JanelaCadastroSeguradoras extends javax.swing.JFrame {
         Seguradora seguradora =
                 obterSeguradoraInformada();
 
-        String mensagemErro = null;
+        String mensagem_erro = null;
 
         if (seguradora != null)
-            mensagemErro =
+            mensagem_erro =
                     controlador.alterarSeguradora(seguradora);
         else
-            mensagemErro =
+            mensagem_erro =
                     "Algum atributo da Seguradora não foi informado.";
 
-        if (mensagemErro == null) {
+        if (mensagem_erro == null) {
 
             Seguradora visao =
-                    (Seguradora) seguradorasCadastradasComboBox.getSelectedItem();
+                    (Seguradora) seguradoras_cadastradas_combo_box.getSelectedItem();
 
             if (visao != null) {
 
@@ -362,11 +362,11 @@ public class JanelaCadastroSeguradoras extends javax.swing.JFrame {
                         seguradora.getCidade()
                 );
 
-                seguradorasCadastradasComboBox.updateUI();
+                seguradoras_cadastradas_combo_box.updateUI();
             }
 
         } else {
-            informarErro(mensagemErro);
+            informarErro(mensagem_erro);
         }
     }//GEN-LAST:event_alterarSeguradora
 
@@ -374,34 +374,34 @@ public class JanelaCadastroSeguradoras extends javax.swing.JFrame {
         Seguradora seguradora =
                 obterSeguradoraInformada();
 
-        String mensagemErro = null;
+        String mensagem_erro = null;
 
         if (seguradora != null)
-            mensagemErro =
+            mensagem_erro =
                     controlador.inserirSeguradora(seguradora);
         else
-            mensagemErro =
+            mensagem_erro =
                     "Algum atributo da Seguradora não foi informado";
 
-        if (mensagemErro == null) {
+        if (mensagem_erro == null) {
 
             Seguradora visao = seguradora.getVisao();
             atualizarSeguradorasCadastradas(visao.getNome());
 
         } else {
-            informarErro(mensagemErro);
+            informarErro(mensagem_erro);
         }
     }//GEN-LAST:event_inserirSeguradora
 
     private void consultarSeguradora(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_consultarSeguradora
         Seguradora visao =
                 (Seguradora)
-                seguradorasCadastradasComboBox
+                seguradoras_cadastradas_combo_box
                         .getSelectedItem();
 
         Seguradora seguradora = null;
 
-        String mensagemErro = null;
+        String mensagem_erro = null;
 
         if (visao != null) {
 
@@ -411,17 +411,17 @@ public class JanelaCadastroSeguradoras extends javax.swing.JFrame {
                     );
 
             if (seguradora == null)
-                mensagemErro =
+                mensagem_erro =
                         "Seguradora não cadastrada";
 
         } else {
-            mensagemErro =
+            mensagem_erro =
                     "Nenhuma Seguradora selecionada";
         }
 
-        if (mensagemErro == null) {
+        if (mensagem_erro == null) {
 
-            nomeTextField.setText(
+            nome_text_field.setText(
                     seguradora.getNome()
             );
 
@@ -431,9 +431,9 @@ public class JanelaCadastroSeguradoras extends javax.swing.JFrame {
             if (cidade == null)
                 cidade = "";
 
-            cidadeTextField.setText(cidade);
+            cidade_text_field.setText(cidade);
 
-            coberturaPercentualTextField.setText(
+            cobertura_percentual_text_field.setText(
                     String.valueOf(
                             seguradora
                                     .getCoberturaPercentual()
@@ -442,49 +442,47 @@ public class JanelaCadastroSeguradoras extends javax.swing.JFrame {
 
             definirPossuiAtendimento24h(seguradora.getPossuiAtendimento24h());
 
-            formaPagamentoPreferencialComboBox.setSelectedItem(
-                    seguradora.getFormaPagamentoPreferencial().toString()
-            );
+            definirFormaPagamentoPreferencial(seguradora.getFormaPagamentoPreferencial());
 
         } else {
-            informarErro(mensagemErro);
+            informarErro(mensagem_erro);
         }
     }//GEN-LAST:event_consultarSeguradora
 
     private void removerSeguradora(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removerSeguradora
         Seguradora visao =
                 (Seguradora)
-                seguradorasCadastradasComboBox
+                seguradoras_cadastradas_combo_box
                         .getSelectedItem();
 
-        String mensagemErro = null;
+        String mensagem_erro = null;
 
         if (visao != null)
-            mensagemErro =
+            mensagem_erro =
                     controlador.removerSeguradora(
                             visao.getNome()
                     );
         else
-            mensagemErro =
+            mensagem_erro =
                     "Nenhuma Seguradora selecionada";
 
-        if (mensagemErro == null) {
+        if (mensagem_erro == null) {
 
             atualizarSeguradorasCadastradas();
 
             limparCampos(evt);
 
         } else {
-            informarErro(mensagemErro);
+            informarErro(mensagem_erro);
         }
     }//GEN-LAST:event_removerSeguradora
 
     private void limparCampos(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_limparCampos
-        nomeTextField.setText("");
-        cidadeTextField.setText("");
-        coberturaPercentualTextField.setText("");
-        possuiAtendimento24hButtonGroup.clearSelection();
-        formaPagamentoPreferencialComboBox.setSelectedIndex(0);
+        nome_text_field.setText("");
+        cidade_text_field.setText("");
+        cobertura_percentual_text_field.setText("");
+        possui_atendimento_24h_check_box.setSelected(false);
+        definirFormaPagamentoPreferencial(Seguradora.FormaPagamentoPreferencial.BOLETO);
     }//GEN-LAST:event_limparCampos
 
     private void seguradorasCadastradasComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_seguradoras_cadastradasComboBoxActionPerformed
@@ -493,26 +491,29 @@ public class JanelaCadastroSeguradoras extends javax.swing.JFrame {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton alterarSeguradora;
-    private javax.swing.JLabel cidadeLabel;
-    private javax.swing.JTextField cidadeTextField;
-    private javax.swing.JLabel coberturaPercentualLabel;
-    private javax.swing.JTextField coberturaPercentualTextField;
-    private javax.swing.JPanel comandosPanel;
-    private javax.swing.JButton consultarSeguradora;
-    private javax.swing.JButton inserirSeguradora;
-    private javax.swing.JButton limparCampos;
-    private javax.swing.JLabel nomeLabel;
-    private javax.swing.JTextField nomeTextField;
-    private javax.swing.JLabel possuiAtendimento24hLabel;
-    private javax.swing.ButtonGroup possuiAtendimento24hButtonGroup;
-    private javax.swing.JRadioButton possuiAtendimento24hNaoRadioButton;
-    private javax.swing.JPanel possuiAtendimento24hPanel;
-    private javax.swing.JRadioButton possuiAtendimento24hSimRadioButton;
-    private javax.swing.JComboBox formaPagamentoPreferencialComboBox;
-    private javax.swing.JLabel formaPagamentoPreferencialLabel;
-    private javax.swing.JButton removerSeguradora;
-    private javax.swing.JComboBox seguradorasCadastradasComboBox;
-    private javax.swing.JLabel seguradorasCadastradasLabel;
+    private javax.swing.JButton alterar_seguradora;
+    private javax.swing.JLabel cidade_label;
+    private javax.swing.JTextField cidade_text_field;
+    private javax.swing.JLabel cobertura_percentual_label;
+    private javax.swing.JTextField cobertura_percentual_text_field;
+    private javax.swing.JPanel comandos_panel;
+    private javax.swing.JButton consultar_seguradora;
+    private javax.swing.JButton inserir_seguradora;
+    private javax.swing.JButton limpar_campos;
+    private javax.swing.JLabel nome_label;
+    private javax.swing.JTextField nome_text_field;
+    private javax.swing.JLabel possui_atendimento_24h_label;
+    private javax.swing.JCheckBox possui_atendimento_24h_check_box;
+    private javax.swing.JPanel possui_atendimento_24h_panel;
+    private javax.swing.ButtonGroup forma_pagamento_preferencial_button_group;
+    private javax.swing.JPanel forma_pagamento_preferencial_panel;
+    private javax.swing.JRadioButton forma_pagamento_boleto_radio_button;
+    private javax.swing.JRadioButton forma_pagamento_cartao_radio_button;
+    private javax.swing.JRadioButton forma_pagamento_pix_radio_button;
+    private javax.swing.JRadioButton forma_pagamento_debito_automatico_radio_button;
+    private javax.swing.JLabel forma_pagamento_preferencial_label;
+    private javax.swing.JButton remover_seguradora;
+    private javax.swing.JComboBox seguradoras_cadastradas_combo_box;
+    private javax.swing.JLabel seguradoras_cadastradas_label;
     // End of variables declaration//GEN-END:variables
 }

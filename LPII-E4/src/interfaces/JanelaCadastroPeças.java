@@ -12,24 +12,26 @@ import java.awt.FlowLayout;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.ButtonGroup;
 import javax.swing.JFrame;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 
 public class JanelaCadastroPeças extends JFrame {
     private final ControladorCadastroPeças controlador;
-    private Peça[] peçasCadastradas;
+    private Peça[] peças_cadastradas;
 
     public JanelaCadastroPeças(ControladorCadastroPeças controlador) { this(controlador,null); }
     public JanelaCadastroPeças(ControladorCadastroPeças controlador, Frame owner) {
         this.controlador=controlador;
         initComponents();
-        especializaçãoTabbedPane.addTab("Peça mecânica", painelMecânica);
-        especializaçãoTabbedPane.addTab("Peça de acessórios", painelAcessórios);
+        especialização_tabbed_pane.addTab("Peça mecânica", painel_mecânica);
+        especialização_tabbed_pane.addTab("Peça de acessórios", painel_acessórios);
         setTitle("Cadastrar Peças");
         setResizable(false);
         atualizarPeçasCadastradas(-1);
@@ -51,65 +53,87 @@ public class JanelaCadastroPeças extends JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
         GridBagConstraints c = new GridBagConstraints();
-        peçasComboBox = new JComboBox<>();
-        codigoField = new JTextField(8);
-        nomeField = new JTextField(24);
-        marcaComboBox = new JComboBox<>(Peça.MarcaPeça.values());
-        precoField = new JTextField(10);
-        sobEncomendaCheckBox = new JCheckBox("Sob encomenda");
-        painelMecânica = new JPanel(new GridBagLayout());
-        painelAcessórios = new JPanel(new GridBagLayout());
-        categoriaMecânicaComboBox = new JComboBox<>(PeçaMecânica.CategoriaMecânica.values());
-        prazoGarantiaTextField = new JTextField(10);
-        mecanicoProprioCheckBox = new JCheckBox("Sim");
-        categoriaAcessórioComboBox = new JComboBox<>(PeçaAcessório.CategoriaAcessório.values());
-        corTextField = new JTextField(10);
-        funileiroProprioCheckBox = new JCheckBox("Sim");
-        especializaçãoTabbedPane = new JTabbedPane();
-        camposComunsPanel = new JPanel(new GridBagLayout());
-        abasAlinhadasPanel = new JPanel(new GridBagLayout());
-        comandosPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        inserirButton = new JButton("Inserir");
-        consultarButton = new JButton("Consultar");
-        alterarButton = new JButton("Alterar");
-        removerButton = new JButton("Remover");
-        limparButton = new JButton("Limpar");
-        peçasLabel = new JLabel(); codigoLabel = new JLabel(); nomeLabel = new JLabel();
-        marcaLabel = new JLabel(); precoLabel = new JLabel();
-        categoriaMecânicaLabel = new JLabel(); prazoGarantiaLabel = new JLabel(); mecanicoProprioLabel = new JLabel();
-        categoriaAcessórioLabel = new JLabel(); corLabel = new JLabel(); funileiroProprioLabel = new JLabel();
+        peças_combo_box = new JComboBox<>();
+        codigo_field = new JTextField(8);
+        nome_field = new JTextField(24);
+        marca_button_group = new ButtonGroup();
+        marca_panel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        marca_oem_radio_button = new JRadioButton(Peça.MarcaPeça.OEM.toString());
+        marca_original_radio_button = new JRadioButton(Peça.MarcaPeça.ORIGINAL.toString());
+        marca_genuina_radio_button = new JRadioButton(Peça.MarcaPeça.GENUINA.toString());
+        marca_button_group.add(marca_oem_radio_button);
+        marca_button_group.add(marca_original_radio_button);
+        marca_button_group.add(marca_genuina_radio_button);
+        marca_panel.add(marca_oem_radio_button);
+        marca_panel.add(marca_original_radio_button);
+        marca_panel.add(marca_genuina_radio_button);
+        preco_field = new JTextField(10);
+        sob_encomenda_check_box = new JCheckBox("Sob encomenda");
+        painel_mecânica = new JPanel(new GridBagLayout());
+        painel_acessórios = new JPanel(new GridBagLayout());
+        categoria_mecânica_combo_box = new JComboBox<>(PeçaMecânica.CategoriaMecânica.values());
+        prazo_garantia_text_field = new JTextField(10);
+        mecanico_proprio_check_box = new JCheckBox("Sim");
+        categoria_acessório_combo_box = new JComboBox<>(PeçaAcessório.CategoriaAcessório.values());
+        cor_text_field = new JTextField(10);
+        funileiro_proprio_check_box = new JCheckBox("Sim");
+        especialização_tabbed_pane = new JTabbedPane();
+        campos_comuns_panel = new JPanel(new GridBagLayout());
+        abas_alinhadas_panel = new JPanel(new GridBagLayout());
+        comandos_panel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        inserir_button = new JButton("Inserir");
+        consultar_button = new JButton("Consultar");
+        alterar_button = new JButton("Alterar");
+        remover_button = new JButton("Remover");
+        limpar_button = new JButton("Limpar");
+        peças_label = new JLabel(); codigo_label = new JLabel(); nome_label = new JLabel();
+        marca_label = new JLabel(); preco_label = new JLabel();
+        categoria_mecânica_label = new JLabel(); prazo_garantia_label = new JLabel(); mecanico_proprio_label = new JLabel();
+        categoria_acessório_label = new JLabel(); cor_label = new JLabel(); funileiro_proprio_label = new JLabel();
 
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setTitle("Cadastrar Peças");
         getContentPane().setLayout(new GridBagLayout());
         c.insets = new Insets(1, 5, 10, 5); c.anchor = GridBagConstraints.WEST;
-        adicionarCampoGerado(camposComunsPanel, c, 0, peçasLabel, "Peças cadastradas", peçasComboBox, false);
-        adicionarCampoGerado(camposComunsPanel, c, 1, codigoLabel, "Código", codigoField, false);
-        adicionarCampoGerado(camposComunsPanel, c, 2, nomeLabel, "Nome", nomeField, false);
-        adicionarCampoGerado(camposComunsPanel, c, 3, marcaLabel, "Marca", marcaComboBox, false);
-        adicionarCampoGerado(camposComunsPanel, c, 4, precoLabel, "Preço", precoField, false);
-        c.gridx = 1; c.gridy = 5; camposComunsPanel.add(sobEncomendaCheckBox, c);
+        adicionarCampoGerado(campos_comuns_panel, c, 0, peças_label, "Peças cadastradas", peças_combo_box, false);
+        adicionarCampoGerado(campos_comuns_panel, c, 1, codigo_label, "Código", codigo_field, false);
+        adicionarCampoGerado(campos_comuns_panel, c, 2, nome_label, "Nome", nome_field, false);
+        adicionarCampoGerado(campos_comuns_panel, c, 3, marca_label, "Marca", marca_panel, false);
+        adicionarCampoGerado(campos_comuns_panel, c, 4, preco_label, "Preço", preco_field, false);
+        c.gridx = 1; c.gridy = 5; campos_comuns_panel.add(sob_encomenda_check_box, c);
         c.gridx = 0; c.gridy = 0; c.gridwidth = 2; c.fill = GridBagConstraints.HORIZONTAL;
-        getContentPane().add(camposComunsPanel, c);
-        painelMecânica.setBorder(javax.swing.BorderFactory.createEmptyBorder(12, 12, 12, 12));
-        painelAcessórios.setBorder(javax.swing.BorderFactory.createEmptyBorder(12, 12, 12, 12));
-        adicionarCampoGerado(painelMecânica, c, 0, categoriaMecânicaLabel, "Categoria mecânica", categoriaMecânicaComboBox, true);
-        adicionarCampoGerado(painelMecânica, c, 1, prazoGarantiaLabel, "Prazo de garantia (dias)", prazoGarantiaTextField, true);
-        adicionarCampoGerado(painelMecânica, c, 2, mecanicoProprioLabel, "Mecânico próprio", mecanicoProprioCheckBox, true);
-        adicionarCampoGerado(painelAcessórios, c, 0, categoriaAcessórioLabel, "Categoria do acessório", categoriaAcessórioComboBox, true);
-        adicionarCampoGerado(painelAcessórios, c, 1, corLabel, "Cor", corTextField, true);
-        adicionarCampoGerado(painelAcessórios, c, 2, funileiroProprioLabel, "Funileiro próprio", funileiroProprioCheckBox, true);
-        abasAlinhadasPanel.setBorder(javax.swing.BorderFactory.createEmptyBorder(8, 8, 8, 8));
-        abasAlinhadasPanel.add(especializaçãoTabbedPane);
+        getContentPane().add(campos_comuns_panel, c);
+        painel_mecânica.setBorder(javax.swing.BorderFactory.createEmptyBorder(12, 12, 12, 12));
+        painel_acessórios.setBorder(javax.swing.BorderFactory.createEmptyBorder(12, 12, 12, 12));
+        adicionarCampoGerado(painel_mecânica, c, 0, categoria_mecânica_label, "Categoria mecânica", categoria_mecânica_combo_box, true);
+        adicionarCampoGerado(painel_mecânica, c, 1, prazo_garantia_label, "Prazo de garantia (dias)", prazo_garantia_text_field, true);
+        adicionarCampoGerado(painel_mecânica, c, 2, mecanico_proprio_label, "Mecânico próprio", mecanico_proprio_check_box, true);
+        adicionarCampoGerado(painel_acessórios, c, 0, categoria_acessório_label, "Categoria do acessório", categoria_acessório_combo_box, true);
+        adicionarCampoGerado(painel_acessórios, c, 1, cor_label, "Cor", cor_text_field, true);
+        adicionarCampoGerado(painel_acessórios, c, 2, funileiro_proprio_label, "Funileiro próprio", funileiro_proprio_check_box, true);
+        abas_alinhadas_panel.setBorder(javax.swing.BorderFactory.createEmptyBorder(8, 8, 8, 8));
+        abas_alinhadas_panel.add(especialização_tabbed_pane);
         c.gridx = 0; c.gridy = 1; c.gridwidth = 2; c.fill = GridBagConstraints.BOTH; c.weightx = 1.0; c.weighty = 1.0;
-        getContentPane().add(abasAlinhadasPanel, c);
-        comandosPanel.add(inserirButton); comandosPanel.add(consultarButton);
-        comandosPanel.add(alterarButton); comandosPanel.add(removerButton); comandosPanel.add(limparButton);
+        getContentPane().add(abas_alinhadas_panel, c);
+        comandos_panel.add(inserir_button); comandos_panel.add(consultar_button);
+        comandos_panel.add(alterar_button); comandos_panel.add(remover_button); comandos_panel.add(limpar_button);
         c.gridx = 0; c.gridy = 2; c.gridwidth = 2; c.fill = GridBagConstraints.NONE; c.weightx = 0; c.weighty = 0;
-        getContentPane().add(comandosPanel, c);
-        inserirButton.addActionListener(e -> inserir()); consultarButton.addActionListener(e -> consultar());
-        alterarButton.addActionListener(e -> alterar()); removerButton.addActionListener(e -> remover());
-        limparButton.addActionListener(e -> limparCampos());
+        getContentPane().add(comandos_panel, c);
+        inserir_button.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) { inserirPeça(evt); }
+        });
+        consultar_button.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) { consultarPeça(evt); }
+        });
+        alterar_button.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) { alterarPeça(evt); }
+        });
+        remover_button.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) { removerPeça(evt); }
+        });
+        limpar_button.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) { limparCampos(evt); }
+        });
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
@@ -123,81 +147,101 @@ public class JanelaCadastroPeças extends JFrame {
         c.weightx = expandir ? 1.0 : 0;
         painel.add(campo, c);
     }
-    private void atualizarPeçasCadastradas(int codigoSelecionado) {
-        peçasCadastradas=Peça.getVisoes(); peçasComboBox.setModel(new DefaultComboBoxModel<>(peçasCadastradas));
-        for(Peça p:peçasCadastradas) if(p.getCodigo()==codigoSelecionado) { peçasComboBox.setSelectedItem(p);break; }
+    private void atualizarPeçasCadastradas(int codigo_selecionado) {
+        peças_cadastradas=Peça.getVisoes(); peças_combo_box.setModel(new DefaultComboBoxModel<>(peças_cadastradas));
+        for(Peça p:peças_cadastradas) if(p.getCodigo()==codigo_selecionado) { peças_combo_box.setSelectedItem(p);break; }
     }
     private Peça obterPeçaInformada() {
         int codigo; double preco;
-        try { codigo=Integer.parseInt(codigoField.getText().trim()); } catch(NumberFormatException e) { throw new IllegalArgumentException("Informe um código inteiro válido."); }
-        String nome=nomeField.getText().trim(); if(nome.isEmpty()) throw new IllegalArgumentException("Informe o nome da peça.");
-        Peça.MarcaPeça marca=(Peça.MarcaPeça)marcaComboBox.getSelectedItem(); if(marca==null) throw new IllegalArgumentException("Selecione a marca.");
-        try { preco=Double.parseDouble(precoField.getText().trim().replace(',','.')); } catch(NumberFormatException e) { throw new IllegalArgumentException("Informe um preço válido."); }
+        try { codigo=Integer.parseInt(codigo_field.getText().trim()); } catch(NumberFormatException e) { throw new IllegalArgumentException("Informe um código inteiro válido."); }
+        String nome=nome_field.getText().trim(); if(nome.isEmpty()) throw new IllegalArgumentException("Informe o nome da peça.");
+        Peça.MarcaPeça marca=obterMarcaSelecionada(); if(marca==null) throw new IllegalArgumentException("Selecione a marca.");
+        try { preco=Double.parseDouble(preco_field.getText().trim().replace(',','.')); } catch(NumberFormatException e) { throw new IllegalArgumentException("Informe um preço válido."); }
         if(preco<0) throw new IllegalArgumentException("O preço não pode ser negativo.");
         try {
-            if(especializaçãoTabbedPane.getSelectedIndex()==0) {
-                PeçaMecânica.CategoriaMecânica categoria=(PeçaMecânica.CategoriaMecânica) categoriaMecânicaComboBox.getSelectedItem();
+            if(especialização_tabbed_pane.getSelectedIndex()==0) {
+                PeçaMecânica.CategoriaMecânica categoria=(PeçaMecânica.CategoriaMecânica) categoria_mecânica_combo_box.getSelectedItem();
                 if(categoria==null) throw new IllegalArgumentException("Selecione a categoria mecânica.");
-                String prazoTexto=prazoGarantiaTextField.getText().trim();
-                Integer prazo=prazoTexto.isEmpty()?null:Integer.valueOf(prazoTexto);
+                String prazo_texto=prazo_garantia_text_field.getText().trim();
+                Integer prazo=prazo_texto.isEmpty()?null:Integer.valueOf(prazo_texto);
                 if(prazo!=null && prazo<0) throw new IllegalArgumentException("O prazo de garantia não pode ser negativo.");
-                return new PeçaMecânica(codigo,nome,marca,preco,categoria,prazo,mecanicoProprioCheckBox.isSelected(),sobEncomendaCheckBox.isSelected());
+                return new PeçaMecânica(codigo,nome,marca,preco,categoria,prazo,mecanico_proprio_check_box.isSelected(),sob_encomenda_check_box.isSelected());
             }
-            PeçaAcessório.CategoriaAcessório categoria=(PeçaAcessório.CategoriaAcessório) categoriaAcessórioComboBox.getSelectedItem();
+            PeçaAcessório.CategoriaAcessório categoria=(PeçaAcessório.CategoriaAcessório) categoria_acessório_combo_box.getSelectedItem();
             if(categoria==null) throw new IllegalArgumentException("Selecione a categoria do acessório.");
-            String cor=corTextField.getText().trim();
-            return new PeçaAcessório(codigo,nome,marca,preco,categoria,cor.isEmpty()?null:cor,funileiroProprioCheckBox.isSelected(),sobEncomendaCheckBox.isSelected());
+            String cor=cor_text_field.getText().trim();
+            return new PeçaAcessório(codigo,nome,marca,preco,categoria,cor.isEmpty()?null:cor,funileiro_proprio_check_box.isSelected(),sob_encomenda_check_box.isSelected());
         } catch(NumberFormatException e) { throw new IllegalArgumentException("Informe um prazo de garantia inteiro válido."); }
     }
-    private void inserir() {
+    private void inserirPeça(java.awt.event.ActionEvent evt) {
         try { Peça p=obterPeçaInformada(); String erro=controlador.inserirPeças(p); if(erro!=null) erro(erro); else atualizarPeçasCadastradas(p.getCodigo()); }
         catch(IllegalArgumentException e) { erro(e.getMessage()); }
     }
-    private void alterar() {
+    private void alterarPeça(java.awt.event.ActionEvent evt) {
         try { Peça p=obterPeçaInformada(); String erro=controlador.alterarPeças(p); if(erro!=null) erro(erro); else atualizarPeçasCadastradas(p.getCodigo()); }
         catch(IllegalArgumentException e) { erro(e.getMessage()); }
     }
-    private void consultar() {
-        Peça selecionada=(Peça)peçasComboBox.getSelectedItem(); if(selecionada==null) { erro("Selecione uma peça.");return; }
+    private void consultarPeça(java.awt.event.ActionEvent evt) {
+        Peça selecionada=(Peça)peças_combo_box.getSelectedItem(); if(selecionada==null) { erro("Selecione uma peça.");return; }
         Peça p=Peça.buscarPeças(selecionada.getCodigo()); if(p==null) { erro("Peça não encontrada.");return; }
-        codigoField.setText(Integer.toString(p.getCodigo())); nomeField.setText(p.getNome()); marcaComboBox.setSelectedItem(p.getMarca()); precoField.setText(Double.toString(p.getPreco()));
-        sobEncomendaCheckBox.setSelected(p.isSobEncomenda());
+        codigo_field.setText(Integer.toString(p.getCodigo())); nome_field.setText(p.getNome()); definirMarcaSelecionada(p.getMarca()); preco_field.setText(Double.toString(p.getPreco()));
+        sob_encomenda_check_box.setSelected(p.isSobEncomenda());
         if(p instanceof PeçaMecânica) {
-            PeçaMecânica m=(PeçaMecânica)p; especializaçãoTabbedPane.setSelectedComponent(painelMecânica);
-            categoriaMecânicaComboBox.setSelectedItem(m.getCategoriaMecânica()); prazoGarantiaTextField.setText(m.getPrazoGarantia()==null?"":m.getPrazoGarantia().toString()); mecanicoProprioCheckBox.setSelected(m.isMecanicoProprio());
+            PeçaMecânica m=(PeçaMecânica)p; especialização_tabbed_pane.setSelectedComponent(painel_mecânica);
+            categoria_mecânica_combo_box.setSelectedItem(m.getCategoriaMecânica()); prazo_garantia_text_field.setText(m.getPrazoGarantia()==null?"":m.getPrazoGarantia().toString()); mecanico_proprio_check_box.setSelected(m.isMecanicoProprio());
         } else if(p instanceof PeçaAcessório) {
-            PeçaAcessório a=(PeçaAcessório)p; especializaçãoTabbedPane.setSelectedComponent(painelAcessórios);
-            categoriaAcessórioComboBox.setSelectedItem(a.getCategoriaAcessório()); corTextField.setText(a.getCor()==null?"":a.getCor()); funileiroProprioCheckBox.setSelected(a.isFunileiroProprio());
+            PeçaAcessório a=(PeçaAcessório)p; especialização_tabbed_pane.setSelectedComponent(painel_acessórios);
+            categoria_acessório_combo_box.setSelectedItem(a.getCategoriaAcessório()); cor_text_field.setText(a.getCor()==null?"":a.getCor()); funileiro_proprio_check_box.setSelected(a.isFunileiroProprio());
         }
     }
-    private void remover() {
-        Peça p=(Peça)peçasComboBox.getSelectedItem(); if(p==null) { erro("Selecione uma peça.");return; }
+    private void removerPeça(java.awt.event.ActionEvent evt) {
+        Peça p=(Peça)peças_combo_box.getSelectedItem(); if(p==null) { erro("Selecione uma peça.");return; }
         String msg=controlador.removerPeças(p.getCodigo()); if(msg!=null) erro(msg); else { atualizarPeçasCadastradas(-1);limparCampos(); }
     }
-    private void limparCampos() {
-        codigoField.setText("");nomeField.setText("");marcaComboBox.setSelectedIndex(-1);precoField.setText("");
-        sobEncomendaCheckBox.setSelected(false);
-        categoriaMecânicaComboBox.setSelectedIndex(-1); prazoGarantiaTextField.setText(""); mecanicoProprioCheckBox.setSelected(false);
-        categoriaAcessórioComboBox.setSelectedIndex(-1); corTextField.setText(""); funileiroProprioCheckBox.setSelected(false); especializaçãoTabbedPane.setSelectedIndex(0);
+    private void limparCampos(java.awt.event.ActionEvent evt) {
+        limparCampos();
     }
+
+    private void limparCampos() {
+        codigo_field.setText("");nome_field.setText("");marca_button_group.clearSelection();preco_field.setText("");
+        sob_encomenda_check_box.setSelected(false);
+        categoria_mecânica_combo_box.setSelectedIndex(-1); prazo_garantia_text_field.setText(""); mecanico_proprio_check_box.setSelected(false);
+        categoria_acessório_combo_box.setSelectedIndex(-1); cor_text_field.setText(""); funileiro_proprio_check_box.setSelected(false); especialização_tabbed_pane.setSelectedIndex(0);
+    }
+    private Peça.MarcaPeça obterMarcaSelecionada() {
+        if (marca_oem_radio_button.isSelected()) return Peça.MarcaPeça.OEM;
+        if (marca_original_radio_button.isSelected()) return Peça.MarcaPeça.ORIGINAL;
+        if (marca_genuina_radio_button.isSelected()) return Peça.MarcaPeça.GENUINA;
+        return null;
+    }
+
+    private void definirMarcaSelecionada(Peça.MarcaPeça valor) {
+        marca_button_group.clearSelection();
+        if (valor == Peça.MarcaPeça.OEM) marca_oem_radio_button.setSelected(true);
+        else if (valor == Peça.MarcaPeça.ORIGINAL) marca_original_radio_button.setSelected(true);
+        else if (valor == Peça.MarcaPeça.GENUINA) marca_genuina_radio_button.setSelected(true);
+    }
+
     private void erro(String msg) { JOptionPane.showMessageDialog(this,msg,"Erro",JOptionPane.ERROR_MESSAGE); }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private JComboBox<Peça> peçasComboBox;
-    private JTextField codigoField, nomeField, precoField;
-    private JComboBox<Peça.MarcaPeça> marcaComboBox;
-    private JCheckBox sobEncomendaCheckBox;
-    private JPanel painelMecânica, painelAcessórios;
-    private JComboBox<PeçaMecânica.CategoriaMecânica> categoriaMecânicaComboBox;
-    private JTextField prazoGarantiaTextField, corTextField;
-    private JCheckBox mecanicoProprioCheckBox, funileiroProprioCheckBox;
-    private JComboBox<PeçaAcessório.CategoriaAcessório> categoriaAcessórioComboBox;
-    private JLabel categoriaMecânicaLabel, prazoGarantiaLabel, mecanicoProprioLabel;
-    private JLabel categoriaAcessórioLabel, corLabel, funileiroProprioLabel;
-    private JTabbedPane especializaçãoTabbedPane;
-    private JPanel comandosPanel;
-    private JButton inserirButton, consultarButton, alterarButton, removerButton, limparButton;
-    private JLabel peçasLabel, codigoLabel, nomeLabel, marcaLabel, precoLabel;
-    private JPanel camposComunsPanel, abasAlinhadasPanel;
+    private JComboBox<Peça> peças_combo_box;
+    private JTextField codigo_field, nome_field, preco_field;
+    private ButtonGroup marca_button_group;
+    private JPanel marca_panel;
+    private JRadioButton marca_oem_radio_button, marca_original_radio_button, marca_genuina_radio_button;
+    private JCheckBox sob_encomenda_check_box;
+    private JPanel painel_mecânica, painel_acessórios;
+    private JComboBox<PeçaMecânica.CategoriaMecânica> categoria_mecânica_combo_box;
+    private JTextField prazo_garantia_text_field, cor_text_field;
+    private JCheckBox mecanico_proprio_check_box, funileiro_proprio_check_box;
+    private JComboBox<PeçaAcessório.CategoriaAcessório> categoria_acessório_combo_box;
+    private JLabel categoria_mecânica_label, prazo_garantia_label, mecanico_proprio_label;
+    private JLabel categoria_acessório_label, cor_label, funileiro_proprio_label;
+    private JTabbedPane especialização_tabbed_pane;
+    private JPanel comandos_panel;
+    private JButton inserir_button, consultar_button, alterar_button, remover_button, limpar_button;
+    private JLabel peças_label, codigo_label, nome_label, marca_label, preco_label;
+    private JPanel campos_comuns_panel, abas_alinhadas_panel;
     // End of variables declaration//GEN-END:variables
 }

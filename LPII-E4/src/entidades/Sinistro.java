@@ -33,38 +33,38 @@ public class Sinistro {
     private String segurado;
     private String telefone;
     private String cidade;
-    private GrauMonta grauMonta;
-    private boolean perdaTotal;
+    private GrauMonta grau_monta;
+    private boolean perda_total;
     private ArrayList<Peça> pecas = new ArrayList<Peça>();
 
     public Sinistro(int id, String segurado, String telefone, String cidade,
-            GrauMonta grauMonta, boolean perdaTotal) {
+            GrauMonta grau_monta, boolean perda_total) {
         this.id = id;
         this.segurado = segurado;
         this.telefone = telefone;
         this.cidade = cidade;
-        this.grauMonta = grauMonta;
-        this.perdaTotal = perdaTotal;
+        this.grau_monta = grau_monta;
+        this.perda_total = perda_total;
     }
 
     public Sinistro(String segurado, String telefone, String cidade,
-            GrauMonta grauMonta, boolean perdaTotal) {
-        this(0, segurado, telefone, cidade, grauMonta, perdaTotal);
+            GrauMonta grau_monta, boolean perda_total) {
+        this(0, segurado, telefone, cidade, grau_monta, perda_total);
     }
 
     public int getId() { return id; }
     public String getSegurado() { return segurado; }
     public String getTelefone() { return telefone; }
     public String getCidade() { return cidade; }
-    public GrauMonta getGrauMonta() { return grauMonta; }
-    public boolean getPerdaTotal() { return perdaTotal; }
-    public boolean isPerdaTotal() { return perdaTotal; }
+    public GrauMonta getGrauMonta() { return grau_monta; }
+    public boolean getPerdaTotal() { return perda_total; }
+    public boolean isPerdaTotal() { return perda_total; }
     public Peça[] getPeças() { return pecas.toArray(new Peça[0]); }
     public void setSegurado(String segurado) { this.segurado = segurado; }
     public void setTelefone(String telefone) { this.telefone = telefone; }
     public void setCidade(String cidade) { this.cidade = cidade; }
-    public void setGrauMonta(GrauMonta grauMonta) { this.grauMonta = grauMonta; }
-    public void setPerdaTotal(boolean perdaTotal) { this.perdaTotal = perdaTotal; }
+    public void setGrauMonta(GrauMonta grau_monta) { this.grau_monta = grau_monta; }
+    public void setPerdaTotal(boolean perda_total) { this.perda_total = perda_total; }
     public void setPeças(Peça[] pecas) {
         this.pecas = new ArrayList<Peça>();
         if (pecas != null) for (Peça peca : pecas) if (peca != null) this.pecas.add(peca);
@@ -73,13 +73,13 @@ public class Sinistro {
     @Override
     public String toString() {
         return "#" + id + " - " + segurado + " - " + (cidade != null ? cidade : "")
-                + " (" + grauMonta + ")";
+                + " (" + grau_monta + ")";
     }
 
     private static Sinistro criarVisao(ResultSet resultado) throws SQLException {
         return new Sinistro(resultado.getInt("id"), resultado.getString("segurado"),
                 resultado.getString("telefone"), resultado.getString("cidade"),
-                GrauMonta.fromTexto(resultado.getString("grau_monta")),
+                GrauMonta.values()[resultado.getInt("grau_monta")],
                 resultado.getBoolean("perda_total"));
     }
 
@@ -115,7 +115,7 @@ public class Sinistro {
             comando.setString(1, sinistro.getSegurado());
             comando.setString(2, sinistro.getTelefone());
             comando.setString(3, sinistro.getCidade());
-            comando.setString(4, sinistro.getGrauMonta().toString());
+            comando.setInt(4, sinistro.getGrauMonta().ordinal());
             comando.setBoolean(5, sinistro.getPerdaTotal());
             comando.executeUpdate();
             try (ResultSet chaves = comando.getGeneratedKeys()) {
@@ -134,7 +134,7 @@ public class Sinistro {
             comando.setString(1, sinistro.getSegurado());
             comando.setString(2, sinistro.getTelefone());
             comando.setString(3, sinistro.getCidade());
-            comando.setString(4, sinistro.getGrauMonta().toString());
+            comando.setInt(4, sinistro.getGrauMonta().ordinal());
             comando.setBoolean(5, sinistro.getPerdaTotal());
             comando.setInt(6, sinistro.getId());
             return comando.executeUpdate() == 1 ? null : "Sinistro não cadastrado";

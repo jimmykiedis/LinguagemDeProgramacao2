@@ -3,11 +3,11 @@
   <AuxValues><AuxValue name="FormSettings_generateFQN" type="java.lang.Boolean" value="true"/></AuxValues>
   <Layout class="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout"/>
   <SubComponents>
-    <Component class="javax.swing.JLabel" name="corLabel">
+    <Component class="javax.swing.JLabel" name="cor_label">
       <Properties><Property name="text" type="java.lang.String" value="Cor"/></Properties>
       <Constraints><Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription"><GridBagConstraints gridX="0" gridY="0" gridWidth="1" gridHeight="1" fill="0" insetsTop="0" insetsLeft="0" insetsBottom="0" insetsRight="0" anchor="17" weightX="0.0" weightY="0.0"/></Constraint></Constraints>
     </Component>
-    <Component class="javax.swing.JTextField" name="corAcess&#xf3;rio">
+    <Component class="javax.swing.JTextField" name="cor_acess&#243;rio">
       <Properties><Property name="columns" type="int" value="12"/></Properties>
       <Constraints><Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription"><GridBagConstraints gridX="1" gridY="0" gridWidth="1" gridHeight="1" fill="0" insetsTop="0" insetsLeft="0" insetsBottom="0" insetsRight="0" anchor="17" weightX="0.0" weightY="0.0"/></Constraint></Constraints>
     </Component>

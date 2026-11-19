@@ -2,14 +2,14 @@
 
 <Form version="1.3" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
   <NonVisualComponents>
-    <Menu class="javax.swing.JMenuBar" name="seguradorasOr&#xe7;amentoMenuBar">
+    <Menu class="javax.swing.JMenuBar" name="seguradoras_or&#231;amento_menu_bar">
       <SubComponents>
-        <Menu class="javax.swing.JMenu" name="pe&#xe7;aMenu">
+        <Menu class="javax.swing.JMenu" name="pe&#231;a_menu">
           <Properties>
             <Property name="text" type="java.lang.String" value="Pe&#xe7;a"/>
           </Properties>
           <SubComponents>
-            <MenuItem class="javax.swing.JMenuItem" name="cadastrarPe&#xe7;aMenuItem">
+            <MenuItem class="javax.swing.JMenuItem" name="cadastrar_pe&#231;a_menu_item">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Cadastrar"/>
               </Properties>
@@ -19,12 +19,12 @@
             </MenuItem>
           </SubComponents>
         </Menu>
-        <Menu class="javax.swing.JMenu" name="seguradoraMenu">
+        <Menu class="javax.swing.JMenu" name="seguradora_menu">
           <Properties>
             <Property name="text" type="java.lang.String" value="Seguradora"/>
           </Properties>
           <SubComponents>
-            <MenuItem class="javax.swing.JMenuItem" name="cadastrarSeguradoraItemMenu">
+            <MenuItem class="javax.swing.JMenuItem" name="cadastrar_seguradora_item_menu">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Cadastrar"/>
               </Properties>
@@ -34,12 +34,12 @@
             </MenuItem>
           </SubComponents>
         </Menu>
-        <Menu class="javax.swing.JMenu" name="sinistroMenu">
+        <Menu class="javax.swing.JMenu" name="sinistro_menu">
           <Properties>
             <Property name="text" type="java.lang.String" value="Sinistro"/>
           </Properties>
           <SubComponents>
-            <MenuItem class="javax.swing.JMenuItem" name="cadastrarSinistroMenuItem">
+            <MenuItem class="javax.swing.JMenuItem" name="cadastrar_sinistro_menu_item">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Cadastrar"/>
               </Properties>
@@ -49,12 +49,12 @@
             </MenuItem>
           </SubComponents>
         </Menu>
-        <Menu class="javax.swing.JMenu" name="or&#xe7;amentoMenu">
+        <Menu class="javax.swing.JMenu" name="or&#231;amento_menu">
           <Properties>
             <Property name="text" type="java.lang.String" value="Or&#xe7;amento"/>
           </Properties>
           <SubComponents>
-            <MenuItem class="javax.swing.JMenuItem" name="cadastrarOr&#xe7;amentoMenuItem">
+            <MenuItem class="javax.swing.JMenuItem" name="cadastrar_or&#231;amento_menu_item">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Cadastrar"/>
               </Properties>
@@ -62,7 +62,7 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cadastrarOr&#xe7;amentos"/>
               </Events>
             </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="pesquisarOr&#xe7;amentoMenuItem">
+            <MenuItem class="javax.swing.JMenuItem" name="pesquisar_or&#231;amento_menu_item">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Pesquisar"/>
               </Properties>

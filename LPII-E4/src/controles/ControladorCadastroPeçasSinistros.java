@@ -21,34 +21,34 @@ public class ControladorCadastroPeçasSinistros {
     }
 
     public String inserirPeçasSinistros(Peça peca, Sinistro sinistro) {
-        Sinistro sinistroBuscado =
+        Sinistro sinistro_buscado =
                 sinistro != null ? Sinistro.buscarSinistro(sinistro.getId()) : null;
-        if (sinistroBuscado == null) return "Sinistro nao cadastrado";
+        if (sinistro_buscado == null) return "Sinistro nao cadastrado";
 
-        Peça pecaBuscada =
+        Peça peca_buscada =
                 peca != null ? Peça.buscarPeças(peca.getCodigo()) : null;
-        if (pecaBuscada == null) return "Peça nao cadastrada";
+        if (peca_buscada == null) return "Peça nao cadastrada";
 
         if (PeçaSinistro.existePeçasSinistros(peca.getCodigo(), sinistro.getId())) {
             return "Peça ja associada ao sinistro";
         }
 
-        return PeçaSinistro.inserirPeçasSinistros(pecaBuscada, sinistroBuscado);
+        return PeçaSinistro.inserirPeçasSinistros(peca_buscada, sinistro_buscado);
     }
 
     public String removerPeçasSinistros(Peça peca, Sinistro sinistro) {
-        Sinistro sinistroBuscado =
+        Sinistro sinistro_buscado =
                 sinistro != null ? Sinistro.buscarSinistro(sinistro.getId()) : null;
-        if (sinistroBuscado == null) return "Sinistro nao cadastrado";
+        if (sinistro_buscado == null) return "Sinistro nao cadastrado";
 
-        Peça pecaBuscada =
+        Peça peca_buscada =
                 peca != null ? Peça.buscarPeças(peca.getCodigo()) : null;
-        if (pecaBuscada == null) return "Peça nao cadastrada";
+        if (peca_buscada == null) return "Peça nao cadastrada";
 
         if (!PeçaSinistro.existePeçasSinistros(peca.getCodigo(), sinistro.getId())) {
             return "Peça nao associada ao sinistro";
         }
 
-        return PeçaSinistro.removerPeçasSinistros(pecaBuscada, sinistroBuscado);
+        return PeçaSinistro.removerPeçasSinistros(peca_buscada, sinistro_buscado);
     }
 }

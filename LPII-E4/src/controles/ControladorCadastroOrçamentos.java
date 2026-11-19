@@ -19,21 +19,21 @@ public class ControladorCadastroOrçamentos {
         return Orçamento.inserirOrçamento(orçamento);
     }
 
-    public String alterarOrçamento(Orçamento orçamento, int idSinistroOriginal, String seguradoraOriginal) {
-        if (orçamento.getSinistro().getId() != idSinistroOriginal
-                || !orçamento.getSeguradora().getNome().equals(seguradoraOriginal)) {
+    public String alterarOrçamento(Orçamento orçamento, int id_sinistro_original, String seguradora_original) {
+        if (orçamento.getSinistro().getId() != id_sinistro_original
+                || !orçamento.getSeguradora().getNome().equals(seguradora_original)) {
             return "Alteração não permitida: sinistro e seguradora identificam o orçamento";
         }
-        if (!Orçamento.existeOrçamento(idSinistroOriginal, seguradoraOriginal)) {
+        if (!Orçamento.existeOrçamento(id_sinistro_original, seguradora_original)) {
             return "Orçamento não cadastrado";
         }
         return Orçamento.alterarOrçamento(orçamento);
     }
 
-    public String removerOrçamento(int idSinistro, String nomeSeguradora) {
-        if (!Orçamento.existeOrçamento(idSinistro, nomeSeguradora)) {
+    public String removerOrçamento(int id_sinistro, String nome_seguradora) {
+        if (!Orçamento.existeOrçamento(id_sinistro, nome_seguradora)) {
             return "Orçamento não cadastrado";
         }
-        return Orçamento.removerOrçamento(idSinistro, nomeSeguradora);
+        return Orçamento.removerOrçamento(id_sinistro, nome_seguradora);
     }
 }

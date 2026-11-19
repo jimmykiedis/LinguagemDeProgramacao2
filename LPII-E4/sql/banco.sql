@@ -11,7 +11,7 @@ CREATE TABLE seguradoras (
     cidade VARCHAR(50),
     cobertura_percentual INT,
     possui_atendimento_24h BOOLEAN,
-    forma_pagamento_preferencial VARCHAR(20)
+    forma_pagamento_preferencial INT
 );
 
 CREATE TABLE sinistros (
@@ -19,14 +19,14 @@ CREATE TABLE sinistros (
     segurado VARCHAR(80) NOT NULL,
     telefone VARCHAR(20),
     cidade VARCHAR(50),
-    grau_monta VARCHAR(20),
+    grau_monta INT,
     perda_total BOOLEAN
 );
 
 CREATE TABLE peças (
     codigo INT PRIMARY KEY,
     nome VARCHAR(50),
-    marca VARCHAR(20),
+    marca INT,
     preço DECIMAL(10,2),
     sob_encomenda BOOLEAN NOT NULL DEFAULT FALSE
 );
@@ -40,7 +40,7 @@ CREATE TABLE peças_sinistros (
 );
 
 CREATE TABLE peça_mecânica (
-    categoria_mecânica VARCHAR(40) NOT NULL,
+    categoria_mecânica INT NOT NULL,
     prazo_garantia INT,
     mecanico_proprio BOOLEAN NOT NULL DEFAULT FALSE,
     codigoId INT NOT NULL,
@@ -48,7 +48,7 @@ CREATE TABLE peça_mecânica (
 );
 
 CREATE TABLE peça_acessórios (
-    categoria_acessorio VARCHAR(40) NOT NULL,
+    categoria_acessorio INT NOT NULL,
     cor VARCHAR(20),
     funileiro_proprio BOOLEAN NOT NULL DEFAULT FALSE,
     codigoId INT NOT NULL,
@@ -60,7 +60,7 @@ CREATE TABLE Orçamentos (
     sinistro INT NOT NULL,
     seguradora VARCHAR(50) NOT NULL,
     -- Enumerado: aprovado, pendente ou recusado.
-    status VARCHAR(10) NOT NULL,
+    status INT NOT NULL,
     valor_total DECIMAL(10,2) NOT NULL,
     possui_danos_ocultos BOOLEAN NOT NULL DEFAULT FALSE,
     PRIMARY KEY (sinistro, seguradora),

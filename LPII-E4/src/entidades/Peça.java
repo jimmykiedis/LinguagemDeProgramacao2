@@ -26,18 +26,18 @@ public class Peça {
     protected String nome;
     protected MarcaPeça marca;
     protected double preco;
-    protected Integer diasGarantia;
+    protected Integer dias_garantia;
     protected String cor;
-    protected boolean sobEncomenda;
+    protected boolean sob_encomenda;
 
     public Peça(int codigo, String nome, MarcaPeça marca, double preco,
-            Integer diasGarantia, String cor) {
-        this(codigo, nome, marca, preco, diasGarantia, cor, false);
+            Integer dias_garantia, String cor) {
+        this(codigo, nome, marca, preco, dias_garantia, cor, false);
     }
     public Peça(int codigo, String nome, MarcaPeça marca, double preco,
-            Integer diasGarantia, String cor, boolean sobEncomenda) {
+            Integer dias_garantia, String cor, boolean sob_encomenda) {
         this.codigo=codigo; this.nome=nome; this.marca=marca; this.preco=preco;
-        this.diasGarantia=diasGarantia; this.cor=cor; this.sobEncomenda=sobEncomenda;
+        this.dias_garantia=dias_garantia; this.cor=cor; this.sob_encomenda=sob_encomenda;
     }
     public Peça() { this(0,null,null,0.0,null,null); }
     public int getCodigo() { return codigo; }
@@ -45,17 +45,17 @@ public class Peça {
     public MarcaPeça getMarca() { return marca; }
     public MarcaPeça getCategoria() { return marca; }
     public double getPreco() { return preco; }
-    public Integer getDiasGarantia() { return diasGarantia; }
+    public Integer getDiasGarantia() { return dias_garantia; }
     public String getCor() { return cor; }
-    public boolean isSobEncomenda() { return sobEncomenda; }
+    public boolean isSobEncomenda() { return sob_encomenda; }
     public void setCodigo(int v) { codigo=v; }
     public void setNome(String v) { nome=v; }
     public void setMarca(MarcaPeça v) { marca=v; }
     public void setCategoria(MarcaPeça v) { marca=v; }
     public void setPreco(double v) { preco=v; }
-    public void setDiasGarantia(Integer v) { diasGarantia=v; }
+    public void setDiasGarantia(Integer v) { dias_garantia=v; }
     public void setCor(String v) { cor=v; }
-    public void setSobEncomenda(boolean v) { sobEncomenda=v; }
+    public void setSobEncomenda(boolean v) { sob_encomenda=v; }
     public Peça getVisao() { return this; }
     @Override public String toString() {
         String subtipo = this instanceof PeçaMecânica ? "Peça Mecânica"
@@ -68,15 +68,13 @@ public class Peça {
     }
     static Peça criarVisao(ResultSet rs) throws SQLException {
         int id=rs.getInt("codigo"); String nome=rs.getString("nome");
-        MarcaPeça marca=MarcaPeça.fromTexto(rs.getString("marca")); double preco=rs.getDouble("preço");
-        boolean sobEncomenda=rs.getBoolean("sob_encomenda");
-        String catMec=rs.getString("categoria_mecânica");
-        if (catMec != null) return new PeçaMecânica(id,nome,marca,preco,
-                PeçaMecânica.CategoriaMecânica.fromTexto(catMec),(Integer)rs.getObject("prazo_garantia"),rs.getBoolean("mecanico_proprio"),sobEncomenda);
-        String catAcessorio=rs.getString("categoria_acessorio");
-        if (catAcessorio != null) return new PeçaAcessório(id,nome,marca,preco,
-                PeçaAcessório.CategoriaAcessório.fromTexto(catAcessorio),rs.getString("cor"),rs.getBoolean("funileiro_proprio"),sobEncomenda);
-        return new Peça(id,nome,marca,preco,null,null,sobEncomenda);
+        MarcaPeça marca=MarcaPeça.values()[rs.getInt("marca")]; double preco=rs.getDouble("preço");
+        boolean sob_encomenda=rs.getBoolean("sob_encomenda");
+        if (rs.getObject("categoria_mecânica") != null) return new PeçaMecânica(id,nome,marca,preco,
+                PeçaMecânica.CategoriaMecânica.values()[rs.getInt("categoria_mecânica")],(Integer)rs.getObject("prazo_garantia"),rs.getBoolean("mecanico_proprio"),sob_encomenda);
+        if (rs.getObject("categoria_acessorio") != null) return new PeçaAcessório(id,nome,marca,preco,
+                PeçaAcessório.CategoriaAcessório.values()[rs.getInt("categoria_acessorio")],rs.getString("cor"),rs.getBoolean("funileiro_proprio"),sob_encomenda);
+        return new Peça(id,nome,marca,preco,null,null,sob_encomenda);
     }
     static String consultaBase() {
         return " FROM peças p LEFT JOIN peça_mecânica m ON m.codigoId=p.codigo LEFT JOIN peça_acessórios a ON a.codigoId=p.codigo";
@@ -102,13 +100,13 @@ public class Peça {
     public static Peça[] buscarPeçasPorSinistro(int id) { return PeçaSinistro.buscarPeçasPorSinistro(id); }
     public String inserir() {
         try(PreparedStatement ps=BD.conexao.prepareStatement("INSERT INTO peças(codigo,nome,marca,`preço`,sob_encomenda) VALUES(?,?,?,?,?)")) {
-            ps.setInt(1,codigo); ps.setString(2,nome); ps.setString(3,marca.toString()); ps.setDouble(4,preco); ps.setBoolean(5,sobEncomenda); ps.executeUpdate(); return null;
+            ps.setInt(1,codigo); ps.setString(2,nome); ps.setInt(3,marca.ordinal()); ps.setDouble(4,preco); ps.setBoolean(5,sob_encomenda); ps.executeUpdate(); return null;
         } catch(SQLException|NullPointerException e) { e.printStackTrace(); return "Erro ao inserir peça"; }
     }
     public static String inserirPeças(Peça p) { return p.inserir(); }
     public String alterar() {
         try(PreparedStatement ps=BD.conexao.prepareStatement("UPDATE peças SET nome=?,marca=?,`preço`=?,sob_encomenda=? WHERE codigo=?")) {
-            ps.setString(1,nome); ps.setString(2,marca.toString()); ps.setDouble(3,preco); ps.setBoolean(4,sobEncomenda); ps.setInt(5,codigo); ps.executeUpdate(); return null;
+            ps.setString(1,nome); ps.setInt(2,marca.ordinal()); ps.setDouble(3,preco); ps.setBoolean(4,sob_encomenda); ps.setInt(5,codigo); ps.executeUpdate(); return null;
         } catch(SQLException|NullPointerException e) { e.printStackTrace(); return "Erro ao alterar peça"; }
     }
     public static String alterarPeças(Peça p) { return p.alterar(); }
@@ -127,14 +125,14 @@ public class Peça {
      */
     private static String removerPeçasPor(String coluna, Object valor) {
         Connection conexao = BD.conexao;
-        boolean autoCommitAnterior = true;
-        boolean transacaoIniciada = false;
+        boolean auto_commit_anterior = true;
+        boolean transacao_iniciada = false;
         ArrayList<Integer> codigos = new ArrayList<>();
 
         try {
-            autoCommitAnterior = conexao.getAutoCommit();
+            auto_commit_anterior = conexao.getAutoCommit();
             conexao.setAutoCommit(false);
-            transacaoIniciada = true;
+            transacao_iniciada = true;
 
             try (PreparedStatement consulta = conexao.prepareStatement(
                     "SELECT codigo FROM peças WHERE " + coluna + " = ?")) {
@@ -150,25 +148,25 @@ public class Peça {
             }
 
             for (int codigo : codigos) {
-                try (PreparedStatement removerVinculos = conexao.prepareStatement(
+                try (PreparedStatement remover_vinculos = conexao.prepareStatement(
                         "DELETE FROM peças_sinistros WHERE peça_codigo = ?")) {
-                    removerVinculos.setInt(1, codigo);
-                    removerVinculos.executeUpdate();
+                    remover_vinculos.setInt(1, codigo);
+                    remover_vinculos.executeUpdate();
                 }
-                try (PreparedStatement removerMecanica = conexao.prepareStatement(
+                try (PreparedStatement remover_mecanica = conexao.prepareStatement(
                         "DELETE FROM `peça_mecânica` WHERE codigoId = ?")) {
-                    removerMecanica.setInt(1, codigo);
-                    removerMecanica.executeUpdate();
+                    remover_mecanica.setInt(1, codigo);
+                    remover_mecanica.executeUpdate();
                 }
-                try (PreparedStatement removerAcessorios = conexao.prepareStatement(
+                try (PreparedStatement remover_acessorios = conexao.prepareStatement(
                         "DELETE FROM `peça_acessórios` WHERE codigoId = ?")) {
-                    removerAcessorios.setInt(1, codigo);
-                    removerAcessorios.executeUpdate();
+                    remover_acessorios.setInt(1, codigo);
+                    remover_acessorios.executeUpdate();
                 }
-                try (PreparedStatement removerPeca = conexao.prepareStatement(
+                try (PreparedStatement remover_peca = conexao.prepareStatement(
                         "DELETE FROM peças WHERE codigo = ?")) {
-                    removerPeca.setInt(1, codigo);
-                    if (removerPeca.executeUpdate() != 1) {
+                    remover_peca.setInt(1, codigo);
+                    if (remover_peca.executeUpdate() != 1) {
                         throw new SQLException("A peça " + codigo + " não foi removida");
                     }
                 }
@@ -177,7 +175,7 @@ public class Peça {
             conexao.commit();
             return null;
         } catch (SQLException | RuntimeException e) {
-            if (transacaoIniciada) {
+            if (transacao_iniciada) {
                 try {
                     conexao.rollback();
                 } catch (SQLException rollback) {
@@ -187,11 +185,11 @@ public class Peça {
             e.printStackTrace();
             return "Erro ao remover peça";
         } finally {
-            if (transacaoIniciada) {
+            if (transacao_iniciada) {
                 try {
-                    conexao.setAutoCommit(autoCommitAnterior);
-                } catch (SQLException restauraAutoCommit) {
-                    restauraAutoCommit.printStackTrace();
+                    conexao.setAutoCommit(auto_commit_anterior);
+                } catch (SQLException restaura_auto_commit) {
+                    restaura_auto_commit.printStackTrace();
                 }
             }
         }

@@ -19,16 +19,16 @@ public class JanelaSistema extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        seguradoras_orçamentoMenuBar = new javax.swing.JMenuBar();
-        peçaMenu = new javax.swing.JMenu();
-        cadastrar_peçaMenuItem = new javax.swing.JMenuItem();
-        seguradoraMenu = new javax.swing.JMenu();
-        cadastrarSeguradoraItemMenu = new javax.swing.JMenuItem();
-        sinistroMenu = new javax.swing.JMenu();
-        cadastrarSinistroMenuItem = new javax.swing.JMenuItem();
-        orçamentoMenu = new javax.swing.JMenu();
-        cadastrar_orçamentoMenuItem = new javax.swing.JMenuItem();
-        pesquisar_orçamentoMenuItem = new javax.swing.JMenuItem();
+        seguradoras_orçamento_menu_bar = new javax.swing.JMenuBar();
+        peça_menu = new javax.swing.JMenu();
+        cadastrar_peça_menu_item = new javax.swing.JMenuItem();
+        seguradora_menu = new javax.swing.JMenu();
+        cadastrar_seguradora_item_menu = new javax.swing.JMenuItem();
+        sinistro_menu = new javax.swing.JMenu();
+        cadastrar_sinistro_menu_item = new javax.swing.JMenuItem();
+        orçamento_menu = new javax.swing.JMenu();
+        cadastrar_orçamento_menu_item = new javax.swing.JMenuItem();
+        pesquisar_orçamento_menu_item = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Orçamentos da Seguradora");
@@ -38,63 +38,63 @@ public class JanelaSistema extends javax.swing.JFrame {
             }
         });
 
-        peçaMenu.setText("Peça");
+        peça_menu.setText("Peça");
 
-        cadastrar_peçaMenuItem.setText("Cadastrar");
-        cadastrar_peçaMenuItem.addActionListener(new java.awt.event.ActionListener() {
+        cadastrar_peça_menu_item.setText("Cadastrar");
+        cadastrar_peça_menu_item.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cadastrarPeça(evt);
             }
         });
-        peçaMenu.add(cadastrar_peçaMenuItem);
+        peça_menu.add(cadastrar_peça_menu_item);
 
-        seguradoras_orçamentoMenuBar.add(peçaMenu);
+        seguradoras_orçamento_menu_bar.add(peça_menu);
 
-        seguradoraMenu.setText("Seguradora");
+        seguradora_menu.setText("Seguradora");
 
-        cadastrarSeguradoraItemMenu.setText("Cadastrar");
-        cadastrarSeguradoraItemMenu.addActionListener(new java.awt.event.ActionListener() {
+        cadastrar_seguradora_item_menu.setText("Cadastrar");
+        cadastrar_seguradora_item_menu.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cadastrarSeguradora(evt);
             }
         });
-        seguradoraMenu.add(cadastrarSeguradoraItemMenu);
+        seguradora_menu.add(cadastrar_seguradora_item_menu);
 
-        seguradoras_orçamentoMenuBar.add(seguradoraMenu);
+        seguradoras_orçamento_menu_bar.add(seguradora_menu);
 
-        sinistroMenu.setText("Sinistro");
+        sinistro_menu.setText("Sinistro");
 
-        cadastrarSinistroMenuItem.setText("Cadastrar");
-        cadastrarSinistroMenuItem.addActionListener(new java.awt.event.ActionListener() {
+        cadastrar_sinistro_menu_item.setText("Cadastrar");
+        cadastrar_sinistro_menu_item.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cadastrarSinistro(evt);
             }
         });
-        sinistroMenu.add(cadastrarSinistroMenuItem);
+        sinistro_menu.add(cadastrar_sinistro_menu_item);
 
-        seguradoras_orçamentoMenuBar.add(sinistroMenu);
+        seguradoras_orçamento_menu_bar.add(sinistro_menu);
 
-        orçamentoMenu.setText("Orçamento");
+        orçamento_menu.setText("Orçamento");
 
-        cadastrar_orçamentoMenuItem.setText("Cadastrar");
-        cadastrar_orçamentoMenuItem.addActionListener(new java.awt.event.ActionListener() {
+        cadastrar_orçamento_menu_item.setText("Cadastrar");
+        cadastrar_orçamento_menu_item.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cadastrarOrçamentos(evt);
             }
         });
-        orçamentoMenu.add(cadastrar_orçamentoMenuItem);
+        orçamento_menu.add(cadastrar_orçamento_menu_item);
 
-        pesquisar_orçamentoMenuItem.setText("Pesquisar");
-        pesquisar_orçamentoMenuItem.addActionListener(new java.awt.event.ActionListener() {
+        pesquisar_orçamento_menu_item.setText("Pesquisar");
+        pesquisar_orçamento_menu_item.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 pesquisarOrçamentos(evt);
             }
         });
-        orçamentoMenu.add(pesquisar_orçamentoMenuItem);
+        orçamento_menu.add(pesquisar_orçamento_menu_item);
 
-        seguradoras_orçamentoMenuBar.add(orçamentoMenu);
+        seguradoras_orçamento_menu_bar.add(orçamento_menu);
 
-        setJMenuBar(seguradoras_orçamentoMenuBar);
+        setJMenuBar(seguradoras_orçamento_menu_bar);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -147,16 +147,16 @@ public class JanelaSistema extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JMenuItem cadastrar_orçamentoMenuItem;
-    private javax.swing.JMenuItem cadastrar_peçaMenuItem;
-    private javax.swing.JMenuItem cadastrarSeguradoraItemMenu;
-    private javax.swing.JMenuItem cadastrarSinistroMenuItem;
-    private javax.swing.JMenu orçamentoMenu;
-    private javax.swing.JMenuItem pesquisar_orçamentoMenuItem;
-    private javax.swing.JMenu peçaMenu;
-    private javax.swing.JMenu seguradoraMenu;
-    private javax.swing.JMenuBar seguradoras_orçamentoMenuBar;
-    private javax.swing.JMenu sinistroMenu;
+    private javax.swing.JMenuItem cadastrar_orçamento_menu_item;
+    private javax.swing.JMenuItem cadastrar_peça_menu_item;
+    private javax.swing.JMenuItem cadastrar_seguradora_item_menu;
+    private javax.swing.JMenuItem cadastrar_sinistro_menu_item;
+    private javax.swing.JMenu orçamento_menu;
+    private javax.swing.JMenuItem pesquisar_orçamento_menu_item;
+    private javax.swing.JMenu peça_menu;
+    private javax.swing.JMenu seguradora_menu;
+    private javax.swing.JMenuBar seguradoras_orçamento_menu_bar;
+    private javax.swing.JMenu sinistro_menu;
     // End of variables declaration//GEN-END:variables
  
 }

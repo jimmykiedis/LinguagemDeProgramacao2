@@ -8,12 +8,12 @@ import persistência.BD;
 
 public class PeçaSinistro {
 
-    private final int pecaCodigo;
-    private final int sinistroId;
+    private final int peca_codigo;
+    private final int sinistro_id;
 
-    public PeçaSinistro(int pecaCodigo, int sinistroId) {
-        this.pecaCodigo = pecaCodigo;
-        this.sinistroId = sinistroId;
+    public PeçaSinistro(int peca_codigo, int sinistro_id) {
+        this.peca_codigo = peca_codigo;
+        this.sinistro_id = sinistro_id;
     }
 
     public PeçaSinistro(Peça peca, Sinistro sinistro) {
@@ -22,52 +22,52 @@ public class PeçaSinistro {
     }
 
     public int getPeçaCodigo() {
-        return pecaCodigo;
+        return peca_codigo;
     }
 
     public int getSinistroId() {
-        return sinistroId;
+        return sinistro_id;
     }
 
     public String toString() {
-        return pecaCodigo + " / " + sinistroId;
+        return peca_codigo + " / " + sinistro_id;
     }
 
-    public static Peça[] buscarPeçasPorSinistro(int sinistroId) {
+    public static Peça[] buscarPeçasPorSinistro(int sinistro_id) {
         ArrayList<Peça> visoes = new ArrayList<>();
         String sql = "SELECT " + Peça.colunas() + Peça.consultaBase()
                 + " JOIN peças_sinistros ps ON ps.peça_codigo=p.codigo"
                 + " WHERE ps.sinistro_id = ?";
 
         try (PreparedStatement comando = BD.conexao.prepareStatement(sql)) {
-            comando.setInt(1, sinistroId);
+            comando.setInt(1, sinistro_id);
             try (ResultSet resultados = comando.executeQuery()) {
                 while (resultados.next()) {
                     try {
                         visoes.add(Peça.criarVisao(resultados));
-                    } catch (IllegalArgumentException excecaoEnum) {
+                    } catch (IllegalArgumentException excecao_enum) {
                         // Ignora peças com dados fora do domínio esperado.
                     }
                 }
             }
-        } catch (SQLException excecaoSql) {
-            excecaoSql.printStackTrace();
+        } catch (SQLException excecao_sql) {
+            excecao_sql.printStackTrace();
         }
 
         return visoes.toArray(new Peça[0]);
     }
 
-    public static boolean existePeçasSinistros(int pecaCodigo, int sinistroId) {
+    public static boolean existePeçasSinistros(int peca_codigo, int sinistro_id) {
         String sql = "SELECT COUNT(*) FROM peças_sinistros WHERE peça_codigo = ? AND sinistro_id = ?";
 
         try (PreparedStatement comando = BD.conexao.prepareStatement(sql)) {
-            comando.setInt(1, pecaCodigo);
-            comando.setInt(2, sinistroId);
+            comando.setInt(1, peca_codigo);
+            comando.setInt(2, sinistro_id);
             try (ResultSet resultados = comando.executeQuery()) {
                 return resultados.next() && resultados.getInt(1) > 0;
             }
-        } catch (SQLException excecaoSql) {
-            excecaoSql.printStackTrace();
+        } catch (SQLException excecao_sql) {
+            excecao_sql.printStackTrace();
             return false;
         }
     }
@@ -84,8 +84,8 @@ public class PeçaSinistro {
             comando.setInt(2, sinistro.getId());
             comando.executeUpdate();
             return null;
-        } catch (SQLException excecaoSql) {
-            excecaoSql.printStackTrace();
+        } catch (SQLException excecao_sql) {
+            excecao_sql.printStackTrace();
             return "Erro na insercao da associacao peca/sinistro no BD";
         }
     }
@@ -102,8 +102,8 @@ public class PeçaSinistro {
             comando.setInt(2, sinistro.getId());
             comando.executeUpdate();
             return null;
-        } catch (SQLException excecaoSql) {
-            excecaoSql.printStackTrace();
+        } catch (SQLException excecao_sql) {
+            excecao_sql.printStackTrace();
             return "Erro na remocao da associacao peca/sinistro no BD";
         }
     }

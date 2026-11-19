@@ -128,7 +128,7 @@ public class Orçamento {
     private static Orçamento criar(ResultSet lista_resultados) throws SQLException {
         int id_sinistro = lista_resultados.getInt("sinistro");
         String nome_seguradora = lista_resultados.getString("seguradora");
-        return new Orçamento(Status.fromTexto(lista_resultados.getString("status")),
+        return new Orçamento(Status.values()[lista_resultados.getInt("status")],
                 lista_resultados.getTimestamp("data"),
                 Sinistro.buscarSinistro(id_sinistro), Seguradora.buscarSeguradora(nome_seguradora),
                 lista_resultados.getDouble("valor_total"),
@@ -201,7 +201,7 @@ public class Orçamento {
             comando.setTimestamp(1, orçamento.data);
             comando.setInt(2, orçamento.sinistro.getId());
             comando.setString(3, orçamento.seguradora.getNome());
-            comando.setString(4, orçamento.status.toString());
+            comando.setInt(4, orçamento.status.ordinal());
             comando.setDouble(5, orçamento.valor_total);
             comando.setBoolean(6, orçamento.possui_danos_ocultos);
             comando.executeUpdate();
@@ -218,7 +218,7 @@ public class Orçamento {
         try {
             PreparedStatement comando = BD.conexao.prepareStatement(sql);
             comando.setTimestamp(1, orçamento.data);
-            comando.setString(2, orçamento.status.toString());
+            comando.setInt(2, orçamento.status.ordinal());
             comando.setDouble(3, orçamento.valor_total);
             comando.setBoolean(4, orçamento.possui_danos_ocultos);
             comando.setInt(5, orçamento.sinistro.getId());
@@ -265,7 +265,7 @@ public class Orçamento {
             PreparedStatement comando = BD.conexao.prepareStatement(sql);
             if (data_mínima != null) comando.setTimestamp(++indice, data_mínima);
             if (atendimento_24h != null) comando.setBoolean(++indice, atendimento_24h);
-            if (grau_monta != null) comando.setString(++indice, grau_monta.toString());
+            if (grau_monta != null) comando.setInt(++indice, grau_monta.ordinal());
 
             lista_resultados = comando.executeQuery();
             while (lista_resultados.next()) {

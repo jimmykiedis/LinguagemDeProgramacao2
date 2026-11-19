@@ -14,8 +14,8 @@ public class BD {
     public static void criaConexao() {
         try {
             conexao = DriverManager.getConnection(URL_BD, USUARIO, SENHA);
-        } catch (SQLException excecaoSql) {
-            excecaoSql.printStackTrace();
+        } catch (SQLException excecao_sql) {
+            excecao_sql.printStackTrace();
         }
     }
 
@@ -24,8 +24,8 @@ public class BD {
             if (conexao != null) {
                 conexao.close();
             }
-        } catch (SQLException excecaoSql) {
-            excecaoSql.printStackTrace();
+        } catch (SQLException excecao_sql) {
+            excecao_sql.printStackTrace();
         }
     }
 }

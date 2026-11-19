@@ -18,72 +18,72 @@ public class PainelPeçaAcessório extends JPanel {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-        categoriaLabel = new JLabel("Categoria do acessório");
-        corLabel = new JLabel("Cor");
-        funileiroProprioLabel = new JLabel("Funileiro próprio");
-        categoriaComboBox = new JComboBox<>(PeçaAcessório.CategoriaAcessório.values());
-        corTextField = new JTextField(10);
-        funileiroProprioCheckBox = new JCheckBox("Sim");
+        categoria_label = new JLabel("Categoria do acessório");
+        cor_label = new JLabel("Cor");
+        funileiro_proprio_label = new JLabel("Funileiro próprio");
+        categoria_combo_box = new JComboBox<>(PeçaAcessório.CategoriaAcessório.values());
+        cor_text_field = new JTextField(10);
+        funileiro_proprio_check_box = new JCheckBox("Sim");
 
         setLayout(new GridBagLayout());
 
-        GridBagConstraints categoriaLabelConstraints = new GridBagConstraints();
-        categoriaLabelConstraints.gridx = 0;
-        categoriaLabelConstraints.gridy = 0;
-        categoriaLabelConstraints.insets = new Insets(1, 5, 10, 5);
-        categoriaLabelConstraints.anchor = GridBagConstraints.WEST;
-        add(categoriaLabel, categoriaLabelConstraints);
+        GridBagConstraints categoria_label_constraints = new GridBagConstraints();
+        categoria_label_constraints.gridx = 0;
+        categoria_label_constraints.gridy = 0;
+        categoria_label_constraints.insets = new Insets(1, 5, 10, 5);
+        categoria_label_constraints.anchor = GridBagConstraints.WEST;
+        add(categoria_label, categoria_label_constraints);
 
-        GridBagConstraints categoriaComboBoxConstraints = new GridBagConstraints();
-        categoriaComboBoxConstraints.gridx = 1;
-        categoriaComboBoxConstraints.gridy = 0;
-        categoriaComboBoxConstraints.insets = new Insets(1, 5, 10, 5);
-        categoriaComboBoxConstraints.anchor = GridBagConstraints.WEST;
-        add(categoriaComboBox, categoriaComboBoxConstraints);
+        GridBagConstraints categoria_combo_box_constraints = new GridBagConstraints();
+        categoria_combo_box_constraints.gridx = 1;
+        categoria_combo_box_constraints.gridy = 0;
+        categoria_combo_box_constraints.insets = new Insets(1, 5, 10, 5);
+        categoria_combo_box_constraints.anchor = GridBagConstraints.WEST;
+        add(categoria_combo_box, categoria_combo_box_constraints);
 
-        GridBagConstraints corLabelConstraints = new GridBagConstraints();
-        corLabelConstraints.gridx = 0;
-        corLabelConstraints.gridy = 1;
-        corLabelConstraints.insets = new Insets(1, 5, 10, 5);
-        corLabelConstraints.anchor = GridBagConstraints.WEST;
-        add(corLabel, corLabelConstraints);
+        GridBagConstraints cor_label_constraints = new GridBagConstraints();
+        cor_label_constraints.gridx = 0;
+        cor_label_constraints.gridy = 1;
+        cor_label_constraints.insets = new Insets(1, 5, 10, 5);
+        cor_label_constraints.anchor = GridBagConstraints.WEST;
+        add(cor_label, cor_label_constraints);
 
-        GridBagConstraints corTextFieldConstraints = new GridBagConstraints();
-        corTextFieldConstraints.gridx = 1;
-        corTextFieldConstraints.gridy = 1;
-        corTextFieldConstraints.insets = new Insets(1, 5, 10, 5);
-        corTextFieldConstraints.anchor = GridBagConstraints.WEST;
-        add(corTextField, corTextFieldConstraints);
+        GridBagConstraints cor_text_field_constraints = new GridBagConstraints();
+        cor_text_field_constraints.gridx = 1;
+        cor_text_field_constraints.gridy = 1;
+        cor_text_field_constraints.insets = new Insets(1, 5, 10, 5);
+        cor_text_field_constraints.anchor = GridBagConstraints.WEST;
+        add(cor_text_field, cor_text_field_constraints);
 
-        GridBagConstraints funileiroProprioLabelConstraints = new GridBagConstraints();
-        funileiroProprioLabelConstraints.gridx = 0;
-        funileiroProprioLabelConstraints.gridy = 2;
-        funileiroProprioLabelConstraints.insets = new Insets(1, 5, 10, 5);
-        funileiroProprioLabelConstraints.anchor = GridBagConstraints.WEST;
-        add(funileiroProprioLabel, funileiroProprioLabelConstraints);
+        GridBagConstraints funileiro_proprio_label_constraints = new GridBagConstraints();
+        funileiro_proprio_label_constraints.gridx = 0;
+        funileiro_proprio_label_constraints.gridy = 2;
+        funileiro_proprio_label_constraints.insets = new Insets(1, 5, 10, 5);
+        funileiro_proprio_label_constraints.anchor = GridBagConstraints.WEST;
+        add(funileiro_proprio_label, funileiro_proprio_label_constraints);
 
-        GridBagConstraints funileiroProprioCheckBoxConstraints = new GridBagConstraints();
-        funileiroProprioCheckBoxConstraints.gridx = 1;
-        funileiroProprioCheckBoxConstraints.gridy = 2;
-        funileiroProprioCheckBoxConstraints.insets = new Insets(1, 5, 10, 5);
-        funileiroProprioCheckBoxConstraints.anchor = GridBagConstraints.WEST;
-        add(funileiroProprioCheckBox, funileiroProprioCheckBoxConstraints);
+        GridBagConstraints funileiro_proprio_check_box_constraints = new GridBagConstraints();
+        funileiro_proprio_check_box_constraints.gridx = 1;
+        funileiro_proprio_check_box_constraints.gridy = 2;
+        funileiro_proprio_check_box_constraints.insets = new Insets(1, 5, 10, 5);
+        funileiro_proprio_check_box_constraints.anchor = GridBagConstraints.WEST;
+        add(funileiro_proprio_check_box, funileiro_proprio_check_box_constraints);
     }// </editor-fold>//GEN-END:initComponents
 
     public PeçaAcessório.CategoriaAcessório getCategoriaAcessório() {
-        return (PeçaAcessório.CategoriaAcessório) categoriaComboBox.getSelectedItem();
+        return (PeçaAcessório.CategoriaAcessório) categoria_combo_box.getSelectedItem();
     }
-    public String getCor() { return corTextField.getText().trim(); }
-    public boolean isFunileiroProprio() { return funileiroProprioCheckBox.isSelected(); }
-    public void setCategoriaAcessório(PeçaAcessório.CategoriaAcessório valor) { categoriaComboBox.setSelectedItem(valor); }
-    public void setCor(String valor) { corTextField.setText(valor == null ? "" : valor); }
-    public void setFunileiroProprio(boolean valor) { funileiroProprioCheckBox.setSelected(valor); }
-    public void limparCampos() { categoriaComboBox.setSelectedIndex(-1); setCor(null); setFunileiroProprio(false); }
+    public String getCor() { return cor_text_field.getText().trim(); }
+    public boolean isFunileiroProprio() { return funileiro_proprio_check_box.isSelected(); }
+    public void setCategoriaAcessório(PeçaAcessório.CategoriaAcessório valor) { categoria_combo_box.setSelectedItem(valor); }
+    public void setCor(String valor) { cor_text_field.setText(valor == null ? "" : valor); }
+    public void setFunileiroProprio(boolean valor) { funileiro_proprio_check_box.setSelected(valor); }
+    public void limparCampos() { categoria_combo_box.setSelectedIndex(-1); setCor(null); setFunileiroProprio(false); }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private JComboBox<PeçaAcessório.CategoriaAcessório> categoriaComboBox;
-    private JTextField corTextField;
-    private JCheckBox funileiroProprioCheckBox;
-    private JLabel categoriaLabel, corLabel, funileiroProprioLabel;
+    private JComboBox<PeçaAcessório.CategoriaAcessório> categoria_combo_box;
+    private JTextField cor_text_field;
+    private JCheckBox funileiro_proprio_check_box;
+    private JLabel categoria_label, cor_label, funileiro_proprio_label;
     // End of variables declaration//GEN-END:variables
 }

@@ -18,75 +18,75 @@ public class PainelPeçaMecânica extends JPanel {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-        categoriaLabel = new JLabel("Categoria mecânica");
-        prazoGarantiaLabel = new JLabel("Prazo de garantia (dias)");
-        mecanicoProprioLabel = new JLabel("Mecânico próprio");
-        categoriaComboBox = new JComboBox<>(PeçaMecânica.CategoriaMecânica.values());
-        prazoGarantiaTextField = new JTextField(10);
-        mecanicoProprioCheckBox = new JCheckBox("Sim");
+        categoria_label = new JLabel("Categoria mecânica");
+        prazo_garantia_label = new JLabel("Prazo de garantia (dias)");
+        mecanico_proprio_label = new JLabel("Mecânico próprio");
+        categoria_combo_box = new JComboBox<>(PeçaMecânica.CategoriaMecânica.values());
+        prazo_garantia_text_field = new JTextField(10);
+        mecanico_proprio_check_box = new JCheckBox("Sim");
 
         setLayout(new GridBagLayout());
 
-        GridBagConstraints categoriaLabelConstraints = new GridBagConstraints();
-        categoriaLabelConstraints.gridx = 0;
-        categoriaLabelConstraints.gridy = 0;
-        categoriaLabelConstraints.insets = new Insets(1, 5, 10, 5);
-        categoriaLabelConstraints.anchor = GridBagConstraints.WEST;
-        add(categoriaLabel, categoriaLabelConstraints);
+        GridBagConstraints categoria_label_constraints = new GridBagConstraints();
+        categoria_label_constraints.gridx = 0;
+        categoria_label_constraints.gridy = 0;
+        categoria_label_constraints.insets = new Insets(1, 5, 10, 5);
+        categoria_label_constraints.anchor = GridBagConstraints.WEST;
+        add(categoria_label, categoria_label_constraints);
 
-        GridBagConstraints categoriaComboBoxConstraints = new GridBagConstraints();
-        categoriaComboBoxConstraints.gridx = 1;
-        categoriaComboBoxConstraints.gridy = 0;
-        categoriaComboBoxConstraints.insets = new Insets(1, 5, 10, 5);
-        categoriaComboBoxConstraints.anchor = GridBagConstraints.WEST;
-        add(categoriaComboBox, categoriaComboBoxConstraints);
+        GridBagConstraints categoria_combo_box_constraints = new GridBagConstraints();
+        categoria_combo_box_constraints.gridx = 1;
+        categoria_combo_box_constraints.gridy = 0;
+        categoria_combo_box_constraints.insets = new Insets(1, 5, 10, 5);
+        categoria_combo_box_constraints.anchor = GridBagConstraints.WEST;
+        add(categoria_combo_box, categoria_combo_box_constraints);
 
-        GridBagConstraints prazoGarantiaLabelConstraints = new GridBagConstraints();
-        prazoGarantiaLabelConstraints.gridx = 0;
-        prazoGarantiaLabelConstraints.gridy = 1;
-        prazoGarantiaLabelConstraints.insets = new Insets(1, 5, 10, 5);
-        prazoGarantiaLabelConstraints.anchor = GridBagConstraints.WEST;
-        add(prazoGarantiaLabel, prazoGarantiaLabelConstraints);
+        GridBagConstraints prazo_garantia_label_constraints = new GridBagConstraints();
+        prazo_garantia_label_constraints.gridx = 0;
+        prazo_garantia_label_constraints.gridy = 1;
+        prazo_garantia_label_constraints.insets = new Insets(1, 5, 10, 5);
+        prazo_garantia_label_constraints.anchor = GridBagConstraints.WEST;
+        add(prazo_garantia_label, prazo_garantia_label_constraints);
 
-        GridBagConstraints prazoGarantiaTextFieldConstraints = new GridBagConstraints();
-        prazoGarantiaTextFieldConstraints.gridx = 1;
-        prazoGarantiaTextFieldConstraints.gridy = 1;
-        prazoGarantiaTextFieldConstraints.insets = new Insets(1, 5, 10, 5);
-        prazoGarantiaTextFieldConstraints.anchor = GridBagConstraints.WEST;
-        add(prazoGarantiaTextField, prazoGarantiaTextFieldConstraints);
+        GridBagConstraints prazo_garantia_text_field_constraints = new GridBagConstraints();
+        prazo_garantia_text_field_constraints.gridx = 1;
+        prazo_garantia_text_field_constraints.gridy = 1;
+        prazo_garantia_text_field_constraints.insets = new Insets(1, 5, 10, 5);
+        prazo_garantia_text_field_constraints.anchor = GridBagConstraints.WEST;
+        add(prazo_garantia_text_field, prazo_garantia_text_field_constraints);
 
-        GridBagConstraints mecanicoProprioLabelConstraints = new GridBagConstraints();
-        mecanicoProprioLabelConstraints.gridx = 0;
-        mecanicoProprioLabelConstraints.gridy = 2;
-        mecanicoProprioLabelConstraints.insets = new Insets(1, 5, 10, 5);
-        mecanicoProprioLabelConstraints.anchor = GridBagConstraints.WEST;
-        add(mecanicoProprioLabel, mecanicoProprioLabelConstraints);
+        GridBagConstraints mecanico_proprio_label_constraints = new GridBagConstraints();
+        mecanico_proprio_label_constraints.gridx = 0;
+        mecanico_proprio_label_constraints.gridy = 2;
+        mecanico_proprio_label_constraints.insets = new Insets(1, 5, 10, 5);
+        mecanico_proprio_label_constraints.anchor = GridBagConstraints.WEST;
+        add(mecanico_proprio_label, mecanico_proprio_label_constraints);
 
-        GridBagConstraints mecanicoProprioCheckBoxConstraints = new GridBagConstraints();
-        mecanicoProprioCheckBoxConstraints.gridx = 1;
-        mecanicoProprioCheckBoxConstraints.gridy = 2;
-        mecanicoProprioCheckBoxConstraints.insets = new Insets(1, 5, 10, 5);
-        mecanicoProprioCheckBoxConstraints.anchor = GridBagConstraints.WEST;
-        add(mecanicoProprioCheckBox, mecanicoProprioCheckBoxConstraints);
+        GridBagConstraints mecanico_proprio_check_box_constraints = new GridBagConstraints();
+        mecanico_proprio_check_box_constraints.gridx = 1;
+        mecanico_proprio_check_box_constraints.gridy = 2;
+        mecanico_proprio_check_box_constraints.insets = new Insets(1, 5, 10, 5);
+        mecanico_proprio_check_box_constraints.anchor = GridBagConstraints.WEST;
+        add(mecanico_proprio_check_box, mecanico_proprio_check_box_constraints);
     }// </editor-fold>//GEN-END:initComponents
 
     public PeçaMecânica.CategoriaMecânica getCategoriaMecânica() {
-        return (PeçaMecânica.CategoriaMecânica) categoriaComboBox.getSelectedItem();
+        return (PeçaMecânica.CategoriaMecânica) categoria_combo_box.getSelectedItem();
     }
     public Integer getPrazoGarantia() {
-        String valor = prazoGarantiaTextField.getText().trim();
+        String valor = prazo_garantia_text_field.getText().trim();
         return valor.isEmpty() ? null : Integer.valueOf(valor);
     }
-    public boolean isMecanicoProprio() { return mecanicoProprioCheckBox.isSelected(); }
-    public void setCategoriaMecânica(PeçaMecânica.CategoriaMecânica valor) { categoriaComboBox.setSelectedItem(valor); }
-    public void setPrazoGarantia(Integer valor) { prazoGarantiaTextField.setText(valor == null ? "" : valor.toString()); }
-    public void setMecanicoProprio(boolean valor) { mecanicoProprioCheckBox.setSelected(valor); }
-    public void limparCampos() { categoriaComboBox.setSelectedIndex(-1); setPrazoGarantia(null); setMecanicoProprio(false); }
+    public boolean isMecanicoProprio() { return mecanico_proprio_check_box.isSelected(); }
+    public void setCategoriaMecânica(PeçaMecânica.CategoriaMecânica valor) { categoria_combo_box.setSelectedItem(valor); }
+    public void setPrazoGarantia(Integer valor) { prazo_garantia_text_field.setText(valor == null ? "" : valor.toString()); }
+    public void setMecanicoProprio(boolean valor) { mecanico_proprio_check_box.setSelected(valor); }
+    public void limparCampos() { categoria_combo_box.setSelectedIndex(-1); setPrazoGarantia(null); setMecanicoProprio(false); }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private JComboBox<PeçaMecânica.CategoriaMecânica> categoriaComboBox;
-    private JTextField prazoGarantiaTextField;
-    private JCheckBox mecanicoProprioCheckBox;
-    private JLabel categoriaLabel, prazoGarantiaLabel, mecanicoProprioLabel;
+    private JComboBox<PeçaMecânica.CategoriaMecânica> categoria_combo_box;
+    private JTextField prazo_garantia_text_field;
+    private JCheckBox mecanico_proprio_check_box;
+    private JLabel categoria_label, prazo_garantia_label, mecanico_proprio_label;
     // End of variables declaration//GEN-END:variables
 }

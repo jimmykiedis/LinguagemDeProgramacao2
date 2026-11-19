@@ -11,8 +11,8 @@ import javax.swing.JOptionPane;
 public class JanelaCadastroSinistros extends javax.swing.JFrame {
 
     ControladorCadastroSinistros controlador;
-    Sinistro[] sinistrosCadastrados;
-    private final DefaultListModel pecasSinistroModel = new DefaultListModel();
+    Sinistro[] sinistros_cadastrados;
+    private final DefaultListModel pecas_sinistro_model = new DefaultListModel();
 
     public JanelaCadastroSinistros(ControladorCadastroSinistros controlador) {
         this(controlador, null);
@@ -20,7 +20,7 @@ public class JanelaCadastroSinistros extends javax.swing.JFrame {
 
     public JanelaCadastroSinistros(ControladorCadastroSinistros controlador, Frame owner) {
         this.controlador = controlador;
-        sinistrosCadastrados = Sinistro.getVisoes();
+        sinistros_cadastrados = Sinistro.getVisoes();
         initComponents();
         atualizarSinistrosCadastrados();
         setSize(new java.awt.Dimension(820, 620));
@@ -43,8 +43,8 @@ public class JanelaCadastroSinistros extends javax.swing.JFrame {
     }
 
     private Sinistro localizarSinistro(int id) {
-        if (sinistrosCadastrados == null) return null;
-        for (Sinistro visao : sinistrosCadastrados) {
+        if (sinistros_cadastrados == null) return null;
+        for (Sinistro visao : sinistros_cadastrados) {
             if (visao.getId() == id) return visao;
         }
         return null;
@@ -54,13 +54,13 @@ public class JanelaCadastroSinistros extends javax.swing.JFrame {
         atualizarSinistrosCadastrados(0);
     }
 
-    private void atualizarSinistrosCadastrados(int idSelecionado) {
-        sinistrosCadastrados = Sinistro.getVisoes();
-        sinistrosCadastradosComboBox.setModel(new DefaultComboBoxModel(sinistrosCadastrados));
+    private void atualizarSinistrosCadastrados(int id_selecionado) {
+        sinistros_cadastrados = Sinistro.getVisoes();
+        sinistros_cadastrados_combo_box.setModel(new DefaultComboBoxModel(sinistros_cadastrados));
 
-        Sinistro visaoSelecionada = localizarSinistro(idSelecionado);
-        if (visaoSelecionada != null) {
-            sinistrosCadastradosComboBox.setSelectedItem(visaoSelecionada);
+        Sinistro visao_selecionada = localizarSinistro(id_selecionado);
+        if (visao_selecionada != null) {
+            sinistros_cadastrados_combo_box.setSelectedItem(visao_selecionada);
         }
     }
 
@@ -68,79 +68,88 @@ public class JanelaCadastroSinistros extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(this, mensagem, "Erro", JOptionPane.ERROR_MESSAGE);
     }
 
-    public void atualizarListaPeçasSinistro(int sinistroId) {
-        pecasSinistroModel.clear();
-        if (sinistroId <= 0) {
-            pecasSinistroList.setModel(pecasSinistroModel);
+    public void atualizarListaPeçasSinistro(int sinistro_id) {
+        pecas_sinistro_model.clear();
+        if (sinistro_id <= 0) {
+            pecas_sinistro_list.setModel(pecas_sinistro_model);
             return;
         }
 
-        for (entidades.Peça peca : entidades.Peça.buscarPeçasPorSinistro(sinistroId)) {
-            pecasSinistroModel.addElement(peca);
+        for (entidades.Peça peca : entidades.Peça.buscarPeçasPorSinistro(sinistro_id)) {
+            pecas_sinistro_model.addElement(peca);
         }
-        pecasSinistroList.setModel(pecasSinistroModel);
+        pecas_sinistro_list.setModel(pecas_sinistro_model);
     }
 
     private Boolean obterPerdaTotalInformada() {
-        return perdaTotalCheckBox.isSelected();
+        return perda_total_check_box.isSelected();
     }
 
     private void definirPerdaTotal(Boolean valor) {
-        perdaTotalCheckBox.setSelected(Boolean.TRUE.equals(valor));
+        perda_total_check_box.setSelected(Boolean.TRUE.equals(valor));
     }
 
     private Sinistro obterSinistroInformado() {
-        String segurado = seguradoTextField.getText().trim();
+        String segurado = segurado_text_field.getText().trim();
         if (segurado.isEmpty()) return null;
 
-        String telefone = telefoneTextField.getText().trim();
+        String telefone = telefone_text_field.getText().trim();
         if (telefone.isEmpty()) return null;
 
-        String cidade = clienteTextField.getText().trim();
+        String cidade = cliente_text_field.getText().trim();
         if (cidade.isEmpty()) cidade = null;
 
-        Sinistro.GrauMonta grauMonta =
-                (Sinistro.GrauMonta) grauMontaComboBox.getSelectedItem();
-        if (grauMonta == null) return null;
+        Sinistro.GrauMonta grau_monta = obterGrauMontaSelecionado();
+        if (grau_monta == null) return null;
 
-        Boolean perdaTotal = obterPerdaTotalInformada();
-        if (perdaTotal == null) return null;
+        Boolean perda_total = obterPerdaTotalInformada();
+        if (perda_total == null) return null;
 
-        int id = numeroTextField.getText().trim().isEmpty() ? 0
-                : Integer.parseInt(numeroTextField.getText().trim());
-        return new Sinistro(id, segurado, telefone, cidade, grauMonta, perdaTotal);
+        int id = numero_text_field.getText().trim().isEmpty() ? 0
+                : Integer.parseInt(numero_text_field.getText().trim());
+        return new Sinistro(id, segurado, telefone, cidade, grau_monta, perda_total);
     }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-        java.awt.GridBagConstraints gridBagConstraints;
+        java.awt.GridBagConstraints grid_bag_constraints;
 
-        comandosPanel = new javax.swing.JPanel();
-        inserirSinistro = new javax.swing.JButton();
-        alterarSinistro = new javax.swing.JButton();
-        consultarSinistro = new javax.swing.JButton();
-        removerSinistro = new javax.swing.JButton();
-        pecasSinistro = new javax.swing.JButton();
-        limparCampos = new javax.swing.JButton();
-        sinistrosCadastradosLabel = new javax.swing.JLabel();
-        sinistrosCadastradosComboBox = new javax.swing.JComboBox();
-        numeroLabel = new javax.swing.JLabel();
-        numeroTextField = new javax.swing.JTextField();
-        seguradoLabel = new javax.swing.JLabel();
-        seguradoTextField = new javax.swing.JTextField();
-        clienteLabel = new javax.swing.JLabel();
-        clienteTextField = new javax.swing.JTextField();
-        telefoneLabel = new javax.swing.JLabel();
-        telefoneTextField = new javax.swing.JTextField();
-        grauMontaLabel = new javax.swing.JLabel();
-        grauMontaComboBox = new javax.swing.JComboBox();
-        perdaTotalLabel = new javax.swing.JLabel();
-        perdaTotalPanel = new javax.swing.JPanel();
-        perdaTotalCheckBox = new javax.swing.JCheckBox();
-        pecasSinistroLabel = new javax.swing.JLabel();
-        pecasSinistroScrollPane = new javax.swing.JScrollPane();
-        pecasSinistroList = new javax.swing.JList();
+        comandos_panel = new javax.swing.JPanel();
+        inserir_sinistro = new javax.swing.JButton();
+        alterar_sinistro = new javax.swing.JButton();
+        consultar_sinistro = new javax.swing.JButton();
+        remover_sinistro = new javax.swing.JButton();
+        pecas_sinistro = new javax.swing.JButton();
+        limpar_campos = new javax.swing.JButton();
+        sinistros_cadastrados_label = new javax.swing.JLabel();
+        sinistros_cadastrados_combo_box = new javax.swing.JComboBox();
+        numero_label = new javax.swing.JLabel();
+        numero_text_field = new javax.swing.JTextField();
+        segurado_label = new javax.swing.JLabel();
+        segurado_text_field = new javax.swing.JTextField();
+        cliente_label = new javax.swing.JLabel();
+        cliente_text_field = new javax.swing.JTextField();
+        telefone_label = new javax.swing.JLabel();
+        telefone_text_field = new javax.swing.JTextField();
+        grau_monta_label = new javax.swing.JLabel();
+        grau_monta_button_group = new javax.swing.ButtonGroup();
+        grau_monta_panel = new javax.swing.JPanel(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
+        grau_monta_pequena_radio_button = new javax.swing.JRadioButton(Sinistro.GrauMonta.PEQUENA.toString());
+        grau_monta_media_radio_button = new javax.swing.JRadioButton(Sinistro.GrauMonta.MEDIA.toString());
+        grau_monta_grande_radio_button = new javax.swing.JRadioButton(Sinistro.GrauMonta.GRANDE.toString());
+        grau_monta_button_group.add(grau_monta_pequena_radio_button);
+        grau_monta_button_group.add(grau_monta_media_radio_button);
+        grau_monta_button_group.add(grau_monta_grande_radio_button);
+        grau_monta_panel.add(grau_monta_pequena_radio_button);
+        grau_monta_panel.add(grau_monta_media_radio_button);
+        grau_monta_panel.add(grau_monta_grande_radio_button);
+        perda_total_label = new javax.swing.JLabel();
+        perda_total_panel = new javax.swing.JPanel();
+        perda_total_check_box = new javax.swing.JCheckBox();
+        pecas_sinistro_label = new javax.swing.JLabel();
+        pecas_sinistro_scroll_pane = new javax.swing.JScrollPane();
+        pecas_sinistro_list = new javax.swing.JList();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Cadastrar Sinistros");
@@ -148,288 +157,301 @@ public class JanelaCadastroSinistros extends javax.swing.JFrame {
         setPreferredSize(new java.awt.Dimension(820, 620));
         getContentPane().setLayout(new java.awt.GridBagLayout());
 
-        inserirSinistro.setText("Inserir");
-        inserirSinistro.addActionListener(new java.awt.event.ActionListener() {
+        inserir_sinistro.setText("Inserir");
+        inserir_sinistro.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 inserirSinistro(evt);
             }
         });
-        comandosPanel.add(inserirSinistro);
+        comandos_panel.add(inserir_sinistro);
 
-        alterarSinistro.setText("Alterar");
-        alterarSinistro.addActionListener(new java.awt.event.ActionListener() {
+        alterar_sinistro.setText("Alterar");
+        alterar_sinistro.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 alterarSinistro(evt);
             }
         });
-        comandosPanel.add(alterarSinistro);
+        comandos_panel.add(alterar_sinistro);
 
-        consultarSinistro.setText("Consultar");
-        consultarSinistro.addActionListener(new java.awt.event.ActionListener() {
+        consultar_sinistro.setText("Consultar");
+        consultar_sinistro.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 consultarSinistro(evt);
             }
         });
-        comandosPanel.add(consultarSinistro);
+        comandos_panel.add(consultar_sinistro);
 
-        removerSinistro.setText("Remover");
-        removerSinistro.addActionListener(new java.awt.event.ActionListener() {
+        remover_sinistro.setText("Remover");
+        remover_sinistro.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 removerSinistro(evt);
             }
         });
-        comandosPanel.add(removerSinistro);
+        comandos_panel.add(remover_sinistro);
 
-        pecasSinistro.setText("Peças");
-        pecasSinistro.addActionListener(new java.awt.event.ActionListener() {
+        pecas_sinistro.setText("Peças");
+        pecas_sinistro.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 pecasSinistro(evt);
             }
         });
-        comandosPanel.add(pecasSinistro);
+        comandos_panel.add(pecas_sinistro);
 
-        limparCampos.setText("Limpar");
-        limparCampos.addActionListener(new java.awt.event.ActionListener() {
+        limpar_campos.setText("Limpar");
+        limpar_campos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 limparCampos(evt);
             }
         });
-        comandosPanel.add(limparCampos);
+        comandos_panel.add(limpar_campos);
 
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 8;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        getContentPane().add(comandosPanel, gridBagConstraints);
+        grid_bag_constraints = new java.awt.GridBagConstraints();
+        grid_bag_constraints.gridx = 1;
+        grid_bag_constraints.gridy = 8;
+        grid_bag_constraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        grid_bag_constraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        getContentPane().add(comandos_panel, grid_bag_constraints);
 
-        sinistrosCadastradosLabel.setText("Sinistros Cadastrados");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
-        gridBagConstraints.insets = new java.awt.Insets(1, 5, 10, 5);
-        getContentPane().add(sinistrosCadastradosLabel, gridBagConstraints);
+        sinistros_cadastrados_label.setText("Sinistros Cadastrados");
+        grid_bag_constraints = new java.awt.GridBagConstraints();
+        grid_bag_constraints.gridx = 0;
+        grid_bag_constraints.gridy = 0;
+        grid_bag_constraints.anchor = java.awt.GridBagConstraints.EAST;
+        grid_bag_constraints.insets = new java.awt.Insets(1, 5, 10, 5);
+        getContentPane().add(sinistros_cadastrados_label, grid_bag_constraints);
 
-        sinistrosCadastradosComboBox.setModel(new DefaultComboBoxModel(sinistrosCadastrados));
-        sinistrosCadastradosComboBox.addActionListener(new java.awt.event.ActionListener() {
+        sinistros_cadastrados_combo_box.setModel(new DefaultComboBoxModel(sinistros_cadastrados));
+        sinistros_cadastrados_combo_box.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 sinistrosCadastradosComboBoxActionPerformed(evt);
             }
         });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(1, 5, 10, 5);
-        getContentPane().add(sinistrosCadastradosComboBox, gridBagConstraints);
+        grid_bag_constraints = new java.awt.GridBagConstraints();
+        grid_bag_constraints.gridx = 1;
+        grid_bag_constraints.gridy = 0;
+        grid_bag_constraints.anchor = java.awt.GridBagConstraints.WEST;
+        grid_bag_constraints.insets = new java.awt.Insets(1, 5, 10, 5);
+        getContentPane().add(sinistros_cadastrados_combo_box, grid_bag_constraints);
 
-        numeroLabel.setText("ID");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
-        gridBagConstraints.insets = new java.awt.Insets(1, 5, 10, 5);
-        getContentPane().add(numeroLabel, gridBagConstraints);
+        numero_label.setText("ID");
+        grid_bag_constraints = new java.awt.GridBagConstraints();
+        grid_bag_constraints.gridx = 0;
+        grid_bag_constraints.gridy = 1;
+        grid_bag_constraints.anchor = java.awt.GridBagConstraints.EAST;
+        grid_bag_constraints.insets = new java.awt.Insets(1, 5, 10, 5);
+        getContentPane().add(numero_label, grid_bag_constraints);
 
-        numeroTextField.setEditable(false);
-        numeroTextField.setColumns(8);
-        numeroTextField.setMinimumSize(new java.awt.Dimension(80, 20));
-        numeroTextField.setPreferredSize(new java.awt.Dimension(80, 20));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(1, 5, 10, 5);
-        getContentPane().add(numeroTextField, gridBagConstraints);
+        numero_text_field.setEditable(false);
+        numero_text_field.setColumns(8);
+        numero_text_field.setMinimumSize(new java.awt.Dimension(80, 20));
+        numero_text_field.setPreferredSize(new java.awt.Dimension(80, 20));
+        grid_bag_constraints = new java.awt.GridBagConstraints();
+        grid_bag_constraints.gridx = 1;
+        grid_bag_constraints.gridy = 1;
+        grid_bag_constraints.anchor = java.awt.GridBagConstraints.WEST;
+        grid_bag_constraints.insets = new java.awt.Insets(1, 5, 10, 5);
+        getContentPane().add(numero_text_field, grid_bag_constraints);
 
-        seguradoLabel.setText("Segurado");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
-        gridBagConstraints.insets = new java.awt.Insets(1, 5, 10, 5);
-        getContentPane().add(seguradoLabel, gridBagConstraints);
+        segurado_label.setText("Segurado");
+        grid_bag_constraints = new java.awt.GridBagConstraints();
+        grid_bag_constraints.gridx = 0;
+        grid_bag_constraints.gridy = 2;
+        grid_bag_constraints.anchor = java.awt.GridBagConstraints.EAST;
+        grid_bag_constraints.insets = new java.awt.Insets(1, 5, 10, 5);
+        getContentPane().add(segurado_label, grid_bag_constraints);
 
-        seguradoTextField.setColumns(24);
-        seguradoTextField.setMinimumSize(new java.awt.Dimension(240, 20));
-        seguradoTextField.setPreferredSize(new java.awt.Dimension(240, 20));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(1, 5, 10, 5);
-        getContentPane().add(seguradoTextField, gridBagConstraints);
+        segurado_text_field.setColumns(24);
+        segurado_text_field.setMinimumSize(new java.awt.Dimension(240, 20));
+        segurado_text_field.setPreferredSize(new java.awt.Dimension(240, 20));
+        grid_bag_constraints = new java.awt.GridBagConstraints();
+        grid_bag_constraints.gridx = 1;
+        grid_bag_constraints.gridy = 2;
+        grid_bag_constraints.anchor = java.awt.GridBagConstraints.WEST;
+        grid_bag_constraints.insets = new java.awt.Insets(1, 5, 10, 5);
+        getContentPane().add(segurado_text_field, grid_bag_constraints);
 
-        clienteLabel.setText("Cidade");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 3;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
-        gridBagConstraints.insets = new java.awt.Insets(1, 5, 10, 5);
-        getContentPane().add(clienteLabel, gridBagConstraints);
+        cliente_label.setText("Cidade");
+        grid_bag_constraints = new java.awt.GridBagConstraints();
+        grid_bag_constraints.gridx = 0;
+        grid_bag_constraints.gridy = 3;
+        grid_bag_constraints.anchor = java.awt.GridBagConstraints.EAST;
+        grid_bag_constraints.insets = new java.awt.Insets(1, 5, 10, 5);
+        getContentPane().add(cliente_label, grid_bag_constraints);
 
-        clienteTextField.setColumns(16);
-        clienteTextField.setMinimumSize(new java.awt.Dimension(160, 20));
-        clienteTextField.setPreferredSize(new java.awt.Dimension(160, 20));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 3;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(1, 5, 10, 5);
-        getContentPane().add(clienteTextField, gridBagConstraints);
+        cliente_text_field.setColumns(16);
+        cliente_text_field.setMinimumSize(new java.awt.Dimension(160, 20));
+        cliente_text_field.setPreferredSize(new java.awt.Dimension(160, 20));
+        grid_bag_constraints = new java.awt.GridBagConstraints();
+        grid_bag_constraints.gridx = 1;
+        grid_bag_constraints.gridy = 3;
+        grid_bag_constraints.anchor = java.awt.GridBagConstraints.WEST;
+        grid_bag_constraints.insets = new java.awt.Insets(1, 5, 10, 5);
+        getContentPane().add(cliente_text_field, grid_bag_constraints);
 
-        telefoneLabel.setText("Telefone");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 4;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
-        gridBagConstraints.insets = new java.awt.Insets(1, 5, 10, 5);
-        getContentPane().add(telefoneLabel, gridBagConstraints);
+        telefone_label.setText("Telefone");
+        grid_bag_constraints = new java.awt.GridBagConstraints();
+        grid_bag_constraints.gridx = 0;
+        grid_bag_constraints.gridy = 4;
+        grid_bag_constraints.anchor = java.awt.GridBagConstraints.EAST;
+        grid_bag_constraints.insets = new java.awt.Insets(1, 5, 10, 5);
+        getContentPane().add(telefone_label, grid_bag_constraints);
 
-        telefoneTextField.setColumns(12);
-        telefoneTextField.setMinimumSize(new java.awt.Dimension(120, 20));
-        telefoneTextField.setPreferredSize(new java.awt.Dimension(120, 20));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 4;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(1, 5, 10, 5);
-        getContentPane().add(telefoneTextField, gridBagConstraints);
+        telefone_text_field.setColumns(12);
+        telefone_text_field.setMinimumSize(new java.awt.Dimension(120, 20));
+        telefone_text_field.setPreferredSize(new java.awt.Dimension(120, 20));
+        grid_bag_constraints = new java.awt.GridBagConstraints();
+        grid_bag_constraints.gridx = 1;
+        grid_bag_constraints.gridy = 4;
+        grid_bag_constraints.anchor = java.awt.GridBagConstraints.WEST;
+        grid_bag_constraints.insets = new java.awt.Insets(1, 5, 10, 5);
+        getContentPane().add(telefone_text_field, grid_bag_constraints);
 
-        grauMontaLabel.setText("Grau de Monta");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 5;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
-        gridBagConstraints.insets = new java.awt.Insets(1, 5, 10, 5);
-        getContentPane().add(grauMontaLabel, gridBagConstraints);
+        grau_monta_label.setText("Grau de Monta");
+        grid_bag_constraints = new java.awt.GridBagConstraints();
+        grid_bag_constraints.gridx = 0;
+        grid_bag_constraints.gridy = 5;
+        grid_bag_constraints.anchor = java.awt.GridBagConstraints.EAST;
+        grid_bag_constraints.insets = new java.awt.Insets(1, 5, 10, 5);
+        getContentPane().add(grau_monta_label, grid_bag_constraints);
 
-        grauMontaComboBox.setModel(new DefaultComboBoxModel(Sinistro.GrauMonta.values()));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 5;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(1, 5, 10, 5);
-        getContentPane().add(grauMontaComboBox, gridBagConstraints);
+        grid_bag_constraints = new java.awt.GridBagConstraints();
+        grid_bag_constraints.gridx = 1;
+        grid_bag_constraints.gridy = 5;
+        grid_bag_constraints.anchor = java.awt.GridBagConstraints.WEST;
+        grid_bag_constraints.insets = new java.awt.Insets(1, 5, 10, 5);
+        getContentPane().add(grau_monta_panel, grid_bag_constraints);
 
-        perdaTotalLabel.setText("Perda Total");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 6;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
-        gridBagConstraints.insets = new java.awt.Insets(1, 5, 10, 5);
-        getContentPane().add(perdaTotalLabel, gridBagConstraints);
+        perda_total_label.setText("Perda Total");
+        grid_bag_constraints = new java.awt.GridBagConstraints();
+        grid_bag_constraints.gridx = 0;
+        grid_bag_constraints.gridy = 6;
+        grid_bag_constraints.anchor = java.awt.GridBagConstraints.EAST;
+        grid_bag_constraints.insets = new java.awt.Insets(1, 5, 10, 5);
+        getContentPane().add(perda_total_label, grid_bag_constraints);
 
-        perdaTotalPanel.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
+        perda_total_panel.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
 
-        perdaTotalCheckBox.setText("Sim");
-        perdaTotalPanel.add(perdaTotalCheckBox);
+        perda_total_check_box.setText("Sim");
+        perda_total_panel.add(perda_total_check_box);
 
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 6;
-        gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(1, 5, 10, 5);
-        getContentPane().add(perdaTotalPanel, gridBagConstraints);
+        grid_bag_constraints = new java.awt.GridBagConstraints();
+        grid_bag_constraints.gridx = 1;
+        grid_bag_constraints.gridy = 6;
+        grid_bag_constraints.gridwidth = 2;
+        grid_bag_constraints.anchor = java.awt.GridBagConstraints.WEST;
+        grid_bag_constraints.insets = new java.awt.Insets(1, 5, 10, 5);
+        getContentPane().add(perda_total_panel, grid_bag_constraints);
 
-        pecasSinistroLabel.setText("Peças do Sinistro");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 7;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHEAST;
-        gridBagConstraints.insets = new java.awt.Insets(1, 5, 10, 5);
-        getContentPane().add(pecasSinistroLabel, gridBagConstraints);
+        pecas_sinistro_label.setText("Peças do Sinistro");
+        grid_bag_constraints = new java.awt.GridBagConstraints();
+        grid_bag_constraints.gridx = 0;
+        grid_bag_constraints.gridy = 7;
+        grid_bag_constraints.anchor = java.awt.GridBagConstraints.NORTHEAST;
+        grid_bag_constraints.insets = new java.awt.Insets(1, 5, 10, 5);
+        getContentPane().add(pecas_sinistro_label, grid_bag_constraints);
 
-        pecasSinistroScrollPane.setPreferredSize(new java.awt.Dimension(300, 90));
+        pecas_sinistro_scroll_pane.setPreferredSize(new java.awt.Dimension(300, 90));
 
-        pecasSinistroList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        pecasSinistroList.setModel(pecasSinistroModel);
-        pecasSinistroScrollPane.setViewportView(pecasSinistroList);
+        pecas_sinistro_list.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        pecas_sinistro_list.setModel(pecas_sinistro_model);
+        pecas_sinistro_scroll_pane.setViewportView(pecas_sinistro_list);
 
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 7;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.weighty = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(1, 5, 10, 5);
-        getContentPane().add(pecasSinistroScrollPane, gridBagConstraints);
+        grid_bag_constraints = new java.awt.GridBagConstraints();
+        grid_bag_constraints.gridx = 1;
+        grid_bag_constraints.gridy = 7;
+        grid_bag_constraints.fill = java.awt.GridBagConstraints.BOTH;
+        grid_bag_constraints.anchor = java.awt.GridBagConstraints.WEST;
+        grid_bag_constraints.weightx = 1.0;
+        grid_bag_constraints.weighty = 1.0;
+        grid_bag_constraints.insets = new java.awt.Insets(1, 5, 10, 5);
+        getContentPane().add(pecas_sinistro_scroll_pane, grid_bag_constraints);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private Sinistro.GrauMonta obterGrauMontaSelecionado() {
+        if (grau_monta_pequena_radio_button.isSelected()) return Sinistro.GrauMonta.PEQUENA;
+        if (grau_monta_media_radio_button.isSelected()) return Sinistro.GrauMonta.MEDIA;
+        if (grau_monta_grande_radio_button.isSelected()) return Sinistro.GrauMonta.GRANDE;
+        return null;
+    }
+
+    private void definirGrauMontaSelecionado(Sinistro.GrauMonta valor) {
+        grau_monta_button_group.clearSelection();
+        if (valor == Sinistro.GrauMonta.PEQUENA) grau_monta_pequena_radio_button.setSelected(true);
+        else if (valor == Sinistro.GrauMonta.MEDIA) grau_monta_media_radio_button.setSelected(true);
+        else if (valor == Sinistro.GrauMonta.GRANDE) grau_monta_grande_radio_button.setSelected(true);
+    }
+
     private void sinistrosCadastradosComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sinistros_cadastradosComboBoxActionPerformed
-        Sinistro visao = (Sinistro) sinistrosCadastradosComboBox.getSelectedItem();
+        Sinistro visao = (Sinistro) sinistros_cadastrados_combo_box.getSelectedItem();
         atualizarListaPeçasSinistro(visao != null ? visao.getId() : 0);
     }//GEN-LAST:event_sinistros_cadastradosComboBoxActionPerformed
 
     private void limparCampos(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_limparCampos
-        numeroTextField.setText("");
-        seguradoTextField.setText("");
-        clienteTextField.setText("");
-        telefoneTextField.setText("");
-        grauMontaComboBox.setSelectedIndex(-1);
-        perdaTotalCheckBox.setSelected(false);
+        numero_text_field.setText("");
+        segurado_text_field.setText("");
+        cliente_text_field.setText("");
+        telefone_text_field.setText("");
+        grau_monta_button_group.clearSelection();
+        perda_total_check_box.setSelected(false);
         atualizarListaPeçasSinistro(0);
     }//GEN-LAST:event_limparCampos
 
     private void consultarSinistro(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_consultarSinistro
-        Sinistro visao = (Sinistro) sinistrosCadastradosComboBox.getSelectedItem();
-        String mensagemErro = null;
+        Sinistro visao = (Sinistro) sinistros_cadastrados_combo_box.getSelectedItem();
+        String mensagem_erro = null;
         if (visao == null) {
-            mensagemErro = "Nenhum Sinistro selecionado";
+            mensagem_erro = "Nenhum Sinistro selecionado";
         } else {
             Sinistro sinistro = Sinistro.buscarSinistro(visao.getId());
             if (sinistro == null) {
-                mensagemErro = "Sinistro não cadastrado";
+                mensagem_erro = "Sinistro não cadastrado";
             } else {
-                numeroTextField.setText(String.valueOf(sinistro.getId()));
-                seguradoTextField.setText(sinistro.getSegurado());
-                clienteTextField.setText(sinistro.getCidade());
-                telefoneTextField.setText(sinistro.getTelefone());
-                grauMontaComboBox.setSelectedItem(sinistro.getGrauMonta());
+                numero_text_field.setText(String.valueOf(sinistro.getId()));
+                segurado_text_field.setText(sinistro.getSegurado());
+                cliente_text_field.setText(sinistro.getCidade());
+                telefone_text_field.setText(sinistro.getTelefone());
+                definirGrauMontaSelecionado(sinistro.getGrauMonta());
                 definirPerdaTotal(sinistro.getPerdaTotal());
                 atualizarListaPeçasSinistro(sinistro.getId());
             }
         }
 
-        if (mensagemErro != null) informarErro(mensagemErro);
+        if (mensagem_erro != null) informarErro(mensagem_erro);
     }//GEN-LAST:event_consultarSinistro
 
     private void inserirSinistro(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inserirSinistro
         Sinistro sinistro = obterSinistroInformado();
-        String mensagemErro = null;
+        String mensagem_erro = null;
 
         if (sinistro != null) {
-            mensagemErro = controlador.inserirSinistro(sinistro);
+            mensagem_erro = controlador.inserirSinistro(sinistro);
         } else {
-            mensagemErro = "Algum atributo do Sinistro não foi informado";
+            mensagem_erro = "Algum atributo do Sinistro não foi informado";
         }
 
-        if (mensagemErro == null) {
+        if (mensagem_erro == null) {
             atualizarSinistrosCadastrados(sinistro.getId());
             atualizarListaPeçasSinistro(sinistro.getId());
-            numeroTextField.setText(String.valueOf(sinistro.getId()));
+            numero_text_field.setText(String.valueOf(sinistro.getId()));
         } else {
-            informarErro(mensagemErro);
+            informarErro(mensagem_erro);
         }
     }//GEN-LAST:event_inserirSinistro
 
     private void alterarSinistro(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_alterarSinistro
         Sinistro sinistro = obterSinistroInformado();
-        String mensagemErro = null;
+        String mensagem_erro = null;
 
         if (sinistro != null) {
-            mensagemErro = controlador.alterarSinistro(sinistro);
+            mensagem_erro = controlador.alterarSinistro(sinistro);
         } else {
-            mensagemErro = "Algum atributo do Sinistro não foi informado";
+            mensagem_erro = "Algum atributo do Sinistro não foi informado";
         }
 
-        if (mensagemErro == null) {
-            Sinistro visao = (Sinistro) sinistrosCadastradosComboBox.getSelectedItem();
+        if (mensagem_erro == null) {
+            Sinistro visao = (Sinistro) sinistros_cadastrados_combo_box.getSelectedItem();
 
             if (visao != null) {
                 visao.setSegurado(sinistro.getSegurado());
@@ -438,77 +460,81 @@ public class JanelaCadastroSinistros extends javax.swing.JFrame {
                 visao.setGrauMonta(sinistro.getGrauMonta());
                 visao.setPerdaTotal(sinistro.getPerdaTotal());
 
-                sinistrosCadastradosComboBox.updateUI();
+                sinistros_cadastrados_combo_box.updateUI();
             }
         } else {
-            informarErro(mensagemErro);
+            informarErro(mensagem_erro);
         }
     }//GEN-LAST:event_alterarSinistro
 
     private void removerSinistro(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removerSinistro
-        Sinistro visao = (Sinistro) sinistrosCadastradosComboBox.getSelectedItem();
-        String mensagemErro = null;
+        Sinistro visao = (Sinistro) sinistros_cadastrados_combo_box.getSelectedItem();
+        String mensagem_erro = null;
 
         if (visao != null) {
-            mensagemErro = controlador.removerSinistro(visao.getId());
+            mensagem_erro = controlador.removerSinistro(visao.getId());
         } else {
-            mensagemErro = "Nenhum Sinistro selecionado";
+            mensagem_erro = "Nenhum Sinistro selecionado";
         }
 
-        if (mensagemErro == null) {
+        if (mensagem_erro == null) {
             atualizarSinistrosCadastrados();
             limparCampos(evt);
         } else {
-            informarErro(mensagemErro);
+            informarErro(mensagem_erro);
         }
     }//GEN-LAST:event_removerSinistro
 
     private void pecasSinistro(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pecasSinistro
-        Sinistro visao = (Sinistro) sinistrosCadastradosComboBox.getSelectedItem();
-        String mensagemErro = null;
+        Sinistro visao = (Sinistro) sinistros_cadastrados_combo_box.getSelectedItem();
+        String mensagem_erro = null;
 
         if (visao == null) {
-            mensagemErro = "Nenhum Sinistro selecionado";
+            mensagem_erro = "Nenhum Sinistro selecionado";
         } else {
             Sinistro sinistro = Sinistro.buscarSinistro(visao.getId());
             if (sinistro == null) {
-                mensagemErro = "Sinistro não cadastrado";
+                mensagem_erro = "Sinistro não cadastrado";
             } else {
                 new ControladorCadastroPeçasSinistros(this, sinistro);
                 atualizarListaPeçasSinistro(sinistro.getId());
             }
         }
 
-        if (mensagemErro != null) {
-            informarErro(mensagemErro);
+        if (mensagem_erro != null) {
+            informarErro(mensagem_erro);
         }
     }//GEN-LAST:event_pecasSinistro
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton alterarSinistro;
-    private javax.swing.JLabel clienteLabel;
-    private javax.swing.JTextField clienteTextField;
-    private javax.swing.JPanel comandosPanel;
-    private javax.swing.JButton consultarSinistro;
-    private javax.swing.JComboBox grauMontaComboBox;
-    private javax.swing.JLabel grauMontaLabel;
-    private javax.swing.JButton inserirSinistro;
-    private javax.swing.JButton limparCampos;
-    private javax.swing.JLabel numeroLabel;
-    private javax.swing.JTextField numeroTextField;
-    private javax.swing.JButton pecasSinistro;
-    private javax.swing.JLabel pecasSinistroLabel;
-    private javax.swing.JList pecasSinistroList;
-    private javax.swing.JScrollPane pecasSinistroScrollPane;
-    private javax.swing.JCheckBox perdaTotalCheckBox;
-    private javax.swing.JLabel perdaTotalLabel;
-    private javax.swing.JPanel perdaTotalPanel;
-    private javax.swing.JButton removerSinistro;
-    private javax.swing.JLabel seguradoLabel;
-    private javax.swing.JTextField seguradoTextField;
-    private javax.swing.JComboBox sinistrosCadastradosComboBox;
-    private javax.swing.JLabel sinistrosCadastradosLabel;
-    private javax.swing.JLabel telefoneLabel;
-    private javax.swing.JTextField telefoneTextField;
+    private javax.swing.JButton alterar_sinistro;
+    private javax.swing.JLabel cliente_label;
+    private javax.swing.JTextField cliente_text_field;
+    private javax.swing.JPanel comandos_panel;
+    private javax.swing.JButton consultar_sinistro;
+    private javax.swing.ButtonGroup grau_monta_button_group;
+    private javax.swing.JPanel grau_monta_panel;
+    private javax.swing.JRadioButton grau_monta_pequena_radio_button;
+    private javax.swing.JRadioButton grau_monta_media_radio_button;
+    private javax.swing.JRadioButton grau_monta_grande_radio_button;
+    private javax.swing.JLabel grau_monta_label;
+    private javax.swing.JButton inserir_sinistro;
+    private javax.swing.JButton limpar_campos;
+    private javax.swing.JLabel numero_label;
+    private javax.swing.JTextField numero_text_field;
+    private javax.swing.JButton pecas_sinistro;
+    private javax.swing.JLabel pecas_sinistro_label;
+    private javax.swing.JList pecas_sinistro_list;
+    private javax.swing.JScrollPane pecas_sinistro_scroll_pane;
+    private javax.swing.JCheckBox perda_total_check_box;
+    private javax.swing.JLabel perda_total_label;
+    private javax.swing.JPanel perda_total_panel;
+    private javax.swing.JButton remover_sinistro;
+    private javax.swing.JLabel segurado_label;
+    private javax.swing.JTextField segurado_text_field;
+    private javax.swing.JComboBox sinistros_cadastrados_combo_box;
+    private javax.swing.JLabel sinistros_cadastrados_label;
+    private javax.swing.JLabel telefone_label;
+    private javax.swing.JTextField telefone_text_field;
     // End of variables declaration//GEN-END:variables
 }

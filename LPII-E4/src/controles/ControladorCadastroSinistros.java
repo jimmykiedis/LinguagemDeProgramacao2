@@ -22,14 +22,14 @@ public class ControladorCadastroSinistros {
     }
 
     public String alterarSinistro(Sinistro sinistro) {
-        Sinistro sinistro1 = Sinistro.buscarSinistro(sinistro.getId());
-        if (sinistro1 != null) return Sinistro.alterarSinistro(sinistro);
+        Sinistro sinistro_1 = Sinistro.buscarSinistro(sinistro.getId());
+        if (sinistro_1 != null) return Sinistro.alterarSinistro(sinistro);
         else return "Segurado de Sinistro não cadastrado";
     }
 
     public String removerSinistro(int id) {
-        Sinistro sinistro1 = Sinistro.buscarSinistro(id);
-        if (sinistro1 != null) return Sinistro.removerSinistro(id);
+        Sinistro sinistro_1 = Sinistro.buscarSinistro(id);
+        if (sinistro_1 != null) return Sinistro.removerSinistro(id);
         else return "Sinistro não cadastrado";
     }
 }

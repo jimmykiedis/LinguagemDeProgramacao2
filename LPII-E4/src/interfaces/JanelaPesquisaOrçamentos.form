@@ -2,9 +2,9 @@
 
 <Form version="1.8" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
   <NonVisualComponents>
-    <Component class="javax.swing.ButtonGroup" name="atendimento24hGrupo">
+    <Component class="javax.swing.ButtonGroup" name="atendimento_24h_grupo">
     </Component>
-  </NonVisualComponents>
+  <Component class="javax.swing.ButtonGroup" name="grau_monta_grupo"/><Component class="javax.swing.ButtonGroup" name="marca_peça_grupo"/></NonVisualComponents>
   <Properties>
     <Property name="defaultCloseOperation" type="int" value="2"/>
     <Property name="title" type="java.lang.String" value="Pesquisar Or&#xe7;amentos"/>
@@ -43,7 +43,7 @@
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout"/>
       <SubComponents>
-        <Container class="javax.swing.JPanel" name="painelOr&#xe7;amento">
+        <Container class="javax.swing.JPanel" name="painel_or&#231;amento">
           <Properties>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
               <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
@@ -59,7 +59,7 @@
 
           <Layout class="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout"/>
           <SubComponents>
-            <Component class="javax.swing.JLabel" name="dataLabel">
+            <Component class="javax.swing.JLabel" name="data_label">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Data m&#xed;nima (AAAA-MM-DD HH:MM:SS)"/>
               </Properties>
@@ -69,7 +69,7 @@
                 </Constraint>
               </Constraints>
             </Component>
-            <Component class="javax.swing.JTextField" name="dataMinimaOr&#xe7;amento">
+            <Component class="javax.swing.JTextField" name="data_minima_or&#231;amento">
               <Properties>
                 <Property name="columns" type="int" value="16"/>
               </Properties>
@@ -81,7 +81,7 @@
             </Component>
           </SubComponents>
         </Container>
-        <Container class="javax.swing.JPanel" name="painelSeguradora">
+        <Container class="javax.swing.JPanel" name="painel_seguradora">
           <Properties>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
               <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
@@ -97,7 +97,7 @@
 
           <Layout class="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout"/>
           <SubComponents>
-            <Component class="javax.swing.JLabel" name="atendimentoLabel">
+            <Component class="javax.swing.JLabel" name="atendimento_label">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Seguradora possui atendimento 24h"/>
               </Properties>
@@ -107,7 +107,7 @@
                 </Constraint>
               </Constraints>
             </Component>
-            <Container class="javax.swing.JPanel" name="atendimento24h">
+            <Container class="javax.swing.JPanel" name="atendimento_24h">
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
                   <GridBagConstraints gridX="1" gridY="0" gridWidth="1" gridHeight="1" fill="0" ipadX="0" ipadY="0" insetsTop="0" insetsLeft="0" insetsBottom="0" insetsRight="0" anchor="17" weightX="0.0" weightY="0.0"/>
@@ -118,12 +118,12 @@
                 <Property name="alignment" type="int" value="0"/>
               </Layout>
               <SubComponents>
-                <Component class="javax.swing.JRadioButton" name="atendimento24hSim">
+                <Component class="javax.swing.JRadioButton" name="atendimento_24h_sim">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Sim"/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JRadioButton" name="atendimento24hNao">
+                <Component class="javax.swing.JRadioButton" name="atendimento_24h_nao">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="N&#xe3;o"/>
                   </Properties>
@@ -132,7 +132,7 @@
             </Container>
           </SubComponents>
         </Container>
-        <Container class="javax.swing.JPanel" name="painelSinistro">
+        <Container class="javax.swing.JPanel" name="painel_sinistro">
           <Properties>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
               <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
@@ -148,7 +148,7 @@
 
           <Layout class="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout"/>
           <SubComponents>
-            <Component class="javax.swing.JLabel" name="grauLabel">
+            <Component class="javax.swing.JLabel" name="grau_label">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Grau da monta"/>
               </Properties>
@@ -158,21 +158,10 @@
                 </Constraint>
               </Constraints>
             </Component>
-            <Component class="javax.swing.JComboBox" name="grauMonta">
-              <Properties>
-                <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                  <Connection code="new javax.swing.DefaultComboBoxModel(Sinistro.GrauMonta.values())" type="code"/>
-                </Property>
-              </Properties>
-              <Constraints>
-                <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
-                  <GridBagConstraints gridX="1" gridY="0" gridWidth="1" gridHeight="1" fill="0" ipadX="0" ipadY="0" insetsTop="0" insetsLeft="0" insetsBottom="0" insetsRight="0" anchor="17" weightX="0.0" weightY="0.0"/>
-                </Constraint>
-              </Constraints>
-            </Component>
+            <Container class="javax.swing.JPanel" name="grau_monta_panel"><Constraints> <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription"> <GridBagConstraints gridX="1" gridY="0" gridWidth="1" gridHeight="1" fill="0" ipadX="0" ipadY="0" insetsTop="0" insetsLeft="0" insetsBottom="0" insetsRight="0" anchor="17" weightX="0.0" weightY="0.0"/> </Constraint> </Constraints><Layout class="org.netbeans.modules.form.compat2.layouts.DesignFlowLayout"/><SubComponents><Component class="javax.swing.JRadioButton" name="grau_monta_pequena"><Properties><Property name="text" type="java.lang.String" value="pequena"/></Properties></Component><Component class="javax.swing.JRadioButton" name="grau_monta_media"><Properties><Property name="text" type="java.lang.String" value="media"/></Properties></Component><Component class="javax.swing.JRadioButton" name="grau_monta_grande"><Properties><Property name="text" type="java.lang.String" value="grande"/></Properties></Component></SubComponents></Container>
           </SubComponents>
         </Container>
-        <Container class="javax.swing.JPanel" name="painelPe&#xe7;as">
+        <Container class="javax.swing.JPanel" name="painel_pe&#231;as">
           <Properties>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
               <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
@@ -188,7 +177,7 @@
 
           <Layout class="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout"/>
           <SubComponents>
-            <Component class="javax.swing.JLabel" name="marcaLabel">
+            <Component class="javax.swing.JLabel" name="marca_label">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Marca da pe&#xe7;a"/>
               </Properties>
@@ -198,19 +187,8 @@
                 </Constraint>
               </Constraints>
             </Component>
-            <Component class="javax.swing.JComboBox" name="marcaPe&#xe7;a">
-              <Properties>
-                <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                  <Connection code="new javax.swing.DefaultComboBoxModel(Pe&#xe7;a.MarcaPe&#xe7;a.values())" type="code"/>
-                </Property>
-              </Properties>
-              <Constraints>
-                <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
-                  <GridBagConstraints gridX="1" gridY="0" gridWidth="1" gridHeight="1" fill="0" ipadX="0" ipadY="0" insetsTop="0" insetsLeft="0" insetsBottom="0" insetsRight="0" anchor="17" weightX="0.0" weightY="0.0"/>
-                </Constraint>
-              </Constraints>
-            </Component>
-            <Component class="javax.swing.JCheckBox" name="todosObjetosCheckBox">
+            <Container class="javax.swing.JPanel" name="marca_peça_panel"><Constraints> <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription"> <GridBagConstraints gridX="1" gridY="0" gridWidth="1" gridHeight="1" fill="0" ipadX="0" ipadY="0" insetsTop="0" insetsLeft="0" insetsBottom="0" insetsRight="0" anchor="17" weightX="0.0" weightY="0.0"/> </Constraint> </Constraints><Layout class="org.netbeans.modules.form.compat2.layouts.DesignFlowLayout"/><SubComponents><Component class="javax.swing.JRadioButton" name="marca_oem_radio_button"><Properties><Property name="text" type="java.lang.String" value="oem"/></Properties></Component><Component class="javax.swing.JRadioButton" name="marca_original_radio_button"><Properties><Property name="text" type="java.lang.String" value="original"/></Properties></Component><Component class="javax.swing.JRadioButton" name="marca_genuina_radio_button"><Properties><Property name="text" type="java.lang.String" value="genuina"/></Properties></Component></SubComponents></Container>
+            <Component class="javax.swing.JCheckBox" name="todos_objetos_check_box">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Todos os objetos do sinistro"/>
               </Properties>
@@ -220,7 +198,7 @@
                 </Constraint>
               </Constraints>
             </Component>
-            <Container class="javax.swing.JTabbedPane" name="subclassesTabbedPane">
+            <Container class="javax.swing.JTabbedPane" name="subclasses_tabbed_pane">
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
                   <GridBagConstraints gridX="0" gridY="2" gridWidth="2" gridHeight="1" fill="1" ipadX="0" ipadY="0" insetsTop="0" insetsLeft="0" insetsBottom="0" insetsRight="0" anchor="10" weightX="1.0" weightY="1.0"/>
@@ -229,7 +207,7 @@
 
               <Layout class="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout"/>
               <SubComponents>
-                <Container class="interfaces.PainelFiltrosPe&#xe7;aMec&#xe2;nica" name="painelMec&#xe2;nica">
+                <Container class="interfaces.PainelFiltrosPe&#xe7;aMec&#xe2;nica" name="painel_mec&#226;nica">
                   <Constraints>
                     <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
                       <JTabbedPaneConstraints tabName="Pe&#xe7;a mec&#xe2;nica">
@@ -240,7 +218,7 @@
 
                   <AuxValues><AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new interfaces.PainelFiltrosPe&#xe7;aMec&#xe2;nica()"/></AuxValues>
                 </Container>
-                <Container class="interfaces.PainelFiltrosPe&#xe7;aAcess&#xf3;rios" name="painelAcess&#xf3;rios">
+                <Container class="interfaces.PainelFiltrosPe&#xe7;aAcess&#xf3;rios" name="painel_acess&#243;rios">
                   <Constraints>
                     <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
                       <JTabbedPaneConstraints tabName="Pe&#xe7;a de acess&#xf3;rios">
@@ -257,7 +235,7 @@
         </Container>
       </SubComponents>
     </Container>
-    <Container class="javax.swing.JScrollPane" name="resultadosScrollPane">
+    <Container class="javax.swing.JScrollPane" name="resultados_scroll_pane">
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
           <GridBagConstraints gridX="0" gridY="1" gridWidth="1" gridHeight="1" fill="1" ipadX="0" ipadY="0" insetsTop="4" insetsLeft="6" insetsBottom="4" insetsRight="6" anchor="10" weightX="1.0" weightY="1.0"/>
@@ -284,17 +262,17 @@
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.DesignFlowLayout"/>
       <SubComponents>
-        <Component class="javax.swing.JButton" name="pesquisarButton">
+        <Component class="javax.swing.JButton" name="pesquisar_button">
           <Properties>
             <Property name="text" type="java.lang.String" value="Pesquisar"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JButton" name="limparButton">
+        <Component class="javax.swing.JButton" name="limpar_button">
           <Properties>
             <Property name="text" type="java.lang.String" value="Limpar Filtros"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JButton" name="limparPesquisaButton">
+        <Component class="javax.swing.JButton" name="limpar_pesquisa_button">
           <Properties>
             <Property name="text" type="java.lang.String" value="Limpar Pesquisa"/>
           </Properties>
