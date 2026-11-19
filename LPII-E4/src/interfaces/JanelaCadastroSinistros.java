@@ -135,9 +135,9 @@ public class JanelaCadastroSinistros extends javax.swing.JFrame {
         grau_monta_label = new javax.swing.JLabel();
         grau_monta_button_group = new javax.swing.ButtonGroup();
         grau_monta_panel = new javax.swing.JPanel(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
-        grau_monta_pequena_radio_button = new javax.swing.JRadioButton(Sinistro.GrauMonta.PEQUENA.toString());
-        grau_monta_media_radio_button = new javax.swing.JRadioButton(Sinistro.GrauMonta.MEDIA.toString());
-        grau_monta_grande_radio_button = new javax.swing.JRadioButton(Sinistro.GrauMonta.GRANDE.toString());
+        grau_monta_pequena_radio_button = new javax.swing.JRadioButton(Sinistro.GrauMonta.pequena.toString());
+        grau_monta_media_radio_button = new javax.swing.JRadioButton(Sinistro.GrauMonta.media.toString());
+        grau_monta_grande_radio_button = new javax.swing.JRadioButton(Sinistro.GrauMonta.grande.toString());
         grau_monta_button_group.add(grau_monta_pequena_radio_button);
         grau_monta_button_group.add(grau_monta_media_radio_button);
         grau_monta_button_group.add(grau_monta_grande_radio_button);
@@ -370,17 +370,17 @@ public class JanelaCadastroSinistros extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private Sinistro.GrauMonta obterGrauMontaSelecionado() {
-        if (grau_monta_pequena_radio_button.isSelected()) return Sinistro.GrauMonta.PEQUENA;
-        if (grau_monta_media_radio_button.isSelected()) return Sinistro.GrauMonta.MEDIA;
-        if (grau_monta_grande_radio_button.isSelected()) return Sinistro.GrauMonta.GRANDE;
+        if (grau_monta_pequena_radio_button.isSelected()) return Sinistro.GrauMonta.pequena;
+        if (grau_monta_media_radio_button.isSelected()) return Sinistro.GrauMonta.media;
+        if (grau_monta_grande_radio_button.isSelected()) return Sinistro.GrauMonta.grande;
         return null;
     }
 
     private void definirGrauMontaSelecionado(Sinistro.GrauMonta valor) {
         grau_monta_button_group.clearSelection();
-        if (valor == Sinistro.GrauMonta.PEQUENA) grau_monta_pequena_radio_button.setSelected(true);
-        else if (valor == Sinistro.GrauMonta.MEDIA) grau_monta_media_radio_button.setSelected(true);
-        else if (valor == Sinistro.GrauMonta.GRANDE) grau_monta_grande_radio_button.setSelected(true);
+        if (valor == Sinistro.GrauMonta.pequena) grau_monta_pequena_radio_button.setSelected(true);
+        else if (valor == Sinistro.GrauMonta.media) grau_monta_media_radio_button.setSelected(true);
+        else if (valor == Sinistro.GrauMonta.grande) grau_monta_grande_radio_button.setSelected(true);
     }
 
     private void sinistrosCadastradosComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sinistros_cadastradosComboBoxActionPerformed

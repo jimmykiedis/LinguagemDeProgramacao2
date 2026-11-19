@@ -38,9 +38,9 @@ public class JanelaPesquisaOrçamentos extends JFrame {
         grau_label = new javax.swing.JLabel();
         grau_monta_grupo = new javax.swing.ButtonGroup();
         grau_monta_panel = new javax.swing.JPanel(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
-        grau_monta_pequena = new javax.swing.JRadioButton(Sinistro.GrauMonta.PEQUENA.toString());
-        grau_monta_media = new javax.swing.JRadioButton(Sinistro.GrauMonta.MEDIA.toString());
-        grau_monta_grande = new javax.swing.JRadioButton(Sinistro.GrauMonta.GRANDE.toString());
+        grau_monta_pequena = new javax.swing.JRadioButton(Sinistro.GrauMonta.pequena.toString());
+        grau_monta_media = new javax.swing.JRadioButton(Sinistro.GrauMonta.media.toString());
+        grau_monta_grande = new javax.swing.JRadioButton(Sinistro.GrauMonta.grande.toString());
         grau_monta_grupo.add(grau_monta_pequena);
         grau_monta_grupo.add(grau_monta_media);
         grau_monta_grupo.add(grau_monta_grande);
@@ -51,9 +51,9 @@ public class JanelaPesquisaOrçamentos extends JFrame {
         marca_label = new javax.swing.JLabel();
         marca_peça_grupo = new javax.swing.ButtonGroup();
         marca_peça_panel = new javax.swing.JPanel(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
-        marca_oem_radio_button = new javax.swing.JRadioButton(Peça.MarcaPeça.OEM.toString());
-        marca_original_radio_button = new javax.swing.JRadioButton(Peça.MarcaPeça.ORIGINAL.toString());
-        marca_genuina_radio_button = new javax.swing.JRadioButton(Peça.MarcaPeça.GENUINA.toString());
+        marca_oem_radio_button = new javax.swing.JRadioButton(Peça.MarcaPeça.oem.toString());
+        marca_original_radio_button = new javax.swing.JRadioButton(Peça.MarcaPeça.original.toString());
+        marca_genuina_radio_button = new javax.swing.JRadioButton(Peça.MarcaPeça.genuína.toString());
         marca_peça_grupo.add(marca_oem_radio_button);
         marca_peça_grupo.add(marca_original_radio_button);
         marca_peça_grupo.add(marca_genuina_radio_button);
@@ -301,16 +301,16 @@ public class JanelaPesquisaOrçamentos extends JFrame {
     }
 
     private Peça.MarcaPeça obterMarcaSelecionada() {
-        if (marca_oem_radio_button.isSelected()) return Peça.MarcaPeça.OEM;
-        if (marca_original_radio_button.isSelected()) return Peça.MarcaPeça.ORIGINAL;
-        if (marca_genuina_radio_button.isSelected()) return Peça.MarcaPeça.GENUINA;
+        if (marca_oem_radio_button.isSelected()) return Peça.MarcaPeça.oem;
+        if (marca_original_radio_button.isSelected()) return Peça.MarcaPeça.original;
+        if (marca_genuina_radio_button.isSelected()) return Peça.MarcaPeça.genuína;
         return null;
     }
 
     private Sinistro.GrauMonta obterGrauMontaSelecionado() {
-        if (grau_monta_pequena.isSelected()) return Sinistro.GrauMonta.PEQUENA;
-        if (grau_monta_media.isSelected()) return Sinistro.GrauMonta.MEDIA;
-        if (grau_monta_grande.isSelected()) return Sinistro.GrauMonta.GRANDE;
+        if (grau_monta_pequena.isSelected()) return Sinistro.GrauMonta.pequena;
+        if (grau_monta_media.isSelected()) return Sinistro.GrauMonta.media;
+        if (grau_monta_grande.isSelected()) return Sinistro.GrauMonta.grande;
         return null;
     }
 

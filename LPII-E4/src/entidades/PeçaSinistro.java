@@ -39,17 +39,20 @@ public class PeçaSinistro {
                 + " JOIN peças_sinistros ps ON ps.peça_codigo=p.codigo"
                 + " WHERE ps.sinistro_id = ?";
 
-        try (PreparedStatement comando = BD.conexao.prepareStatement(sql)) {
+        ResultSet resultados = null;
+        try {
+            PreparedStatement comando = BD.conexao.prepareStatement(sql);
             comando.setInt(1, sinistro_id);
-            try (ResultSet resultados = comando.executeQuery()) {
-                while (resultados.next()) {
-                    try {
-                        visoes.add(Peça.criarVisao(resultados));
-                    } catch (IllegalArgumentException excecao_enum) {
-                        // Ignora peças com dados fora do domínio esperado.
-                    }
+            resultados = comando.executeQuery();
+            while (resultados.next()) {
+                try {
+                    visoes.add(Peça.criarVisao(resultados));
+                } catch (IllegalArgumentException excecao_enum) {
+                    // Ignora peças com dados fora do domínio esperado.
                 }
             }
+            resultados.close();
+            comando.close();
         } catch (SQLException excecao_sql) {
             excecao_sql.printStackTrace();
         }
@@ -60,16 +63,22 @@ public class PeçaSinistro {
     public static boolean existePeçasSinistros(int peca_codigo, int sinistro_id) {
         String sql = "SELECT COUNT(*) FROM peças_sinistros WHERE peça_codigo = ? AND sinistro_id = ?";
 
-        try (PreparedStatement comando = BD.conexao.prepareStatement(sql)) {
+        boolean existe = false;
+        ResultSet resultados = null;
+        try {
+            PreparedStatement comando = BD.conexao.prepareStatement(sql);
             comando.setInt(1, peca_codigo);
             comando.setInt(2, sinistro_id);
-            try (ResultSet resultados = comando.executeQuery()) {
-                return resultados.next() && resultados.getInt(1) > 0;
+            resultados = comando.executeQuery();
+            if (resultados.next()) {
+                existe = resultados.getInt(1) > 0;
             }
+            resultados.close();
+            comando.close();
         } catch (SQLException excecao_sql) {
             excecao_sql.printStackTrace();
-            return false;
         }
+        return existe;
     }
 
     public static String inserirPeçasSinistros(Peça peca, Sinistro sinistro) {
@@ -79,15 +88,18 @@ public class PeçaSinistro {
 
         String sql = "INSERT INTO peças_sinistros (peça_codigo, sinistro_id) VALUES (?, ?)";
 
-        try (PreparedStatement comando = BD.conexao.prepareStatement(sql)) {
+        String erro = null;
+        try {
+            PreparedStatement comando = BD.conexao.prepareStatement(sql);
             comando.setInt(1, peca.getCodigo());
             comando.setInt(2, sinistro.getId());
             comando.executeUpdate();
-            return null;
+            comando.close();
         } catch (SQLException excecao_sql) {
             excecao_sql.printStackTrace();
-            return "Erro na insercao da associacao peca/sinistro no BD";
+            erro = "Erro na insercao da associacao peca/sinistro no BD";
         }
+        return erro;
     }
 
     public static String removerPeçasSinistros(Peça peca, Sinistro sinistro) {
@@ -97,14 +109,17 @@ public class PeçaSinistro {
 
         String sql = "DELETE FROM peças_sinistros WHERE peça_codigo = ? AND sinistro_id = ?";
 
-        try (PreparedStatement comando = BD.conexao.prepareStatement(sql)) {
+        String erro = null;
+        try {
+            PreparedStatement comando = BD.conexao.prepareStatement(sql);
             comando.setInt(1, peca.getCodigo());
             comando.setInt(2, sinistro.getId());
             comando.executeUpdate();
-            return null;
+            comando.close();
         } catch (SQLException excecao_sql) {
             excecao_sql.printStackTrace();
-            return "Erro na remocao da associacao peca/sinistro no BD";
+            erro = "Erro na remocao da associacao peca/sinistro no BD";
         }
+        return erro;
     }
 }

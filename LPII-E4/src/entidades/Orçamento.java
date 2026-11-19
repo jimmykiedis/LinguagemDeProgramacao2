@@ -12,15 +12,7 @@ import persistência.BD;
 public class Orçamento {
 
     public enum Status {
-        aprovado("aprovado"), pendente("pendente"), recusado("recusado");
-        private final String texto;
-        Status(String texto) { this.texto = texto; }
-        public static Status fromTexto(String texto_status) {
-            if (texto_status != null) for (Status status : values())
-                if (status.texto.equalsIgnoreCase(texto_status.trim())) return status;
-            throw new IllegalArgumentException("Status de orçamento inválido: " + texto_status);
-        }
-        @Override public String toString() { return texto; }
+        aprovado, pendente, recusado
     }
 
     private Status status;
@@ -46,7 +38,6 @@ public class Orçamento {
     public Seguradora getSeguradora() { return seguradora; }
     public double getValorTotal() { return valor_total; }
     public boolean getPossuiDanosOcultos() { return possui_danos_ocultos; }
-    public boolean isPossuiDanosOcultos() { return possui_danos_ocultos; }
     public void setStatus(Status status) { this.status = status; }
     public void setData(Timestamp data) { this.data = data; }
     public void setValorTotal(double valor_total) { this.valor_total = valor_total; }
@@ -66,13 +57,13 @@ public class Orçamento {
         StringBuilder texto = new StringBuilder();
         texto.append(seguradora.getNome()).append(" [").append(seguradora.getCidade()).append("] - ")
                 .append(seguradora.getCoberturaPercentual()).append("% - ")
-                .append("atendimento 24h: ").append(seguradora.isPossuiAtendimento24h() ? "sim" : "não").append(" - ")
+                .append("atendimento 24h: ").append(seguradora.getPossuiAtendimento24h() ? "sim" : "não").append(" - ")
                 .append(seguradora.getFormaPagamentoPreferencial()).append(" -- ")
                 .append(sinistro.getSegurado()).append(" [").append(sinistro.getGrauMonta()).append("] - ")
                 .append(sinistro.getCidade()).append(" - ")
                 .append(sinistro.getTelefone()).append(" - ")
                 .append(sinistro.getGrauMonta()).append(" - perda total: ")
-                .append(sinistro.isPerdaTotal() ? "sim" : "não");
+                .append(sinistro.getPerdaTotal() ? "sim" : "não");
 
         Peça[] pecas = sinistro.getPeças();
         if (pecas.length == 0) {
@@ -102,20 +93,20 @@ public class Orçamento {
             PeçaMecânica mecânica = (PeçaMecânica) peca;
             texto.append(mecânica.getCategoriaMecânica()).append(" - R$ ")
                     .append(String.format(java.util.Locale.forLanguageTag("pt-BR"), "%.2f", peca.getPreco()))
-                    .append(" - sob encomenda: ").append(peca.isSobEncomenda() ? "sim" : "não")
+                    .append(" - sob encomenda: ").append(peca.getSobEncomenda() ? "sim" : "não")
                     .append(" - ").append(mecânica.getPrazoGarantia()).append(" dias - mecânico próprio: ")
-                    .append(mecânica.isMecanicoProprio() ? "sim" : "não");
+                    .append(mecânica.getMecânicoPróprio() ? "sim" : "não");
         } else if (peca instanceof PeçaAcessório) {
             PeçaAcessório acessório = (PeçaAcessório) peca;
             texto.append(acessório.getCategoriaAcessório()).append(" - R$ ")
                     .append(String.format(java.util.Locale.forLanguageTag("pt-BR"), "%.2f", peca.getPreco()))
-                    .append(" - sob encomenda: ").append(peca.isSobEncomenda() ? "sim" : "não")
+                    .append(" - sob encomenda: ").append(peca.getSobEncomenda() ? "sim" : "não")
                     .append(" - ").append(acessório.getCor()).append(" - funileiro próprio: ")
-                    .append(acessório.isFunileiroProprio() ? "sim" : "não");
+                    .append(acessório.getFunileiroPróprio() ? "sim" : "não");
         } else {
             texto.append("- R$ ")
                     .append(String.format(java.util.Locale.forLanguageTag("pt-BR"), "%.2f", peca.getPreco()))
-                    .append(" - sob encomenda: ").append(peca.isSobEncomenda() ? "sim" : "não");
+                    .append(" - sob encomenda: ").append(peca.getSobEncomenda() ? "sim" : "não");
         }
         return texto.toString();
     }

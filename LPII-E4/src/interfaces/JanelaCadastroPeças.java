@@ -58,9 +58,9 @@ public class JanelaCadastroPeças extends JFrame {
         nome_field = new JTextField(24);
         marca_button_group = new ButtonGroup();
         marca_panel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        marca_oem_radio_button = new JRadioButton(Peça.MarcaPeça.OEM.toString());
-        marca_original_radio_button = new JRadioButton(Peça.MarcaPeça.ORIGINAL.toString());
-        marca_genuina_radio_button = new JRadioButton(Peça.MarcaPeça.GENUINA.toString());
+        marca_oem_radio_button = new JRadioButton(Peça.MarcaPeça.oem.toString());
+        marca_original_radio_button = new JRadioButton(Peça.MarcaPeça.original.toString());
+        marca_genuina_radio_button = new JRadioButton(Peça.MarcaPeça.genuína.toString());
         marca_button_group.add(marca_oem_radio_button);
         marca_button_group.add(marca_original_radio_button);
         marca_button_group.add(marca_genuina_radio_button);
@@ -73,10 +73,10 @@ public class JanelaCadastroPeças extends JFrame {
         painel_acessórios = new JPanel(new GridBagLayout());
         categoria_mecânica_combo_box = new JComboBox<>(PeçaMecânica.CategoriaMecânica.values());
         prazo_garantia_text_field = new JTextField(10);
-        mecanico_proprio_check_box = new JCheckBox("Sim");
+        mecânico_próprio_check_box = new JCheckBox("Sim");
         categoria_acessório_combo_box = new JComboBox<>(PeçaAcessório.CategoriaAcessório.values());
         cor_text_field = new JTextField(10);
-        funileiro_proprio_check_box = new JCheckBox("Sim");
+        funileiro_próprio_check_box = new JCheckBox("Sim");
         especialização_tabbed_pane = new JTabbedPane();
         campos_comuns_panel = new JPanel(new GridBagLayout());
         abas_alinhadas_panel = new JPanel(new GridBagLayout());
@@ -88,8 +88,8 @@ public class JanelaCadastroPeças extends JFrame {
         limpar_button = new JButton("Limpar");
         peças_label = new JLabel(); codigo_label = new JLabel(); nome_label = new JLabel();
         marca_label = new JLabel(); preco_label = new JLabel();
-        categoria_mecânica_label = new JLabel(); prazo_garantia_label = new JLabel(); mecanico_proprio_label = new JLabel();
-        categoria_acessório_label = new JLabel(); cor_label = new JLabel(); funileiro_proprio_label = new JLabel();
+        categoria_mecânica_label = new JLabel(); prazo_garantia_label = new JLabel(); mecânico_próprio_label = new JLabel();
+        categoria_acessório_label = new JLabel(); cor_label = new JLabel(); funileiro_próprio_label = new JLabel();
 
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setTitle("Cadastrar Peças");
@@ -107,10 +107,10 @@ public class JanelaCadastroPeças extends JFrame {
         painel_acessórios.setBorder(javax.swing.BorderFactory.createEmptyBorder(12, 12, 12, 12));
         adicionarCampoGerado(painel_mecânica, c, 0, categoria_mecânica_label, "Categoria mecânica", categoria_mecânica_combo_box, true);
         adicionarCampoGerado(painel_mecânica, c, 1, prazo_garantia_label, "Prazo de garantia (dias)", prazo_garantia_text_field, true);
-        adicionarCampoGerado(painel_mecânica, c, 2, mecanico_proprio_label, "Mecânico próprio", mecanico_proprio_check_box, true);
+        adicionarCampoGerado(painel_mecânica, c, 2, mecânico_próprio_label, "Mecânico próprio", mecânico_próprio_check_box, true);
         adicionarCampoGerado(painel_acessórios, c, 0, categoria_acessório_label, "Categoria do acessório", categoria_acessório_combo_box, true);
         adicionarCampoGerado(painel_acessórios, c, 1, cor_label, "Cor", cor_text_field, true);
-        adicionarCampoGerado(painel_acessórios, c, 2, funileiro_proprio_label, "Funileiro próprio", funileiro_proprio_check_box, true);
+        adicionarCampoGerado(painel_acessórios, c, 2, funileiro_próprio_label, "Funileiro próprio", funileiro_próprio_check_box, true);
         abas_alinhadas_panel.setBorder(javax.swing.BorderFactory.createEmptyBorder(8, 8, 8, 8));
         abas_alinhadas_panel.add(especialização_tabbed_pane);
         c.gridx = 0; c.gridy = 1; c.gridwidth = 2; c.fill = GridBagConstraints.BOTH; c.weightx = 1.0; c.weighty = 1.0;
@@ -165,12 +165,12 @@ public class JanelaCadastroPeças extends JFrame {
                 String prazo_texto=prazo_garantia_text_field.getText().trim();
                 Integer prazo=prazo_texto.isEmpty()?null:Integer.valueOf(prazo_texto);
                 if(prazo!=null && prazo<0) throw new IllegalArgumentException("O prazo de garantia não pode ser negativo.");
-                return new PeçaMecânica(codigo,nome,marca,preco,categoria,prazo,mecanico_proprio_check_box.isSelected(),sob_encomenda_check_box.isSelected());
+                return new PeçaMecânica(codigo,nome,marca,preco,categoria,prazo,mecânico_próprio_check_box.isSelected(),sob_encomenda_check_box.isSelected());
             }
             PeçaAcessório.CategoriaAcessório categoria=(PeçaAcessório.CategoriaAcessório) categoria_acessório_combo_box.getSelectedItem();
             if(categoria==null) throw new IllegalArgumentException("Selecione a categoria do acessório.");
             String cor=cor_text_field.getText().trim();
-            return new PeçaAcessório(codigo,nome,marca,preco,categoria,cor.isEmpty()?null:cor,funileiro_proprio_check_box.isSelected(),sob_encomenda_check_box.isSelected());
+            return new PeçaAcessório(codigo,nome,marca,preco,categoria,cor.isEmpty()?null:cor,funileiro_próprio_check_box.isSelected(),sob_encomenda_check_box.isSelected());
         } catch(NumberFormatException e) { throw new IllegalArgumentException("Informe um prazo de garantia inteiro válido."); }
     }
     private void inserirPeça(java.awt.event.ActionEvent evt) {
@@ -185,13 +185,13 @@ public class JanelaCadastroPeças extends JFrame {
         Peça selecionada=(Peça)peças_combo_box.getSelectedItem(); if(selecionada==null) { erro("Selecione uma peça.");return; }
         Peça p=Peça.buscarPeças(selecionada.getCodigo()); if(p==null) { erro("Peça não encontrada.");return; }
         codigo_field.setText(Integer.toString(p.getCodigo())); nome_field.setText(p.getNome()); definirMarcaSelecionada(p.getMarca()); preco_field.setText(Double.toString(p.getPreco()));
-        sob_encomenda_check_box.setSelected(p.isSobEncomenda());
+        sob_encomenda_check_box.setSelected(p.getSobEncomenda());
         if(p instanceof PeçaMecânica) {
             PeçaMecânica m=(PeçaMecânica)p; especialização_tabbed_pane.setSelectedComponent(painel_mecânica);
-            categoria_mecânica_combo_box.setSelectedItem(m.getCategoriaMecânica()); prazo_garantia_text_field.setText(m.getPrazoGarantia()==null?"":m.getPrazoGarantia().toString()); mecanico_proprio_check_box.setSelected(m.isMecanicoProprio());
+            categoria_mecânica_combo_box.setSelectedItem(m.getCategoriaMecânica()); prazo_garantia_text_field.setText(m.getPrazoGarantia()==null?"":m.getPrazoGarantia().toString()); mecânico_próprio_check_box.setSelected(m.getMecânicoPróprio());
         } else if(p instanceof PeçaAcessório) {
             PeçaAcessório a=(PeçaAcessório)p; especialização_tabbed_pane.setSelectedComponent(painel_acessórios);
-            categoria_acessório_combo_box.setSelectedItem(a.getCategoriaAcessório()); cor_text_field.setText(a.getCor()==null?"":a.getCor()); funileiro_proprio_check_box.setSelected(a.isFunileiroProprio());
+            categoria_acessório_combo_box.setSelectedItem(a.getCategoriaAcessório()); cor_text_field.setText(a.getCor()==null?"":a.getCor()); funileiro_próprio_check_box.setSelected(a.getFunileiroPróprio());
         }
     }
     private void removerPeça(java.awt.event.ActionEvent evt) {
@@ -205,21 +205,21 @@ public class JanelaCadastroPeças extends JFrame {
     private void limparCampos() {
         codigo_field.setText("");nome_field.setText("");marca_button_group.clearSelection();preco_field.setText("");
         sob_encomenda_check_box.setSelected(false);
-        categoria_mecânica_combo_box.setSelectedIndex(-1); prazo_garantia_text_field.setText(""); mecanico_proprio_check_box.setSelected(false);
-        categoria_acessório_combo_box.setSelectedIndex(-1); cor_text_field.setText(""); funileiro_proprio_check_box.setSelected(false); especialização_tabbed_pane.setSelectedIndex(0);
+        categoria_mecânica_combo_box.setSelectedIndex(-1); prazo_garantia_text_field.setText(""); mecânico_próprio_check_box.setSelected(false);
+        categoria_acessório_combo_box.setSelectedIndex(-1); cor_text_field.setText(""); funileiro_próprio_check_box.setSelected(false); especialização_tabbed_pane.setSelectedIndex(0);
     }
     private Peça.MarcaPeça obterMarcaSelecionada() {
-        if (marca_oem_radio_button.isSelected()) return Peça.MarcaPeça.OEM;
-        if (marca_original_radio_button.isSelected()) return Peça.MarcaPeça.ORIGINAL;
-        if (marca_genuina_radio_button.isSelected()) return Peça.MarcaPeça.GENUINA;
+        if (marca_oem_radio_button.isSelected()) return Peça.MarcaPeça.oem;
+        if (marca_original_radio_button.isSelected()) return Peça.MarcaPeça.original;
+        if (marca_genuina_radio_button.isSelected()) return Peça.MarcaPeça.genuína;
         return null;
     }
 
     private void definirMarcaSelecionada(Peça.MarcaPeça valor) {
         marca_button_group.clearSelection();
-        if (valor == Peça.MarcaPeça.OEM) marca_oem_radio_button.setSelected(true);
-        else if (valor == Peça.MarcaPeça.ORIGINAL) marca_original_radio_button.setSelected(true);
-        else if (valor == Peça.MarcaPeça.GENUINA) marca_genuina_radio_button.setSelected(true);
+        if (valor == Peça.MarcaPeça.oem) marca_oem_radio_button.setSelected(true);
+        else if (valor == Peça.MarcaPeça.original) marca_original_radio_button.setSelected(true);
+        else if (valor == Peça.MarcaPeça.genuína) marca_genuina_radio_button.setSelected(true);
     }
 
     private void erro(String msg) { JOptionPane.showMessageDialog(this,msg,"Erro",JOptionPane.ERROR_MESSAGE); }
@@ -234,10 +234,10 @@ public class JanelaCadastroPeças extends JFrame {
     private JPanel painel_mecânica, painel_acessórios;
     private JComboBox<PeçaMecânica.CategoriaMecânica> categoria_mecânica_combo_box;
     private JTextField prazo_garantia_text_field, cor_text_field;
-    private JCheckBox mecanico_proprio_check_box, funileiro_proprio_check_box;
+    private JCheckBox mecânico_próprio_check_box, funileiro_próprio_check_box;
     private JComboBox<PeçaAcessório.CategoriaAcessório> categoria_acessório_combo_box;
-    private JLabel categoria_mecânica_label, prazo_garantia_label, mecanico_proprio_label;
-    private JLabel categoria_acessório_label, cor_label, funileiro_proprio_label;
+    private JLabel categoria_mecânica_label, prazo_garantia_label, mecânico_próprio_label;
+    private JLabel categoria_acessório_label, cor_label, funileiro_próprio_label;
     private JTabbedPane especialização_tabbed_pane;
     private JPanel comandos_panel;
     private JButton inserir_button, consultar_button, alterar_button, remover_button, limpar_button;

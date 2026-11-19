@@ -4,47 +4,15 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Locale;
 import persistência.BD;
 
 public class Seguradora {
 
     public enum FormaPagamentoPreferencial {
-        BOLETO("boleto"),
-        CARTAO("cartao"),
-        PIX("pix"),
-        DEBITO_AUTOMATICO("debito_automatico");
-
-        private final String texto;
-
-        FormaPagamentoPreferencial(String texto) {
-            this.texto = texto;
-        }
-
-        public static FormaPagamentoPreferencial fromTexto(String texto) {
-            if (texto == null) {
-                throw new IllegalArgumentException("Forma de pagamento não informada");
-            }
-
-            String normalizado = texto.trim().toLowerCase(Locale.ROOT);
-
-            if (normalizado.equals("boleto")) return BOLETO;
-            if (normalizado.equals("cartao") || normalizado.equals("cartão")) return CARTAO;
-            if (normalizado.equals("pix")) return PIX;
-            if (normalizado.equals("debito_automatico")
-                    || normalizado.equals("debito automatico")
-                    || normalizado.equals("débito_automático")
-                    || normalizado.equals("débito automático")) {
-                return DEBITO_AUTOMATICO;
-            }
-
-            throw new IllegalArgumentException("Forma de pagamento inválida: " + texto);
-        }
-
-        @Override
-        public String toString() {
-            return texto;
-        }
+        boleto,
+        cartao,
+        pix,
+        debito_automatico
     }
 
     private String nome;
@@ -57,7 +25,6 @@ public class Seguradora {
     public String getCidade() { return cidade; }
     public double getCoberturaPercentual() { return cobertura_percentual; }
     public boolean getPossuiAtendimento24h() { return possui_atendimento_24h; }
-    public boolean isPossuiAtendimento24h() { return possui_atendimento_24h; }
     public FormaPagamentoPreferencial getFormaPagamentoPreferencial() { return forma_pagamento_preferencial; }
 
     public void setCidade(String cidade) { this.cidade = cidade; }
@@ -82,11 +49,11 @@ public class Seguradora {
     }
 
     public Seguradora(String nome, String cidade, double cobertura_percentual) {
-        this(nome, cidade, cobertura_percentual, false, FormaPagamentoPreferencial.BOLETO);
+        this(nome, cidade, cobertura_percentual, false, FormaPagamentoPreferencial.boleto);
     }
 
     public Seguradora(String nome, String cidade) {
-        this(nome, cidade, 0, false, FormaPagamentoPreferencial.BOLETO);
+        this(nome, cidade, 0, false, FormaPagamentoPreferencial.boleto);
     }
 
     public String toString() {

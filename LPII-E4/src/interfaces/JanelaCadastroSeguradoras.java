@@ -68,10 +68,10 @@ public class JanelaCadastroSeguradoras extends javax.swing.JFrame {
 
     private void definirFormaPagamentoPreferencial(Seguradora.FormaPagamentoPreferencial valor) {
         forma_pagamento_preferencial_button_group.clearSelection();
-        if (valor == Seguradora.FormaPagamentoPreferencial.BOLETO) forma_pagamento_boleto_radio_button.setSelected(true);
-        else if (valor == Seguradora.FormaPagamentoPreferencial.CARTAO) forma_pagamento_cartao_radio_button.setSelected(true);
-        else if (valor == Seguradora.FormaPagamentoPreferencial.PIX) forma_pagamento_pix_radio_button.setSelected(true);
-        else if (valor == Seguradora.FormaPagamentoPreferencial.DEBITO_AUTOMATICO) forma_pagamento_debito_automatico_radio_button.setSelected(true);
+        if (valor == Seguradora.FormaPagamentoPreferencial.boleto) forma_pagamento_boleto_radio_button.setSelected(true);
+        else if (valor == Seguradora.FormaPagamentoPreferencial.cartao) forma_pagamento_cartao_radio_button.setSelected(true);
+        else if (valor == Seguradora.FormaPagamentoPreferencial.pix) forma_pagamento_pix_radio_button.setSelected(true);
+        else if (valor == Seguradora.FormaPagamentoPreferencial.debito_automatico) forma_pagamento_debito_automatico_radio_button.setSelected(true);
     }
 
     private void informarErro(String mensagem) {
@@ -92,10 +92,10 @@ public class JanelaCadastroSeguradoras extends javax.swing.JFrame {
     }
 
     private Seguradora.FormaPagamentoPreferencial obterFormaPagamentoPreferencialSelecionada() {
-        if (forma_pagamento_boleto_radio_button.isSelected()) return Seguradora.FormaPagamentoPreferencial.BOLETO;
-        if (forma_pagamento_cartao_radio_button.isSelected()) return Seguradora.FormaPagamentoPreferencial.CARTAO;
-        if (forma_pagamento_pix_radio_button.isSelected()) return Seguradora.FormaPagamentoPreferencial.PIX;
-        if (forma_pagamento_debito_automatico_radio_button.isSelected()) return Seguradora.FormaPagamentoPreferencial.DEBITO_AUTOMATICO;
+        if (forma_pagamento_boleto_radio_button.isSelected()) return Seguradora.FormaPagamentoPreferencial.boleto;
+        if (forma_pagamento_cartao_radio_button.isSelected()) return Seguradora.FormaPagamentoPreferencial.cartao;
+        if (forma_pagamento_pix_radio_button.isSelected()) return Seguradora.FormaPagamentoPreferencial.pix;
+        if (forma_pagamento_debito_automatico_radio_button.isSelected()) return Seguradora.FormaPagamentoPreferencial.debito_automatico;
         return null;
     }
 
@@ -156,10 +156,10 @@ public class JanelaCadastroSeguradoras extends javax.swing.JFrame {
         possui_atendimento_24h_check_box = new javax.swing.JCheckBox();
         forma_pagamento_preferencial_panel = new javax.swing.JPanel();
         forma_pagamento_preferencial_button_group = new javax.swing.ButtonGroup();
-        forma_pagamento_boleto_radio_button = new javax.swing.JRadioButton(Seguradora.FormaPagamentoPreferencial.BOLETO.toString());
-        forma_pagamento_cartao_radio_button = new javax.swing.JRadioButton(Seguradora.FormaPagamentoPreferencial.CARTAO.toString());
-        forma_pagamento_pix_radio_button = new javax.swing.JRadioButton(Seguradora.FormaPagamentoPreferencial.PIX.toString());
-        forma_pagamento_debito_automatico_radio_button = new javax.swing.JRadioButton(Seguradora.FormaPagamentoPreferencial.DEBITO_AUTOMATICO.toString());
+        forma_pagamento_boleto_radio_button = new javax.swing.JRadioButton(Seguradora.FormaPagamentoPreferencial.boleto.toString());
+        forma_pagamento_cartao_radio_button = new javax.swing.JRadioButton(Seguradora.FormaPagamentoPreferencial.cartao.toString());
+        forma_pagamento_pix_radio_button = new javax.swing.JRadioButton(Seguradora.FormaPagamentoPreferencial.pix.toString());
+        forma_pagamento_debito_automatico_radio_button = new javax.swing.JRadioButton(Seguradora.FormaPagamentoPreferencial.debito_automatico.toString());
         forma_pagamento_preferencial_button_group.add(forma_pagamento_boleto_radio_button);
         forma_pagamento_preferencial_button_group.add(forma_pagamento_cartao_radio_button);
         forma_pagamento_preferencial_button_group.add(forma_pagamento_pix_radio_button);
@@ -482,7 +482,7 @@ public class JanelaCadastroSeguradoras extends javax.swing.JFrame {
         cidade_text_field.setText("");
         cobertura_percentual_text_field.setText("");
         possui_atendimento_24h_check_box.setSelected(false);
-        definirFormaPagamentoPreferencial(Seguradora.FormaPagamentoPreferencial.BOLETO);
+        definirFormaPagamentoPreferencial(Seguradora.FormaPagamentoPreferencial.boleto);
     }//GEN-LAST:event_limparCampos
 
     private void seguradorasCadastradasComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_seguradoras_cadastradasComboBoxActionPerformed

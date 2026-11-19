@@ -42,7 +42,7 @@ CREATE TABLE peças_sinistros (
 CREATE TABLE peça_mecânica (
     categoria_mecânica INT NOT NULL,
     prazo_garantia INT,
-    mecanico_proprio BOOLEAN NOT NULL DEFAULT FALSE,
+    mecânico_próprio BOOLEAN NOT NULL DEFAULT FALSE,
     codigoId INT NOT NULL,
     FOREIGN KEY (codigoId) REFERENCES peças (codigo)
 );
@@ -50,7 +50,7 @@ CREATE TABLE peça_mecânica (
 CREATE TABLE peça_acessórios (
     categoria_acessorio INT NOT NULL,
     cor VARCHAR(20),
-    funileiro_proprio BOOLEAN NOT NULL DEFAULT FALSE,
+    funileiro_próprio BOOLEAN NOT NULL DEFAULT FALSE,
     codigoId INT NOT NULL,
     FOREIGN KEY (codigoId) REFERENCES peças (codigo)
 );
