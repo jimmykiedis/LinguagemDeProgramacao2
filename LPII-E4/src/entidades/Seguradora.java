@@ -60,6 +60,14 @@ public class Seguradora {
         return nome + " [" + cidade + "]";
     }
 
+    public String toStringFull() {
+        String str = nome + " [" + cidade + "] - "
+                + cobertura_percentual + "% - "
+                + "atendimento 24h: " + (possui_atendimento_24h ? "sim" : "não") + " - "
+                + forma_pagamento_preferencial;
+        return str;
+    }
+
     public Seguradora getVisao() {
         return new Seguradora(
                 nome,

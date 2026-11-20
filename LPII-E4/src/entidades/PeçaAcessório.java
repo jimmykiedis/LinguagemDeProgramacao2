@@ -36,6 +36,15 @@ public class PeçaAcessório extends Peça {
     @Override public void setCor(String valor) { cor = valor; super.setCor(valor); }
     public void setFunileiroPróprio(boolean valor) { funileiro_próprio = valor; }
 
+    @Override
+    public String toStringFull() {
+        String str = "Peça acessório - " + super.toStringFull()
+                + " - " + categoria_acessório
+                + " - " + cor + " - funileiro próprio: "
+                + (funileiro_próprio ? "sim" : "não");
+        return str;
+    }
+
     public static PeçaAcessório buscar(int codigo) {
         String sql = "SELECT p.codigo,p.nome,p.marca,p.`preço`,p.sob_encomenda,a.categoria_acessorio,a.cor,a.funileiro_próprio FROM peças p JOIN peça_acessórios a ON a.codigoId=p.codigo WHERE p.codigo=?";
         PeçaAcessório peça = null;

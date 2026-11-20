@@ -13,7 +13,6 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.ButtonGroup;
-import javax.swing.JFrame;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -22,7 +21,7 @@ import javax.swing.JRadioButton;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 
-public class JanelaCadastroPeças extends JFrame {
+public class JanelaCadastroPeças extends javax.swing.JFrame {
     private final ControladorCadastroPeças controlador;
     private Peça[] peças_cadastradas;
 
@@ -91,7 +90,7 @@ public class JanelaCadastroPeças extends JFrame {
         categoria_mecânica_label = new JLabel(); prazo_garantia_label = new JLabel(); mecânico_próprio_label = new JLabel();
         categoria_acessório_label = new JLabel(); cor_label = new JLabel(); funileiro_próprio_label = new JLabel();
 
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Cadastrar Peças");
         getContentPane().setLayout(new GridBagLayout());
         c.insets = new Insets(1, 5, 10, 5); c.anchor = GridBagConstraints.WEST;

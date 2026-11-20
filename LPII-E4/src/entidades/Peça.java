@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Locale;
 import persistência.BD;
 
 public class Peça {
@@ -49,6 +50,13 @@ public class Peça {
         String subtipo = this instanceof PeçaMecânica ? "Peça Mecânica"
                 : this instanceof PeçaAcessório ? "Peça Acessórios" : "Peça";
         return "[" + codigo + "] " + subtipo + ": " + nome + " [" + marca + "]";
+    }
+
+    public String toStringFull() {
+        String str = "[" + codigo + "] " + nome + " [" + marca + "] - R$ "
+                + String.format(Locale.forLanguageTag("pt-BR"), "%.2f", preco)
+                + " - sob encomenda: " + (sob_encomenda ? "sim" : "não");
+        return str;
     }
 
     static String colunas() {

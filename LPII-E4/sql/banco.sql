@@ -56,14 +56,13 @@ CREATE TABLE peça_acessórios (
 );
 
 CREATE TABLE Orçamentos (
+    sequencial INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     data TIMESTAMP NOT NULL,
     sinistro INT NOT NULL,
     seguradora VARCHAR(50) NOT NULL,
-    -- Enumerado: aprovado, pendente ou recusado.
     status INT NOT NULL,
     valor_total DECIMAL(10,2) NOT NULL,
     possui_danos_ocultos BOOLEAN NOT NULL DEFAULT FALSE,
-    PRIMARY KEY (sinistro, seguradora),
     FOREIGN KEY (sinistro) REFERENCES sinistros(id),
     FOREIGN KEY (seguradora) REFERENCES seguradoras(nome)
 );

@@ -4,42 +4,31 @@ import controles.ControladorCadastroOrçamentos;
 import entidades.Orçamento;
 import entidades.Seguradora;
 import entidades.Sinistro;
-import java.awt.BorderLayout;
 import java.awt.FlowLayout;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
 import java.sql.Timestamp;
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.JButton;
+import java.util.Calendar;
 import javax.swing.ButtonGroup;
-import javax.swing.JComboBox;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
+import javax.swing.DefaultListModel;
+import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
-import javax.swing.JTextField;
+import javax.swing.JScrollPane;
 
-public class JanelaCadastroOrçamentos extends JFrame {
-    private final ControladorCadastroOrçamentos controlador;
-    private int id_sinistro_consultado = -1;
-    private String seguradora_consultada;
+public class JanelaCadastroOrçamentos extends javax.swing.JFrame {
+    ControladorCadastroOrçamentos controlador;
+    DefaultListModel modelo_lista_orçamentos;
+    Sinistro[] sinistros_cadastrados;
+    Seguradora[] seguradoras_cadastradas;
 
     public JanelaCadastroOrçamentos(ControladorCadastroOrçamentos controlador) {
         this.controlador = controlador;
+        sinistros_cadastrados = Sinistro.getVisoes();
+        seguradoras_cadastradas = Seguradora.getVisoes();
         initComponents();
-        setTitle("Cadastrar Orçamentos");
-        setResizable(false);
-
-        sinistros.setModel(new DefaultComboBoxModel<>(Sinistro.getVisoes()));
-        seguradoras.setModel(new DefaultComboBoxModel<>(Seguradora.getVisoes()));
-        orçamentos.setModel(new DefaultComboBoxModel<>(Orçamento.getVisoes()));
-        atualizarLista(-1, null);
-        limparCampos();
-        pack();
-        setSize(590, 460);
-        setLocationByPlatform(true);
+        modelo_lista_orçamentos = (DefaultListModel) orçamentos_cadastradosList.getModel();
+        inicializarListaOrçamentos();
+        limparCampos(null);
     }
 
     @SuppressWarnings("unchecked")
@@ -50,10 +39,14 @@ public class JanelaCadastroOrçamentos extends JFrame {
         sinistros_label = new javax.swing.JLabel();
         seguradoras_label = new javax.swing.JLabel();
         status_label = new javax.swing.JLabel();
+        sequencial_label = new javax.swing.JLabel();
         data_label = new javax.swing.JLabel();
         valor_total_label = new javax.swing.JLabel();
         danos_ocultos_label = new javax.swing.JLabel();
-        orçamentos = new javax.swing.JComboBox<>();
+        orçamentos_cadastradosList = new JList<>(new DefaultListModel());
+        orçamentos_cadastradosList.setVisibleRowCount(4);
+        orçamentos_scroll_pane = new JScrollPane(orçamentos_cadastradosList);
+        orçamentos_scroll_pane.setPreferredSize(new java.awt.Dimension(330, 80));
         sinistros = new javax.swing.JComboBox<>();
         seguradoras = new javax.swing.JComboBox<>();
         status_button_group = new ButtonGroup();
@@ -69,6 +62,8 @@ public class JanelaCadastroOrçamentos extends JFrame {
         status_panel.add(status_recusado_radio_button);
         data = new javax.swing.JTextField(19);
         data.setEditable(false);
+        sequencial = new javax.swing.JTextField(10);
+        sequencial.setEditable(false);
         valor_total = new javax.swing.JTextField(20);
         java.awt.Dimension tamanho_valor_total = valor_total.getPreferredSize();
         tamanho_valor_total.width = 220;
@@ -84,17 +79,17 @@ public class JanelaCadastroOrçamentos extends JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Cadastrar Orçamentos");
-        getContentPane().setLayout(new java.awt.BorderLayout(8, 8));
         getContentPane().setLayout(new java.awt.GridBagLayout());
         c.insets = new java.awt.Insets(4, 6, 4, 6);
         c.anchor = java.awt.GridBagConstraints.WEST;
-        adicionarCampoGerado(getContentPane(), c, 0, orçamentos_label, "Orçamentos cadastrados", orçamentos);
+        adicionarCampoGerado(getContentPane(), c, 0, orçamentos_label, "Orçamentos cadastrados", orçamentos_scroll_pane);
         adicionarCampoGerado(getContentPane(), c, 1, sinistros_label, "Sinistro", sinistros);
         adicionarCampoGerado(getContentPane(), c, 2, seguradoras_label, "Seguradora", seguradoras);
         adicionarCampoGerado(getContentPane(), c, 3, status_label, "Status", status_panel);
-        adicionarCampoGerado(getContentPane(), c, 4, data_label, "Data e hora", data);
-        adicionarCampoGerado(getContentPane(), c, 5, valor_total_label, "Valor total (R$)", valor_total);
-        adicionarCampoGerado(getContentPane(), c, 6, danos_ocultos_label, "Danos ocultos", danos_ocultos);
+        adicionarCampoGerado(getContentPane(), c, 4, sequencial_label, "Identificador sequencial", sequencial);
+        adicionarCampoGerado(getContentPane(), c, 5, data_label, "Data e hora", data);
+        adicionarCampoGerado(getContentPane(), c, 6, valor_total_label, "Valor total (R$)", valor_total);
+        adicionarCampoGerado(getContentPane(), c, 7, danos_ocultos_label, "Danos ocultos", danos_ocultos);
 
         comandos_panel.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER));
         comandos_panel.add(inserir_button);
@@ -102,7 +97,7 @@ public class JanelaCadastroOrçamentos extends JFrame {
         comandos_panel.add(alterar_button);
         comandos_panel.add(remover_button);
         comandos_panel.add(limpar_button);
-        c.gridx = 0; c.gridy = 7; c.gridwidth = 2; c.anchor = java.awt.GridBagConstraints.CENTER;
+        c.gridx = 0; c.gridy = 8; c.gridwidth = 2; c.anchor = java.awt.GridBagConstraints.CENTER;
         getContentPane().add(comandos_panel, c);
         inserir_button.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) { inserirOrçamento(evt); }
@@ -119,8 +114,18 @@ public class JanelaCadastroOrçamentos extends JFrame {
         limpar_button.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) { limparCampos(evt); }
         });
+        setResizable(false);
         pack();
+        setSize(590, 500);
+        setLocationByPlatform(true);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void inicializarListaOrçamentos() {
+        for (Sinistro sinistro : sinistros_cadastrados) sinistros.addItem(sinistro);
+        for (Seguradora seguradora : seguradoras_cadastradas) seguradoras.addItem(seguradora);
+        Orçamento[] visões = Orçamento.getVisoes();
+        for (Orçamento visão : visões) modelo_lista_orçamentos.addElement(visão);
+    }
 
     private void adicionarCampoGerado(java.awt.Container painel, java.awt.GridBagConstraints c,
             int linha, javax.swing.JLabel rotulo, String texto, java.awt.Component campo) {
@@ -142,81 +147,104 @@ public class JanelaCadastroOrçamentos extends JFrame {
     }
 
     private Orçamento obterInformado() {
+        String sequencial_str = sequencial.getText();
+        int sequencial_informado = 0;
+        try {
+            if (!sequencial_str.isEmpty()) sequencial_informado = Integer.parseInt(sequencial_str);
+        } catch (NumberFormatException excecao) {
+            return null;
+        }
         Sinistro sinistro = (Sinistro) sinistros.getSelectedItem();
+        if (sinistro == null) return null;
         Seguradora seguradora = (Seguradora) this.seguradoras.getSelectedItem();
+        if (seguradora == null) return null;
         Orçamento.Status status_selecionado = obterStatusSelecionado();
-        if (sinistro == null || seguradora == null || status_selecionado == null)
-            throw new IllegalArgumentException("Selecione o sinistro, a seguradora e o status.");
-        Timestamp data_informada = new Timestamp(System.currentTimeMillis());
-        data.setText(data_informada.toString());
-        double valor = Double.parseDouble(valor_total.getText().trim().replace(',', '.'));
-        if (valor < 0) throw new IllegalArgumentException("O valor total não pode ser negativo.");
-        return new Orçamento(status_selecionado, data_informada, sinistro, seguradora, valor, danos_ocultos.isSelected());
+        if (status_selecionado == null) return null;
+        double valor;
+        try {
+            valor = Double.parseDouble(valor_total.getText().trim().replace(',', '.'));
+        } catch (NumberFormatException excecao) {
+            return null;
+        }
+        if (valor < 0) return null;
+        Timestamp data_informada = new Timestamp(Calendar.getInstance().getTimeInMillis());
+        return new Orçamento(sequencial_informado, status_selecionado, data_informada,
+                sinistro, seguradora, valor, danos_ocultos.isSelected());
     }
 
     private void inserirOrçamento(java.awt.event.ActionEvent evt) {
-        try {
-            Orçamento o = obterInformado();
-            String mensagem = controlador.inserirOrçamento(o);
-            if (mensagem != null) { erro(mensagem); return; }
-            atualizarLista(o.getSinistro().getId(), o.getSeguradora().getNome());
-            limparCampos();
-        } catch (IllegalArgumentException e) {
-            erro("Informe um valor válido e preencha os campos obrigatórios.");
-        }
+        Orçamento orçamento = obterInformado();
+        String mensagem_erro = null;
+        if (orçamento != null) mensagem_erro = controlador.inserirOrçamento(orçamento);
+        else mensagem_erro = "Algum atributo do orçamento não foi informado corretamente";
+        if (mensagem_erro == null) {
+            int ultimo_sequencial = Orçamento.últimoSequencial();
+            orçamento.setSequencial(ultimo_sequencial);
+            modelo_lista_orçamentos.addElement(orçamento.getVisao());
+            orçamentos_cadastradosList.setSelectedIndex(modelo_lista_orçamentos.size() - 1);
+            sequencial.setText(String.valueOf(ultimo_sequencial));
+            data.setText(orçamento.getData().toString());
+        } else erro(mensagem_erro);
     }
 
     private void consultarOrçamento(java.awt.event.ActionEvent evt) {
-        Orçamento visão = (Orçamento) orçamentos.getSelectedItem();
-        if (visão == null) { erro("Selecione um orçamento."); return; }
-        Orçamento o = Orçamento.buscarOrçamento(visão.getSinistro().getId(), visão.getSeguradora().getNome());
-        if (o == null) { erro("Orçamento não cadastrado."); return; }
-        id_sinistro_consultado = o.getSinistro().getId();
-        seguradora_consultada = o.getSeguradora().getNome();
-        selecionarSinistro(id_sinistro_consultado);
-        selecionarSeguradora(seguradora_consultada);
-        definirStatusSelecionado(o.getStatus());
-        data.setText(o.getData().toString());
-        valor_total.setText(String.valueOf(o.getValorTotal()));
-        danos_ocultos.setSelected(o.getPossuiDanosOcultos());
+        Orçamento visão_orçamento = (Orçamento) orçamentos_cadastradosList.getSelectedValue();
+        Orçamento orçamento = null;
+        String mensagem_erro = null;
+        if (visão_orçamento != null) {
+            orçamento = Orçamento.buscarOrçamento(visão_orçamento.getSequencial());
+            if (orçamento == null) mensagem_erro = "Orçamento não cadastrado";
+        } else mensagem_erro = "Nenhum orçamento selecionado";
+        if (mensagem_erro == null) {
+            selecionarSinistro(orçamento.getSinistro().getId());
+            selecionarSeguradora(orçamento.getSeguradora().getNome());
+            definirStatusSelecionado(orçamento.getStatus());
+            sequencial.setText(String.valueOf(orçamento.getSequencial()));
+            data.setText(orçamento.getData().toString());
+            valor_total.setText(String.valueOf(orçamento.getValorTotal()));
+            danos_ocultos.setSelected(orçamento.getPossuiDanosOcultos());
+        } else erro(mensagem_erro);
     }
 
     private void alterarOrçamento(java.awt.event.ActionEvent evt) {
-        if (id_sinistro_consultado < 0 || seguradora_consultada == null) {
-            erro("Consulte um orçamento antes de alterá-lo."); return;
+        Orçamento orçamento = obterInformado();
+        String mensagem_erro = null;
+        if (orçamento != null) mensagem_erro = alterarOrçamentoEAtualizarLista(orçamento);
+        else mensagem_erro = "Algum atributo do orçamento não foi informado corretamente";
+        if (mensagem_erro != null) erro(mensagem_erro);
+    }
+
+    private String alterarOrçamentoEAtualizarLista(Orçamento orçamento) {
+        String mensagem_erro = controlador.alterarOrçamento(orçamento);
+        if (mensagem_erro == null) {
+            atualizarLista(orçamento.getSinistro().getId(), orçamento.getSeguradora().getNome());
         }
-        try {
-            Orçamento o = obterInformado();
-            String mensagem = controlador.alterarOrçamento(o, id_sinistro_consultado, seguradora_consultada);
-            if (mensagem != null) { erro(mensagem); return; }
-            atualizarLista(id_sinistro_consultado, seguradora_consultada);
-            limparCampos();
-        } catch (IllegalArgumentException e) {
-            erro("Informe um valor válido e preencha os campos obrigatórios.");
-        }
+        return mensagem_erro;
     }
 
     private void removerOrçamento(java.awt.event.ActionEvent evt) {
-        Orçamento visão = (Orçamento) orçamentos.getSelectedItem();
+        Orçamento visão = (Orçamento) orçamentos_cadastradosList.getSelectedValue();
         if (visão == null) { erro("Selecione um orçamento."); return; }
-        String mensagem = controlador.removerOrçamento(visão.getSinistro().getId(), visão.getSeguradora().getNome());
+        String mensagem = controlador.removerOrçamento(visão.getSequencial());
         if (mensagem != null) { erro(mensagem); return; }
         atualizarLista(-1, null);
-        limparCampos();
+        limparCampos(null);
     }
 
     private void atualizarLista(int id_sinistro_selecionado, String seguradora_selecionada) {
-        orçamentos.setModel(new DefaultComboBoxModel<>(Orçamento.getVisoes()));
+        modelo_lista_orçamentos.clear();
+        Orçamento[] visões = Orçamento.getVisoes();
+        for (Orçamento visão : visões) modelo_lista_orçamentos.addElement(visão);
         if (id_sinistro_selecionado >= 0 && seguradora_selecionada != null) {
-            for (int i = 0; i < orçamentos.getItemCount(); i++) {
-                Orçamento atual = orçamentos.getItemAt(i);
+            for (int i = 0; i < modelo_lista_orçamentos.size(); i++) {
+                Orçamento atual = (Orçamento) modelo_lista_orçamentos.getElementAt(i);
                 if (atual.getSinistro().getId() == id_sinistro_selecionado
                         && atual.getSeguradora().getNome().equals(seguradora_selecionada)) {
-                    orçamentos.setSelectedIndex(i); return;
+                    orçamentos_cadastradosList.setSelectedIndex(i); return;
                 }
             }
         }
-        orçamentos.setSelectedIndex(-1);
+        orçamentos_cadastradosList.setSelectedIndex(-1);
     }
 
     private void selecionarSinistro(int id) {
@@ -230,14 +258,13 @@ public class JanelaCadastroOrçamentos extends JFrame {
     }
 
     private void limparCampos(java.awt.event.ActionEvent evt) {
-        limparCampos();
-    }
-
-    private void limparCampos() {
-        id_sinistro_consultado = -1; seguradora_consultada = null;
-        sinistros.setSelectedIndex(-1); seguradoras.setSelectedIndex(-1); status_button_group.clearSelection();
-        data.setText(new Timestamp(System.currentTimeMillis()).toString());
-        valor_total.setText(""); danos_ocultos.setSelected(false);
+        sequencial.setText("");
+        sinistros.setSelectedIndex(-1);
+        seguradoras.setSelectedIndex(-1);
+        status_button_group.clearSelection();
+        data.setText("");
+        valor_total.setText("");
+        danos_ocultos.setSelected(false);
     }
 
     private Orçamento.Status obterStatusSelecionado() {
@@ -268,19 +295,22 @@ public class JanelaCadastroOrçamentos extends JFrame {
     private javax.swing.JButton remover_button;
     private javax.swing.JButton limpar_button;
     private javax.swing.JLabel orçamentos_label;
+    private JScrollPane orçamentos_scroll_pane;
     private javax.swing.JLabel seguradoras_label;
     private javax.swing.JLabel sinistros_label;
     private javax.swing.JLabel status_label;
+    private javax.swing.JLabel sequencial_label;
     private ButtonGroup status_button_group;
     private JPanel status_panel;
     private JRadioButton status_aprovado_radio_button;
     private JRadioButton status_pendente_radio_button;
     private JRadioButton status_recusado_radio_button;
     private javax.swing.JLabel valor_total_label;
-    private javax.swing.JComboBox<Orçamento> orçamentos;
+    private JList<Orçamento> orçamentos_cadastradosList;
     private javax.swing.JComboBox<Sinistro> sinistros;
     private javax.swing.JComboBox<Seguradora> seguradoras;
     private javax.swing.JTextField data;
+    private javax.swing.JTextField sequencial;
     private javax.swing.JTextField valor_total;
     private javax.swing.JCheckBox danos_ocultos;
     // End of variables declaration//GEN-END:variables

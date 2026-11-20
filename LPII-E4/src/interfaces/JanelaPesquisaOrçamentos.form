@@ -121,11 +121,13 @@
                 <Component class="javax.swing.JRadioButton" name="atendimento_24h_sim">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Sim"/>
+                    <Property name="mnemonic" type="int" value="0"/>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JRadioButton" name="atendimento_24h_nao">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="N&#xe3;o"/>
+                    <Property name="mnemonic" type="int" value="1"/>
                   </Properties>
                 </Component>
               </SubComponents>
@@ -206,30 +208,6 @@
               </Constraints>
 
               <Layout class="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout"/>
-              <SubComponents>
-                <Container class="interfaces.PainelFiltrosPe&#xe7;aMec&#xe2;nica" name="painel_mec&#226;nica">
-                  <Constraints>
-                    <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
-                      <JTabbedPaneConstraints tabName="Pe&#xe7;a mec&#xe2;nica">
-                        <Property name="tabTitle" type="java.lang.String" value="Pe&#xe7;a mec&#xe2;nica"/>
-                      </JTabbedPaneConstraints>
-                    </Constraint>
-                  </Constraints>
-
-                  <AuxValues><AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new interfaces.PainelFiltrosPe&#xe7;aMec&#xe2;nica()"/></AuxValues>
-                </Container>
-                <Container class="interfaces.PainelFiltrosPe&#xe7;aAcess&#xf3;rios" name="painel_acess&#243;rios">
-                  <Constraints>
-                    <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
-                      <JTabbedPaneConstraints tabName="Pe&#xe7;a de acess&#xf3;rios">
-                        <Property name="tabTitle" type="java.lang.String" value="Pe&#xe7;a de acess&#xf3;rios"/>
-                      </JTabbedPaneConstraints>
-                    </Constraint>
-                  </Constraints>
-
-                  <AuxValues><AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new interfaces.PainelFiltrosPe&#xe7;aAcess&#xf3;rios()"/></AuxValues>
-                </Container>
-              </SubComponents>
             </Container>
           </SubComponents>
         </Container>

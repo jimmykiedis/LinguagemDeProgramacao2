@@ -36,6 +36,15 @@ public class PeçaMecânica extends Peça {
     public void setPrazoGarantia(Integer valor) { prazo_garantia = valor; }
     public void setMecânicoPróprio(boolean valor) { mecânico_próprio = valor; }
 
+    @Override
+    public String toStringFull() {
+        String str = "Peça mecânica - " + super.toStringFull()
+                + " - " + categoria_mecânica
+                + " - " + prazo_garantia + " dias - mecânico próprio: "
+                + (mecânico_próprio ? "sim" : "não");
+        return str;
+    }
+
     public static PeçaMecânica buscar(int codigo) {
         String sql = "SELECT p.codigo,p.nome,p.marca,p.`preço`,p.sob_encomenda,m.categoria_mecânica,m.prazo_garantia,m.mecânico_próprio FROM peças p JOIN peça_mecânica m ON m.codigoId=p.codigo WHERE p.codigo=?";
         PeçaMecânica peça = null;

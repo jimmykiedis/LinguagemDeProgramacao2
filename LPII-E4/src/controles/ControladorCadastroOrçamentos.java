@@ -13,27 +13,22 @@ public class ControladorCadastroOrçamentos {
     }
 
     public String inserirOrçamento(Orçamento orçamento) {
-        if (Orçamento.existeOrçamento(orçamento.getSinistro().getId(), orçamento.getSeguradora().getNome())) {
-            return "Já existe orçamento para este sinistro e seguradora";
-        }
-        return Orçamento.inserirOrçamento(orçamento);
+        if (!Orçamento.existeOrçamento(orçamento.getSinistro().getId(), orçamento.getSeguradora().getNome())) {
+            return Orçamento.inserirOrçamento(orçamento);
+        } else return "Já existe orçamento para este sinistro e seguradora";
     }
 
-    public String alterarOrçamento(Orçamento orçamento, int id_sinistro_original, String seguradora_original) {
-        if (orçamento.getSinistro().getId() != id_sinistro_original
-                || !orçamento.getSeguradora().getNome().equals(seguradora_original)) {
-            return "Alteração não permitida: sinistro e seguradora identificam o orçamento";
-        }
-        if (!Orçamento.existeOrçamento(id_sinistro_original, seguradora_original)) {
-            return "Orçamento não cadastrado";
-        }
-        return Orçamento.alterarOrçamento(orçamento);
+    public String alterarOrçamento(Orçamento orçamento) {
+        Orçamento orçamento_cadastrado = Orçamento.buscarOrçamento(orçamento.getSequencial());
+        if (orçamento_cadastrado != null
+                && orçamento.getSinistro().getId() == orçamento_cadastrado.getSinistro().getId()
+                && orçamento.getSeguradora().getNome().equals(orçamento_cadastrado.getSeguradora().getNome())) {
+            return Orçamento.alterarOrçamento(orçamento);
+        } else return "Alteração não permitida: orçamento não cadastrado ou sinistro/seguradora alterados";
     }
 
-    public String removerOrçamento(int id_sinistro, String nome_seguradora) {
-        if (!Orçamento.existeOrçamento(id_sinistro, nome_seguradora)) {
-            return "Orçamento não cadastrado";
-        }
-        return Orçamento.removerOrçamento(id_sinistro, nome_seguradora);
+    public String removerOrçamento(int sequencial) {
+        if (Orçamento.existeOrçamento(sequencial)) return Orçamento.removerOrçamento(sequencial);
+        else return "Sequencial não corresponde a nenhum orçamento cadastrado";
     }
 }

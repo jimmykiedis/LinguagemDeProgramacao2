@@ -30,14 +30,16 @@ public class PainelFiltrosPeçaMecânica extends JPanel {
 
     public Integer getPrazoMínimoGarantia() {
         String valor = prazo_mínimo_garantia.getText().trim();
-        if (valor.isEmpty()) return null;
-        try {
-            int prazo = Integer.parseInt(valor);
-            if (prazo < 0) throw new NumberFormatException();
-            return prazo;
-        } catch (NumberFormatException e) {
-            throw new IllegalArgumentException("Informe um número inteiro não negativo para prazo mínimo de garantia.");
+        Integer prazo = null;
+        if (!valor.isEmpty()) {
+            try {
+                prazo = Integer.parseInt(valor);
+                if (prazo < 0) throw new NumberFormatException();
+            } catch (NumberFormatException e) {
+                throw new IllegalArgumentException("Informe um número inteiro não negativo para prazo mínimo de garantia.");
+            }
         }
+        return prazo;
     }
 
     public void limparFiltros() { prazo_mínimo_garantia.setText(""); }

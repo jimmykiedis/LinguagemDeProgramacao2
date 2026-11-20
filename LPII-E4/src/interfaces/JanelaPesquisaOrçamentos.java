@@ -5,17 +5,19 @@ import entidades.Peça;
 import entidades.Sinistro;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import javax.swing.JScrollPane;
-import javax.swing.JTabbedPane;
-import javax.swing.JTextArea;
 
-public class JanelaPesquisaOrçamentos extends JFrame {
+public class JanelaPesquisaOrçamentos extends javax.swing.JFrame {
+    private PainelFiltrosPeçaMecânica painel_mecânica;
+    private PainelFiltrosPeçaAcessório painel_acessórios;
+
     public JanelaPesquisaOrçamentos() {
         initComponents();
-        limparFiltros();
+        painel_mecânica = new PainelFiltrosPeçaMecânica();
+        painel_acessórios = new PainelFiltrosPeçaAcessório();
+        subclasses_tabbed_pane.addTab("Peça mecânica", painel_mecânica);
+        subclasses_tabbed_pane.addTab("Peça de acessórios", painel_acessórios);
+        limparFiltros(null);
         setLocationByPlatform(true);
     }
 
@@ -62,8 +64,6 @@ public class JanelaPesquisaOrçamentos extends JFrame {
         marca_peça_panel.add(marca_genuina_radio_button);
         todos_objetos_check_box = new javax.swing.JCheckBox();
         subclasses_tabbed_pane = new javax.swing.JTabbedPane();
-        painel_mecânica = new PainelFiltrosPeçaMecânica();
-        painel_acessórios = new PainelFiltrosPeçaAcessório();
         resultados_scroll_pane = new javax.swing.JScrollPane();
         resultados = new javax.swing.JTextArea();
         botoes = new javax.swing.JPanel();
@@ -116,9 +116,11 @@ public class JanelaPesquisaOrçamentos extends JFrame {
         atendimento_24h.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
 
         atendimento_24h_sim.setText("Sim");
+        atendimento_24h_sim.setMnemonic(0);
         atendimento_24h.add(atendimento_24h_sim);
 
         atendimento_24h_nao.setText("Não");
+        atendimento_24h_nao.setMnemonic(1);
         atendimento_24h.add(atendimento_24h_nao);
 
         grid_bag_constraints = new java.awt.GridBagConstraints();
@@ -181,9 +183,6 @@ public class JanelaPesquisaOrçamentos extends JFrame {
         grid_bag_constraints.anchor = java.awt.GridBagConstraints.WEST;
         painel_peças.add(todos_objetos_check_box, grid_bag_constraints);
 
-        subclasses_tabbed_pane.addTab("Peça mecânica", painel_mecânica);
-        subclasses_tabbed_pane.addTab("Peça de acessórios", painel_acessórios);
-
         grid_bag_constraints = new java.awt.GridBagConstraints();
         grid_bag_constraints.gridx = 0;
         grid_bag_constraints.gridy = 2;
@@ -243,7 +242,7 @@ public class JanelaPesquisaOrçamentos extends JFrame {
         atendimento_24h_grupo.add(atendimento_24h_sim);
         atendimento_24h_grupo.add(atendimento_24h_nao);
         pesquisar_button.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) { pesquisar(evt); }
+            public void actionPerformed(java.awt.event.ActionEvent evt) { pesquisarOrçamentos(evt); }
         });
         limpar_button.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) { limparFiltros(evt); }
@@ -254,32 +253,25 @@ public class JanelaPesquisaOrçamentos extends JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void pesquisar(java.awt.event.ActionEvent evt) {
+    private void pesquisarOrçamentos(java.awt.event.ActionEvent evt) {
         try {
-            String texto_data = data_minima_orçamento.getText().trim();
-            Timestamp data = texto_data.isEmpty() ? null : obterTimestamp(texto_data);
-            Boolean atendimento_selecionado = atendimento_24h_sim.isSelected() ? Boolean.TRUE
-                    : atendimento_24h_nao.isSelected() ? Boolean.FALSE : null;
-            Sinistro.GrauMonta grau = obterGrauMontaSelecionado();
-            // Somente o filtro da aba selecionada participa da pesquisa. Isso
-            // evita que um valor antigo da outra subclasse seja aplicado sem
-            // que o usuário perceba.
-            Integer prazo = subclasses_tabbed_pane.getSelectedIndex() == 0
-                    ? painel_mecânica.getPrazoMínimoGarantia() : null;
-            String cor = subclasses_tabbed_pane.getSelectedIndex() == 1
-                    ? painel_acessórios.getCor() : null;
-
-            Peça.MarcaPeça marca = obterMarcaSelecionada();
-            ArrayList<Orçamento> encontrados = Orçamento.pesquisarOrçamentos(
-                    data, marca,
-                    atendimento_selecionado, grau, prazo, cor,
-                    todos_objetos_check_box.isSelected());
-            resultados.setText("");
-            if (encontrados.isEmpty()) {
-                resultados.setText("Nenhum orçamento encontrado para os filtros informados.");
-                return;
+            Timestamp data_mínima = getDataMínima();
+            Boolean atendimento_24h_selecionado = getAtendimento24h();
+            Sinistro.GrauMonta grau_monta = obterGrauMontaSelecionado();
+            int índice_aba_selecionada = subclasses_tabbed_pane.getSelectedIndex();
+            Integer prazo_garantia_mínimo = null;
+            String cor_acessório = null;
+            if (índice_aba_selecionada == 0) {
+                prazo_garantia_mínimo = painel_mecânica.getPrazoMínimoGarantia();
+            } else if (índice_aba_selecionada == 1) {
+                cor_acessório = painel_acessórios.getCor();
             }
-            mostrarOrçamentosSelecionados(encontrados);
+            Peça.MarcaPeça marca = obterMarcaSelecionada();
+            boolean todos_objetos = todos_objetos_check_box.isSelected();
+            ArrayList<Orçamento> orçamentos_selecionados = Orçamento.pesquisarOrçamentos(
+                    data_mínima, marca, atendimento_24h_selecionado, grau_monta,
+                    prazo_garantia_mínimo, cor_acessório, todos_objetos);
+            mostrarOrçamentosSelecionados(orçamentos_selecionados);
         } catch (IllegalArgumentException e) {
             JOptionPane.showMessageDialog(this,
                     e.getMessage() == null ? "Informe a data no formato AAAA-MM-DD HH:MM:SS." : e.getMessage(),
@@ -300,6 +292,17 @@ public class JanelaPesquisaOrçamentos extends JFrame {
         }
     }
 
+    private Boolean getAtendimento24h() {
+        Boolean atendimento_24h = null;
+        if (atendimento_24h_grupo.getSelection() != null) {
+            switch (atendimento_24h_grupo.getSelection().getMnemonic()) {
+                case 0: atendimento_24h = Boolean.TRUE; break;
+                case 1: atendimento_24h = Boolean.FALSE;
+            }
+        }
+        return atendimento_24h;
+    }
+
     private Peça.MarcaPeça obterMarcaSelecionada() {
         if (marca_oem_radio_button.isSelected()) return Peça.MarcaPeça.oem;
         if (marca_original_radio_button.isSelected()) return Peça.MarcaPeça.original;
@@ -318,23 +321,27 @@ public class JanelaPesquisaOrçamentos extends JFrame {
         resultados.setText("");
     }
 
-    private Timestamp obterTimestamp(String texto) {
-        try {
-            return Timestamp.valueOf(texto.length() == 10 ? texto + " 00:00:00" : texto);
-        } catch (IllegalArgumentException e) {
-            throw new IllegalArgumentException("Informe a data no formato AAAA-MM-DD HH:MM:SS.");
+    private Timestamp getDataMínima() {
+        Timestamp data_mínima = null;
+        String data_mínima_str = data_minima_orçamento.getText().trim();
+        if (!data_mínima_str.isEmpty()) {
+            try {
+                if (data_mínima_str.length() == 10) {
+                    data_mínima_str += " 00:00:00";
+                }
+                data_mínima = Timestamp.valueOf(data_mínima_str);
+            } catch (IllegalArgumentException e) {
+                throw new IllegalArgumentException("Informe a data no formato AAAA-MM-DD ou AAAA-MM-DD HH:MM:SS.");
+            }
         }
+        return data_mínima;
     }
 
     private void limparFiltros(java.awt.event.ActionEvent evt) {
-        limparFiltros();
-    }
-
-    private void limparFiltros() {
-        data_minima_orçamento.setText("");
         marca_peça_grupo.clearSelection();
         atendimento_24h_grupo.clearSelection();
         grau_monta_grupo.clearSelection();
+        data_minima_orçamento.setText("");
         painel_mecânica.limparFiltros();
         painel_acessórios.limparFiltros();
         todos_objetos_check_box.setSelected(false);
@@ -365,8 +372,6 @@ public class JanelaPesquisaOrçamentos extends JFrame {
     private javax.swing.JRadioButton marca_oem_radio_button;
     private javax.swing.JRadioButton marca_original_radio_button;
     private javax.swing.JRadioButton marca_genuina_radio_button;
-    private PainelFiltrosPeçaAcessório painel_acessórios;
-    private PainelFiltrosPeçaMecânica painel_mecânica;
     private javax.swing.JPanel painel_orçamento;
     private javax.swing.JPanel painel_peças;
     private javax.swing.JPanel painel_seguradora;

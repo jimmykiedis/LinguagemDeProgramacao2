@@ -27,8 +27,12 @@ public class PainelFiltrosPeçaAcessório extends JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     public String getCor() {
-        String cor = cor_acessório.getText().trim();
-        return cor.isEmpty() ? null : cor;
+        String cor = null;
+        String valor = cor_acessório.getText().trim();
+        if (!valor.isEmpty()) {
+            cor = valor;
+        }
+        return cor;
     }
 
     public void limparFiltros() { cor_acessório.setText(""); }

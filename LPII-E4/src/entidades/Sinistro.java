@@ -43,6 +43,9 @@ public class Sinistro {
     public GrauMonta getGrauMonta() { return grau_monta; }
     public boolean getPerdaTotal() { return perda_total; }
     public Peça[] getPeças() { return pecas.toArray(new Peça[0]); }
+    public Sinistro getVisao() {
+        return new Sinistro(id, segurado, telefone, cidade, grau_monta, perda_total);
+    }
     public void setSegurado(String segurado) { this.segurado = segurado; }
     public void setTelefone(String telefone) { this.telefone = telefone; }
     public void setCidade(String cidade) { this.cidade = cidade; }
@@ -57,6 +60,13 @@ public class Sinistro {
     public String toString() {
         return "#" + id + " - " + segurado + " - " + (cidade != null ? cidade : "")
                 + " (" + grau_monta + ")";
+    }
+
+    public String toStringFull() {
+        String str = "#" + id + " - " + segurado + " [" + grau_monta + "] - "
+                + cidade + " - " + telefone
+                + " - perda total: " + (perda_total ? "sim" : "não");
+        return str;
     }
 
     private static Sinistro criarVisao(ResultSet resultado) throws SQLException {

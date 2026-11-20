@@ -34,30 +34,30 @@ public class PeçaSinistro {
     }
 
     public static Peça[] buscarPeçasPorSinistro(int sinistro_id) {
-        ArrayList<Peça> visoes = new ArrayList<>();
         String sql = "SELECT " + Peça.colunas() + Peça.consultaBase()
                 + " JOIN peças_sinistros ps ON ps.peça_codigo=p.codigo"
                 + " WHERE ps.sinistro_id = ?";
 
-        ResultSet resultados = null;
+        ResultSet lista_resultados = null;
+        ArrayList<Peça> visões = new ArrayList<>();
         try {
             PreparedStatement comando = BD.conexao.prepareStatement(sql);
             comando.setInt(1, sinistro_id);
-            resultados = comando.executeQuery();
-            while (resultados.next()) {
+            lista_resultados = comando.executeQuery();
+            while (lista_resultados.next()) {
                 try {
-                    visoes.add(Peça.criarVisao(resultados));
+                    visões.add(Peça.criarVisao(lista_resultados));
                 } catch (IllegalArgumentException excecao_enum) {
                     // Ignora peças com dados fora do domínio esperado.
                 }
             }
-            resultados.close();
+            lista_resultados.close();
             comando.close();
-        } catch (SQLException excecao_sql) {
-            excecao_sql.printStackTrace();
+        } catch (SQLException exceção_sql) {
+            exceção_sql.printStackTrace();
         }
 
-        return visoes.toArray(new Peça[0]);
+        return visões.toArray(new Peça[visões.size()]);
     }
 
     public static boolean existePeçasSinistros(int peca_codigo, int sinistro_id) {
