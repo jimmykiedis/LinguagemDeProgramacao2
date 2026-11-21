@@ -53,6 +53,8 @@ public class PainelPeçaMecânica extends JPanel {
         prazo_garantia_text_field_constraints.gridy = 1;
         prazo_garantia_text_field_constraints.insets = new Insets(1, 5, 10, 5);
         prazo_garantia_text_field_constraints.anchor = GridBagConstraints.WEST;
+        prazo_garantia_text_field_constraints.fill = GridBagConstraints.HORIZONTAL;
+        prazo_garantia_text_field_constraints.weightx = 1.0;
         add(prazo_garantia_text_field, prazo_garantia_text_field_constraints);
 
         GridBagConstraints mecânico_próprio_label_constraints = new GridBagConstraints();
@@ -73,13 +75,20 @@ public class PainelPeçaMecânica extends JPanel {
     public PeçaMecânica.CategoriaMecânica getCategoriaMecânica() {
         return (PeçaMecânica.CategoriaMecânica) categoria_combo_box.getSelectedItem();
     }
-    public Integer getPrazoGarantia() {
+    public int getPrazoGarantia() {
         String valor = prazo_garantia_text_field.getText().trim();
-        return valor.isEmpty() ? null : Integer.valueOf(valor);
+        if (valor.isEmpty()) return -1;
+        int prazo = Integer.parseInt(valor);
+        if (prazo < 0) throw new IllegalArgumentException("O prazo de garantia não pode ser negativo.");
+        return prazo;
     }
-    public boolean getMecânicoPróprio() { return mecânico_próprio_check_box.isSelected(); }
+    public boolean isMecânicoPróprio() { return mecânico_próprio_check_box.isSelected(); }
     public void setCategoriaMecânica(PeçaMecânica.CategoriaMecânica valor) { categoria_combo_box.setSelectedItem(valor); }
-    public void setPrazoGarantia(Integer valor) { prazo_garantia_text_field.setText(valor == null ? "" : valor.toString()); }
+    public void setPrazoGarantia(int valor) { prazo_garantia_text_field.setText(valor + ""); }
+    public void setPrazoGarantia(Integer valor) {
+        if (valor == null) prazo_garantia_text_field.setText("");
+        else setPrazoGarantia(valor.intValue());
+    }
     public void setMecânicoPróprio(boolean valor) { mecânico_próprio_check_box.setSelected(valor); }
     public void limparCampos() { categoria_combo_box.setSelectedIndex(-1); setPrazoGarantia(null); setMecânicoPróprio(false); }
 

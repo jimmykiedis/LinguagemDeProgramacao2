@@ -53,6 +53,8 @@ public class PainelPeçaAcessório extends JPanel {
         cor_text_field_constraints.gridy = 1;
         cor_text_field_constraints.insets = new Insets(1, 5, 10, 5);
         cor_text_field_constraints.anchor = GridBagConstraints.WEST;
+        cor_text_field_constraints.fill = GridBagConstraints.HORIZONTAL;
+        cor_text_field_constraints.weightx = 1.0;
         add(cor_text_field, cor_text_field_constraints);
 
         GridBagConstraints funileiro_próprio_label_constraints = new GridBagConstraints();
@@ -73,8 +75,11 @@ public class PainelPeçaAcessório extends JPanel {
     public PeçaAcessório.CategoriaAcessório getCategoriaAcessório() {
         return (PeçaAcessório.CategoriaAcessório) categoria_combo_box.getSelectedItem();
     }
-    public String getCor() { return cor_text_field.getText().trim(); }
-    public boolean getFunileiroPróprio() { return funileiro_próprio_check_box.isSelected(); }
+    public String getCor() {
+        String valor = cor_text_field.getText().trim();
+        return valor.isEmpty() ? null : valor;
+    }
+    public boolean isFunileiroPróprio() { return funileiro_próprio_check_box.isSelected(); }
     public void setCategoriaAcessório(PeçaAcessório.CategoriaAcessório valor) { categoria_combo_box.setSelectedItem(valor); }
     public void setCor(String valor) { cor_text_field.setText(valor == null ? "" : valor); }
     public void setFunileiroPróprio(boolean valor) { funileiro_próprio_check_box.setSelected(valor); }
