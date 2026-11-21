@@ -12,12 +12,10 @@ import java.awt.FlowLayout;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.ButtonGroup;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JRadioButton;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 
@@ -55,17 +53,7 @@ public class JanelaCadastroPeças extends javax.swing.JFrame {
         peças_combo_box = new JComboBox<>();
         codigo_field = new JTextField(8);
         nome_field = new JTextField(24);
-        marca_button_group = new ButtonGroup();
-        marca_panel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        marca_oem_radio_button = new JRadioButton(Peça.MarcaPeça.oem.toString());
-        marca_original_radio_button = new JRadioButton(Peça.MarcaPeça.original.toString());
-        marca_genuina_radio_button = new JRadioButton(Peça.MarcaPeça.genuína.toString());
-        marca_button_group.add(marca_oem_radio_button);
-        marca_button_group.add(marca_original_radio_button);
-        marca_button_group.add(marca_genuina_radio_button);
-        marca_panel.add(marca_oem_radio_button);
-        marca_panel.add(marca_original_radio_button);
-        marca_panel.add(marca_genuina_radio_button);
+        marca_combo_box = new JComboBox<>(Peça.MarcaPeça.values());
         preco_field = new JTextField(10);
         sob_encomenda_check_box = new JCheckBox("Sob encomenda");
         painel_mecânica = new JPanel(new GridBagLayout());
@@ -97,7 +85,7 @@ public class JanelaCadastroPeças extends javax.swing.JFrame {
         adicionarCampoGerado(campos_comuns_panel, c, 0, peças_label, "Peças cadastradas", peças_combo_box, false);
         adicionarCampoGerado(campos_comuns_panel, c, 1, codigo_label, "Código", codigo_field, false);
         adicionarCampoGerado(campos_comuns_panel, c, 2, nome_label, "Nome", nome_field, false);
-        adicionarCampoGerado(campos_comuns_panel, c, 3, marca_label, "Marca", marca_panel, false);
+        adicionarCampoGerado(campos_comuns_panel, c, 3, marca_label, "Marca", marca_combo_box, false);
         adicionarCampoGerado(campos_comuns_panel, c, 4, preco_label, "Preço", preco_field, false);
         c.gridx = 1; c.gridy = 5; campos_comuns_panel.add(sob_encomenda_check_box, c);
         c.gridx = 0; c.gridy = 0; c.gridwidth = 2; c.fill = GridBagConstraints.HORIZONTAL;
@@ -154,7 +142,7 @@ public class JanelaCadastroPeças extends javax.swing.JFrame {
         int codigo; double preco;
         try { codigo=Integer.parseInt(codigo_field.getText().trim()); } catch(NumberFormatException e) { throw new IllegalArgumentException("Informe um código inteiro válido."); }
         String nome=nome_field.getText().trim(); if(nome.isEmpty()) throw new IllegalArgumentException("Informe o nome da peça.");
-        Peça.MarcaPeça marca=obterMarcaSelecionada(); if(marca==null) throw new IllegalArgumentException("Selecione a marca.");
+        Peça.MarcaPeça marca=(Peça.MarcaPeça) marca_combo_box.getSelectedItem(); if(marca==null) throw new IllegalArgumentException("Selecione a marca.");
         try { preco=Double.parseDouble(preco_field.getText().trim().replace(',','.')); } catch(NumberFormatException e) { throw new IllegalArgumentException("Informe um preço válido."); }
         if(preco<0) throw new IllegalArgumentException("O preço não pode ser negativo.");
         try {
@@ -183,7 +171,7 @@ public class JanelaCadastroPeças extends javax.swing.JFrame {
     private void consultarPeça(java.awt.event.ActionEvent evt) {
         Peça selecionada=(Peça)peças_combo_box.getSelectedItem(); if(selecionada==null) { erro("Selecione uma peça.");return; }
         Peça p=Peça.buscarPeças(selecionada.getCodigo()); if(p==null) { erro("Peça não encontrada.");return; }
-        codigo_field.setText(Integer.toString(p.getCodigo())); nome_field.setText(p.getNome()); definirMarcaSelecionada(p.getMarca()); preco_field.setText(Double.toString(p.getPreco()));
+        codigo_field.setText(Integer.toString(p.getCodigo())); nome_field.setText(p.getNome()); marca_combo_box.setSelectedItem(p.getMarca()); preco_field.setText(Double.toString(p.getPreco()));
         sob_encomenda_check_box.setSelected(p.getSobEncomenda());
         if(p instanceof PeçaMecânica) {
             PeçaMecânica m=(PeçaMecânica)p; especialização_tabbed_pane.setSelectedComponent(painel_mecânica);
@@ -202,33 +190,17 @@ public class JanelaCadastroPeças extends javax.swing.JFrame {
     }
 
     private void limparCampos() {
-        codigo_field.setText("");nome_field.setText("");marca_button_group.clearSelection();preco_field.setText("");
+        codigo_field.setText("");nome_field.setText("");marca_combo_box.setSelectedIndex(-1);preco_field.setText("");
         sob_encomenda_check_box.setSelected(false);
         categoria_mecânica_combo_box.setSelectedIndex(-1); prazo_garantia_text_field.setText(""); mecânico_próprio_check_box.setSelected(false);
         categoria_acessório_combo_box.setSelectedIndex(-1); cor_text_field.setText(""); funileiro_próprio_check_box.setSelected(false); especialização_tabbed_pane.setSelectedIndex(0);
     }
-    private Peça.MarcaPeça obterMarcaSelecionada() {
-        if (marca_oem_radio_button.isSelected()) return Peça.MarcaPeça.oem;
-        if (marca_original_radio_button.isSelected()) return Peça.MarcaPeça.original;
-        if (marca_genuina_radio_button.isSelected()) return Peça.MarcaPeça.genuína;
-        return null;
-    }
-
-    private void definirMarcaSelecionada(Peça.MarcaPeça valor) {
-        marca_button_group.clearSelection();
-        if (valor == Peça.MarcaPeça.oem) marca_oem_radio_button.setSelected(true);
-        else if (valor == Peça.MarcaPeça.original) marca_original_radio_button.setSelected(true);
-        else if (valor == Peça.MarcaPeça.genuína) marca_genuina_radio_button.setSelected(true);
-    }
-
     private void erro(String msg) { JOptionPane.showMessageDialog(this,msg,"Erro",JOptionPane.ERROR_MESSAGE); }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private JComboBox<Peça> peças_combo_box;
     private JTextField codigo_field, nome_field, preco_field;
-    private ButtonGroup marca_button_group;
-    private JPanel marca_panel;
-    private JRadioButton marca_oem_radio_button, marca_original_radio_button, marca_genuina_radio_button;
+    private JComboBox<Peça.MarcaPeça> marca_combo_box;
     private JCheckBox sob_encomenda_check_box;
     private JPanel painel_mecânica, painel_acessórios;
     private JComboBox<PeçaMecânica.CategoriaMecânica> categoria_mecânica_combo_box;

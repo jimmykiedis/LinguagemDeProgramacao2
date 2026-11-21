@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
 <Form version="1.8" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
-  <NonVisualComponents><Component class="javax.swing.ButtonGroup" name="forma_pagamento_preferencial_button_group"/></NonVisualComponents>
   <Properties>
     <Property name="defaultCloseOperation" type="int" value="2"/>
     <Property name="title" type="java.lang.String" value="Cadastrar Seguradoras"/>
@@ -202,7 +201,7 @@
         </Constraint>
       </Constraints>
     </Component>
-    <Container class="javax.swing.JPanel" name="forma_pagamento_preferencial_panel"><Constraints> <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription"> <GridBagConstraints gridX="1" gridY="5" gridWidth="1" gridHeight="1" fill="0" ipadX="0" ipadY="0" insetsTop="1" insetsLeft="5" insetsBottom="10" insetsRight="5" anchor="17" weightX="0.0" weightY="0.0"/> </Constraint> </Constraints><Layout class="org.netbeans.modules.form.compat2.layouts.DesignFlowLayout"/><SubComponents><Component class="javax.swing.JRadioButton" name="forma_pagamento_boleto_radio_button"><Properties><Property name="text" type="java.lang.String" value="boleto"/></Properties></Component><Component class="javax.swing.JRadioButton" name="forma_pagamento_cartao_radio_button"><Properties><Property name="text" type="java.lang.String" value="cartao"/></Properties></Component><Component class="javax.swing.JRadioButton" name="forma_pagamento_pix_radio_button"><Properties><Property name="text" type="java.lang.String" value="pix"/></Properties></Component><Component class="javax.swing.JRadioButton" name="forma_pagamento_debito_automatico_radio_button"><Properties><Property name="text" type="java.lang.String" value="debito_automatico"/></Properties></Component></SubComponents></Container>
+    <Component class="javax.swing.JComboBox" name="forma_pagamento_preferencial_combo_box"><Constraints> <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription"> <GridBagConstraints gridX="1" gridY="5" gridWidth="1" gridHeight="1" fill="0" ipadX="0" ipadY="0" insetsTop="1" insetsLeft="5" insetsBottom="10" insetsRight="5" anchor="17" weightX="0.0" weightY="0.0"/> </Constraint> </Constraints></Component>
     <Component class="javax.swing.JComboBox" name="seguradoras_cadastradas_combo_box">
       <Properties>
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">

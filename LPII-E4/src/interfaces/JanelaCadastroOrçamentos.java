@@ -7,12 +7,11 @@ import entidades.Sinistro;
 import java.awt.FlowLayout;
 import java.sql.Timestamp;
 import java.util.Calendar;
-import javax.swing.ButtonGroup;
 import javax.swing.DefaultListModel;
+import javax.swing.JComboBox;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 
 public class JanelaCadastroOrçamentos extends javax.swing.JFrame {
@@ -49,17 +48,7 @@ public class JanelaCadastroOrçamentos extends javax.swing.JFrame {
         orçamentos_scroll_pane.setPreferredSize(new java.awt.Dimension(330, 80));
         sinistros = new javax.swing.JComboBox<>();
         seguradoras = new javax.swing.JComboBox<>();
-        status_button_group = new ButtonGroup();
-        status_panel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        status_aprovado_radio_button = new JRadioButton(Orçamento.Status.aprovado.toString());
-        status_pendente_radio_button = new JRadioButton(Orçamento.Status.pendente.toString());
-        status_recusado_radio_button = new JRadioButton(Orçamento.Status.recusado.toString());
-        status_button_group.add(status_aprovado_radio_button);
-        status_button_group.add(status_pendente_radio_button);
-        status_button_group.add(status_recusado_radio_button);
-        status_panel.add(status_aprovado_radio_button);
-        status_panel.add(status_pendente_radio_button);
-        status_panel.add(status_recusado_radio_button);
+        status_combo_box = new JComboBox<>(Orçamento.Status.values());
         data = new javax.swing.JTextField(19);
         data.setEditable(false);
         sequencial = new javax.swing.JTextField(10);
@@ -85,7 +74,7 @@ public class JanelaCadastroOrçamentos extends javax.swing.JFrame {
         adicionarCampoGerado(getContentPane(), c, 0, orçamentos_label, "Orçamentos cadastrados", orçamentos_scroll_pane);
         adicionarCampoGerado(getContentPane(), c, 1, sinistros_label, "Sinistro", sinistros);
         adicionarCampoGerado(getContentPane(), c, 2, seguradoras_label, "Seguradora", seguradoras);
-        adicionarCampoGerado(getContentPane(), c, 3, status_label, "Status", status_panel);
+        adicionarCampoGerado(getContentPane(), c, 3, status_label, "Status", status_combo_box);
         adicionarCampoGerado(getContentPane(), c, 4, sequencial_label, "Identificador sequencial", sequencial);
         adicionarCampoGerado(getContentPane(), c, 5, data_label, "Data e hora", data);
         adicionarCampoGerado(getContentPane(), c, 6, valor_total_label, "Valor total (R$)", valor_total);
@@ -130,7 +119,7 @@ public class JanelaCadastroOrçamentos extends javax.swing.JFrame {
     private void adicionarCampoGerado(java.awt.Container painel, java.awt.GridBagConstraints c,
             int linha, javax.swing.JLabel rotulo, String texto, java.awt.Component campo) {
         adicionarCampoGerado(painel, c, linha, rotulo, texto, campo,
-                campo != status_panel && campo != valor_total);
+                campo != status_combo_box && campo != valor_total);
     }
 
     private void adicionarCampoGerado(java.awt.Container painel, java.awt.GridBagConstraints c,
@@ -261,24 +250,18 @@ public class JanelaCadastroOrçamentos extends javax.swing.JFrame {
         sequencial.setText("");
         sinistros.setSelectedIndex(-1);
         seguradoras.setSelectedIndex(-1);
-        status_button_group.clearSelection();
+        status_combo_box.setSelectedIndex(-1);
         data.setText("");
         valor_total.setText("");
         danos_ocultos.setSelected(false);
     }
 
     private Orçamento.Status obterStatusSelecionado() {
-        if (status_aprovado_radio_button.isSelected()) return Orçamento.Status.aprovado;
-        if (status_pendente_radio_button.isSelected()) return Orçamento.Status.pendente;
-        if (status_recusado_radio_button.isSelected()) return Orçamento.Status.recusado;
-        return null;
+        return (Orçamento.Status) status_combo_box.getSelectedItem();
     }
 
     private void definirStatusSelecionado(Orçamento.Status valor) {
-        status_button_group.clearSelection();
-        if (valor == Orçamento.Status.aprovado) status_aprovado_radio_button.setSelected(true);
-        else if (valor == Orçamento.Status.pendente) status_pendente_radio_button.setSelected(true);
-        else if (valor == Orçamento.Status.recusado) status_recusado_radio_button.setSelected(true);
+        status_combo_box.setSelectedItem(valor);
     }
 
     private void erro(String mensagem) {
@@ -300,11 +283,7 @@ public class JanelaCadastroOrçamentos extends javax.swing.JFrame {
     private javax.swing.JLabel sinistros_label;
     private javax.swing.JLabel status_label;
     private javax.swing.JLabel sequencial_label;
-    private ButtonGroup status_button_group;
-    private JPanel status_panel;
-    private JRadioButton status_aprovado_radio_button;
-    private JRadioButton status_pendente_radio_button;
-    private JRadioButton status_recusado_radio_button;
+    private JComboBox<Orçamento.Status> status_combo_box;
     private javax.swing.JLabel valor_total_label;
     private JList<Orçamento> orçamentos_cadastradosList;
     private javax.swing.JComboBox<Sinistro> sinistros;

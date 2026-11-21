@@ -82,11 +82,14 @@ public class JanelaCadastroSinistros extends javax.swing.JFrame {
     }
 
     private Boolean obterPerdaTotalInformada() {
-        return perda_total_check_box.isSelected();
+        if (perda_total_sim_radio_button.isSelected()) return true;
+        if (perda_total_nao_radio_button.isSelected()) return false;
+        return null;
     }
 
     private void definirPerdaTotal(Boolean valor) {
-        perda_total_check_box.setSelected(Boolean.TRUE.equals(valor));
+        if (Boolean.TRUE.equals(valor)) perda_total_sim_radio_button.setSelected(true);
+        else perda_total_nao_radio_button.setSelected(true);
     }
 
     private Sinistro obterSinistroInformado() {
@@ -133,20 +136,15 @@ public class JanelaCadastroSinistros extends javax.swing.JFrame {
         telefone_label = new javax.swing.JLabel();
         telefone_text_field = new javax.swing.JTextField();
         grau_monta_label = new javax.swing.JLabel();
-        grau_monta_button_group = new javax.swing.ButtonGroup();
-        grau_monta_panel = new javax.swing.JPanel(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
-        grau_monta_pequena_radio_button = new javax.swing.JRadioButton(Sinistro.GrauMonta.pequena.toString());
-        grau_monta_media_radio_button = new javax.swing.JRadioButton(Sinistro.GrauMonta.media.toString());
-        grau_monta_grande_radio_button = new javax.swing.JRadioButton(Sinistro.GrauMonta.grande.toString());
-        grau_monta_button_group.add(grau_monta_pequena_radio_button);
-        grau_monta_button_group.add(grau_monta_media_radio_button);
-        grau_monta_button_group.add(grau_monta_grande_radio_button);
-        grau_monta_panel.add(grau_monta_pequena_radio_button);
-        grau_monta_panel.add(grau_monta_media_radio_button);
-        grau_monta_panel.add(grau_monta_grande_radio_button);
+        grau_monta_combo_box = new javax.swing.JComboBox<>(Sinistro.GrauMonta.values());
         perda_total_label = new javax.swing.JLabel();
         perda_total_panel = new javax.swing.JPanel();
-        perda_total_check_box = new javax.swing.JCheckBox();
+        perda_total_button_group = new javax.swing.ButtonGroup();
+        perda_total_sim_radio_button = new javax.swing.JRadioButton("Sim");
+        perda_total_nao_radio_button = new javax.swing.JRadioButton("Não");
+        perda_total_button_group.add(perda_total_sim_radio_button);
+        perda_total_button_group.add(perda_total_nao_radio_button);
+        perda_total_nao_radio_button.setSelected(true);
         pecas_sinistro_label = new javax.swing.JLabel();
         pecas_sinistro_scroll_pane = new javax.swing.JScrollPane();
         pecas_sinistro_list = new javax.swing.JList();
@@ -319,7 +317,7 @@ public class JanelaCadastroSinistros extends javax.swing.JFrame {
         grid_bag_constraints.gridy = 5;
         grid_bag_constraints.anchor = java.awt.GridBagConstraints.WEST;
         grid_bag_constraints.insets = new java.awt.Insets(1, 5, 10, 5);
-        getContentPane().add(grau_monta_panel, grid_bag_constraints);
+        getContentPane().add(grau_monta_combo_box, grid_bag_constraints);
 
         perda_total_label.setText("Perda Total");
         grid_bag_constraints = new java.awt.GridBagConstraints();
@@ -331,8 +329,8 @@ public class JanelaCadastroSinistros extends javax.swing.JFrame {
 
         perda_total_panel.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
 
-        perda_total_check_box.setText("Sim");
-        perda_total_panel.add(perda_total_check_box);
+        perda_total_panel.add(perda_total_sim_radio_button);
+        perda_total_panel.add(perda_total_nao_radio_button);
 
         grid_bag_constraints = new java.awt.GridBagConstraints();
         grid_bag_constraints.gridx = 1;
@@ -370,17 +368,11 @@ public class JanelaCadastroSinistros extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private Sinistro.GrauMonta obterGrauMontaSelecionado() {
-        if (grau_monta_pequena_radio_button.isSelected()) return Sinistro.GrauMonta.pequena;
-        if (grau_monta_media_radio_button.isSelected()) return Sinistro.GrauMonta.media;
-        if (grau_monta_grande_radio_button.isSelected()) return Sinistro.GrauMonta.grande;
-        return null;
+        return (Sinistro.GrauMonta) grau_monta_combo_box.getSelectedItem();
     }
 
     private void definirGrauMontaSelecionado(Sinistro.GrauMonta valor) {
-        grau_monta_button_group.clearSelection();
-        if (valor == Sinistro.GrauMonta.pequena) grau_monta_pequena_radio_button.setSelected(true);
-        else if (valor == Sinistro.GrauMonta.media) grau_monta_media_radio_button.setSelected(true);
-        else if (valor == Sinistro.GrauMonta.grande) grau_monta_grande_radio_button.setSelected(true);
+        grau_monta_combo_box.setSelectedItem(valor);
     }
 
     private void sinistrosCadastradosComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sinistros_cadastradosComboBoxActionPerformed
@@ -393,8 +385,8 @@ public class JanelaCadastroSinistros extends javax.swing.JFrame {
         segurado_text_field.setText("");
         cliente_text_field.setText("");
         telefone_text_field.setText("");
-        grau_monta_button_group.clearSelection();
-        perda_total_check_box.setSelected(false);
+        grau_monta_combo_box.setSelectedIndex(-1);
+        definirPerdaTotal(false);
         atualizarListaPeçasSinistro(0);
     }//GEN-LAST:event_limparCampos
 
@@ -512,11 +504,7 @@ public class JanelaCadastroSinistros extends javax.swing.JFrame {
     private javax.swing.JTextField cliente_text_field;
     private javax.swing.JPanel comandos_panel;
     private javax.swing.JButton consultar_sinistro;
-    private javax.swing.ButtonGroup grau_monta_button_group;
-    private javax.swing.JPanel grau_monta_panel;
-    private javax.swing.JRadioButton grau_monta_pequena_radio_button;
-    private javax.swing.JRadioButton grau_monta_media_radio_button;
-    private javax.swing.JRadioButton grau_monta_grande_radio_button;
+    private javax.swing.JComboBox<Sinistro.GrauMonta> grau_monta_combo_box;
     private javax.swing.JLabel grau_monta_label;
     private javax.swing.JButton inserir_sinistro;
     private javax.swing.JButton limpar_campos;
@@ -526,9 +514,11 @@ public class JanelaCadastroSinistros extends javax.swing.JFrame {
     private javax.swing.JLabel pecas_sinistro_label;
     private javax.swing.JList pecas_sinistro_list;
     private javax.swing.JScrollPane pecas_sinistro_scroll_pane;
-    private javax.swing.JCheckBox perda_total_check_box;
     private javax.swing.JLabel perda_total_label;
     private javax.swing.JPanel perda_total_panel;
+    private javax.swing.ButtonGroup perda_total_button_group;
+    private javax.swing.JRadioButton perda_total_sim_radio_button;
+    private javax.swing.JRadioButton perda_total_nao_radio_button;
     private javax.swing.JButton remover_sinistro;
     private javax.swing.JLabel segurado_label;
     private javax.swing.JTextField segurado_text_field;
