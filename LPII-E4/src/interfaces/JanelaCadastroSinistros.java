@@ -308,6 +308,7 @@ public class JanelaCadastroSinistros extends javax.swing.JFrame {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
         gridBagConstraints.insets = new java.awt.Insets(1, 5, 10, 5);
         getContentPane().add(grau_monta_label, gridBagConstraints);
+        grau_monta_combo_box.setModel(new DefaultComboBoxModel(Sinistro.GrauMonta.values()));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 5;
