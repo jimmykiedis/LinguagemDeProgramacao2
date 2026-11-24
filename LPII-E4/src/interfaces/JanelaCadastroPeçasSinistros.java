@@ -40,7 +40,6 @@ public class JanelaCadastroPeçasSinistros extends javax.swing.JFrame {
         atualizarPeçasAssociadas();
         setSize(new java.awt.Dimension(760, 520));
         configurarJanelaDependente(owner);
-        limparCampos(null);
     }
 
     private void configurarJanelaDependente(Frame owner) {
@@ -121,15 +120,6 @@ public class JanelaCadastroPeçasSinistros extends javax.swing.JFrame {
         return null;
     }
 
-    private void limparCampos(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_limparCampos
-        if (pecas_cadastradas_combo_box.getItemCount() > 0) {
-            pecas_cadastradas_combo_box.setSelectedIndex(0);
-        } else {
-            pecas_cadastradas_combo_box.setSelectedItem(null);
-        }
-        pecas_sinistro_list.clearSelection();
-    }//GEN-LAST:event_limparCampos
-
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -138,7 +128,6 @@ public class JanelaCadastroPeçasSinistros extends javax.swing.JFrame {
         comandos_panel = new javax.swing.JPanel();
         inserir_peça = new javax.swing.JButton();
         remover_peça = new javax.swing.JButton();
-        limpar_campos = new javax.swing.JButton();
         sinistro_label = new javax.swing.JLabel();
         sinistro_text_field = new javax.swing.JTextField();
         pecas_cadastradas_label = new javax.swing.JLabel();
@@ -168,14 +157,6 @@ public class JanelaCadastroPeçasSinistros extends javax.swing.JFrame {
             }
         });
         comandos_panel.add(remover_peça);
-
-        limpar_campos.setText("Limpar");
-        limpar_campos.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                limparCampos(evt);
-            }
-        });
-        comandos_panel.add(limpar_campos);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
@@ -285,7 +266,6 @@ public class JanelaCadastroPeçasSinistros extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel comandos_panel;
     private javax.swing.JButton inserir_peça;
-    private javax.swing.JButton limpar_campos;
     private javax.swing.JComboBox pecas_cadastradas_combo_box;
     private javax.swing.JLabel pecas_cadastradas_label;
     private javax.swing.JLabel pecas_sinistro_label;
