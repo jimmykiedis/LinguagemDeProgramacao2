@@ -63,7 +63,6 @@ CREATE TABLE Orçamentos (
     status INT NOT NULL,
     valor_total DECIMAL(10,2) NOT NULL,
     possui_danos_ocultos BOOLEAN NOT NULL DEFAULT FALSE,
-    UNIQUE KEY uk_orcamento_sinistro_seguradora (sinistro, seguradora),
     FOREIGN KEY (sinistro) REFERENCES sinistros(id),
     FOREIGN KEY (seguradora) REFERENCES seguradoras(nome)
 );
