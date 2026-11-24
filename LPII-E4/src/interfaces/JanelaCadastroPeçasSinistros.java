@@ -133,7 +133,7 @@ public class JanelaCadastroPeçasSinistros extends javax.swing.JFrame {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-        java.awt.GridBagConstraints grid_bag_constraints;
+        java.awt.GridBagConstraints gridBagConstraints;
 
         comandos_panel = new javax.swing.JPanel();
         inserir_peça = new javax.swing.JButton();
@@ -177,67 +177,67 @@ public class JanelaCadastroPeçasSinistros extends javax.swing.JFrame {
         });
         comandos_panel.add(limpar_campos);
 
-        grid_bag_constraints = new java.awt.GridBagConstraints();
-        grid_bag_constraints.gridx = 1;
-        grid_bag_constraints.gridy = 4;
-        grid_bag_constraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        getContentPane().add(comandos_panel, grid_bag_constraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        getContentPane().add(comandos_panel, gridBagConstraints);
 
         sinistro_label.setText("Sinistro");
-        grid_bag_constraints = new java.awt.GridBagConstraints();
-        grid_bag_constraints.gridx = 0;
-        grid_bag_constraints.gridy = 0;
-        grid_bag_constraints.anchor = java.awt.GridBagConstraints.EAST;
-        grid_bag_constraints.insets = new java.awt.Insets(1, 5, 10, 5);
-        getContentPane().add(sinistro_label, grid_bag_constraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        gridBagConstraints.insets = new java.awt.Insets(1, 5, 10, 5);
+        getContentPane().add(sinistro_label, gridBagConstraints);
 
         sinistro_text_field.setEditable(false);
         sinistro_text_field.setColumns(28);
         sinistro_text_field.setPreferredSize(new java.awt.Dimension(280, 20));
-        grid_bag_constraints = new java.awt.GridBagConstraints();
-        grid_bag_constraints.gridx = 1;
-        grid_bag_constraints.gridy = 0;
-        grid_bag_constraints.anchor = java.awt.GridBagConstraints.WEST;
-        grid_bag_constraints.insets = new java.awt.Insets(1, 5, 10, 5);
-        getContentPane().add(sinistro_text_field, grid_bag_constraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(1, 5, 10, 5);
+        getContentPane().add(sinistro_text_field, gridBagConstraints);
 
         pecas_cadastradas_label.setText("Peças Cadastradas");
-        grid_bag_constraints = new java.awt.GridBagConstraints();
-        grid_bag_constraints.gridx = 0;
-        grid_bag_constraints.gridy = 1;
-        grid_bag_constraints.anchor = java.awt.GridBagConstraints.EAST;
-        grid_bag_constraints.insets = new java.awt.Insets(1, 5, 10, 5);
-        getContentPane().add(pecas_cadastradas_label, grid_bag_constraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        gridBagConstraints.insets = new java.awt.Insets(1, 5, 10, 5);
+        getContentPane().add(pecas_cadastradas_label, gridBagConstraints);
 
         pecas_cadastradas_combo_box.setModel(new DefaultComboBoxModel(pecas_cadastradas));
-        grid_bag_constraints = new java.awt.GridBagConstraints();
-        grid_bag_constraints.gridx = 1;
-        grid_bag_constraints.gridy = 1;
-        grid_bag_constraints.anchor = java.awt.GridBagConstraints.WEST;
-        grid_bag_constraints.insets = new java.awt.Insets(1, 5, 10, 5);
-        getContentPane().add(pecas_cadastradas_combo_box, grid_bag_constraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(1, 5, 10, 5);
+        getContentPane().add(pecas_cadastradas_combo_box, gridBagConstraints);
 
         pecas_sinistro_label.setText("Peças do Sinistro");
-        grid_bag_constraints = new java.awt.GridBagConstraints();
-        grid_bag_constraints.gridx = 0;
-        grid_bag_constraints.gridy = 2;
-        grid_bag_constraints.anchor = java.awt.GridBagConstraints.NORTHEAST;
-        grid_bag_constraints.insets = new java.awt.Insets(1, 5, 10, 5);
-        getContentPane().add(pecas_sinistro_label, grid_bag_constraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHEAST;
+        gridBagConstraints.insets = new java.awt.Insets(1, 5, 10, 5);
+        getContentPane().add(pecas_sinistro_label, gridBagConstraints);
 
         pecas_sinistro_list.setModel(pecas_sinistro_model);
         pecas_sinistro_list.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         pecas_sinistro_scroll_pane.setViewportView(pecas_sinistro_list);
 
-        grid_bag_constraints = new java.awt.GridBagConstraints();
-        grid_bag_constraints.gridx = 1;
-        grid_bag_constraints.gridy = 2;
-        grid_bag_constraints.fill = java.awt.GridBagConstraints.BOTH;
-        grid_bag_constraints.anchor = java.awt.GridBagConstraints.WEST;
-        grid_bag_constraints.weightx = 1.0;
-        grid_bag_constraints.weighty = 1.0;
-        grid_bag_constraints.insets = new java.awt.Insets(1, 5, 10, 5);
-        getContentPane().add(pecas_sinistro_scroll_pane, grid_bag_constraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(1, 5, 10, 5);
+        getContentPane().add(pecas_sinistro_scroll_pane, gridBagConstraints);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents

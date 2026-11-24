@@ -116,8 +116,9 @@ public class JanelaCadastroSinistros extends javax.swing.JFrame {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-        java.awt.GridBagConstraints grid_bag_constraints;
+        java.awt.GridBagConstraints gridBagConstraints;
 
+        perda_total_button_group = new javax.swing.ButtonGroup();
         comandos_panel = new javax.swing.JPanel();
         inserir_sinistro = new javax.swing.JButton();
         alterar_sinistro = new javax.swing.JButton();
@@ -136,15 +137,11 @@ public class JanelaCadastroSinistros extends javax.swing.JFrame {
         telefone_label = new javax.swing.JLabel();
         telefone_text_field = new javax.swing.JTextField();
         grau_monta_label = new javax.swing.JLabel();
-        grau_monta_combo_box = new javax.swing.JComboBox<>(Sinistro.GrauMonta.values());
+        grau_monta_combo_box = new javax.swing.JComboBox();
         perda_total_label = new javax.swing.JLabel();
         perda_total_panel = new javax.swing.JPanel();
-        perda_total_button_group = new javax.swing.ButtonGroup();
-        perda_total_sim_radio_button = new javax.swing.JRadioButton("Sim");
-        perda_total_nao_radio_button = new javax.swing.JRadioButton("Não");
-        perda_total_button_group.add(perda_total_sim_radio_button);
-        perda_total_button_group.add(perda_total_nao_radio_button);
-        perda_total_nao_radio_button.setSelected(true);
+        perda_total_sim_radio_button = new javax.swing.JRadioButton();
+        perda_total_nao_radio_button = new javax.swing.JRadioButton();
         pecas_sinistro_label = new javax.swing.JLabel();
         pecas_sinistro_scroll_pane = new javax.swing.JScrollPane();
         pecas_sinistro_list = new javax.swing.JList();
@@ -203,20 +200,20 @@ public class JanelaCadastroSinistros extends javax.swing.JFrame {
         });
         comandos_panel.add(limpar_campos);
 
-        grid_bag_constraints = new java.awt.GridBagConstraints();
-        grid_bag_constraints.gridx = 1;
-        grid_bag_constraints.gridy = 8;
-        grid_bag_constraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        grid_bag_constraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        getContentPane().add(comandos_panel, grid_bag_constraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 8;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        getContentPane().add(comandos_panel, gridBagConstraints);
 
         sinistros_cadastrados_label.setText("Sinistros Cadastrados");
-        grid_bag_constraints = new java.awt.GridBagConstraints();
-        grid_bag_constraints.gridx = 0;
-        grid_bag_constraints.gridy = 0;
-        grid_bag_constraints.anchor = java.awt.GridBagConstraints.EAST;
-        grid_bag_constraints.insets = new java.awt.Insets(1, 5, 10, 5);
-        getContentPane().add(sinistros_cadastrados_label, grid_bag_constraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        gridBagConstraints.insets = new java.awt.Insets(1, 5, 10, 5);
+        getContentPane().add(sinistros_cadastrados_label, gridBagConstraints);
 
         sinistros_cadastrados_combo_box.setModel(new DefaultComboBoxModel(sinistros_cadastrados));
         sinistros_cadastrados_combo_box.addActionListener(new java.awt.event.ActionListener() {
@@ -224,129 +221,131 @@ public class JanelaCadastroSinistros extends javax.swing.JFrame {
                 sinistrosCadastradosComboBoxActionPerformed(evt);
             }
         });
-        grid_bag_constraints = new java.awt.GridBagConstraints();
-        grid_bag_constraints.gridx = 1;
-        grid_bag_constraints.gridy = 0;
-        grid_bag_constraints.anchor = java.awt.GridBagConstraints.WEST;
-        grid_bag_constraints.insets = new java.awt.Insets(1, 5, 10, 5);
-        getContentPane().add(sinistros_cadastrados_combo_box, grid_bag_constraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(1, 5, 10, 5);
+        getContentPane().add(sinistros_cadastrados_combo_box, gridBagConstraints);
 
         numero_label.setText("ID");
-        grid_bag_constraints = new java.awt.GridBagConstraints();
-        grid_bag_constraints.gridx = 0;
-        grid_bag_constraints.gridy = 1;
-        grid_bag_constraints.anchor = java.awt.GridBagConstraints.EAST;
-        grid_bag_constraints.insets = new java.awt.Insets(1, 5, 10, 5);
-        getContentPane().add(numero_label, grid_bag_constraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        gridBagConstraints.insets = new java.awt.Insets(1, 5, 10, 5);
+        getContentPane().add(numero_label, gridBagConstraints);
 
         numero_text_field.setEditable(false);
         numero_text_field.setColumns(8);
         numero_text_field.setMinimumSize(new java.awt.Dimension(80, 20));
         numero_text_field.setPreferredSize(new java.awt.Dimension(80, 20));
-        grid_bag_constraints = new java.awt.GridBagConstraints();
-        grid_bag_constraints.gridx = 1;
-        grid_bag_constraints.gridy = 1;
-        grid_bag_constraints.anchor = java.awt.GridBagConstraints.WEST;
-        grid_bag_constraints.insets = new java.awt.Insets(1, 5, 10, 5);
-        getContentPane().add(numero_text_field, grid_bag_constraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(1, 5, 10, 5);
+        getContentPane().add(numero_text_field, gridBagConstraints);
 
         segurado_label.setText("Segurado");
-        grid_bag_constraints = new java.awt.GridBagConstraints();
-        grid_bag_constraints.gridx = 0;
-        grid_bag_constraints.gridy = 2;
-        grid_bag_constraints.anchor = java.awt.GridBagConstraints.EAST;
-        grid_bag_constraints.insets = new java.awt.Insets(1, 5, 10, 5);
-        getContentPane().add(segurado_label, grid_bag_constraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        gridBagConstraints.insets = new java.awt.Insets(1, 5, 10, 5);
+        getContentPane().add(segurado_label, gridBagConstraints);
 
         segurado_text_field.setColumns(24);
         segurado_text_field.setMinimumSize(new java.awt.Dimension(240, 20));
         segurado_text_field.setPreferredSize(new java.awt.Dimension(240, 20));
-        grid_bag_constraints = new java.awt.GridBagConstraints();
-        grid_bag_constraints.gridx = 1;
-        grid_bag_constraints.gridy = 2;
-        grid_bag_constraints.anchor = java.awt.GridBagConstraints.WEST;
-        grid_bag_constraints.insets = new java.awt.Insets(1, 5, 10, 5);
-        getContentPane().add(segurado_text_field, grid_bag_constraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(1, 5, 10, 5);
+        getContentPane().add(segurado_text_field, gridBagConstraints);
 
         cliente_label.setText("Cidade");
-        grid_bag_constraints = new java.awt.GridBagConstraints();
-        grid_bag_constraints.gridx = 0;
-        grid_bag_constraints.gridy = 3;
-        grid_bag_constraints.anchor = java.awt.GridBagConstraints.EAST;
-        grid_bag_constraints.insets = new java.awt.Insets(1, 5, 10, 5);
-        getContentPane().add(cliente_label, grid_bag_constraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        gridBagConstraints.insets = new java.awt.Insets(1, 5, 10, 5);
+        getContentPane().add(cliente_label, gridBagConstraints);
 
         cliente_text_field.setColumns(16);
         cliente_text_field.setMinimumSize(new java.awt.Dimension(160, 20));
         cliente_text_field.setPreferredSize(new java.awt.Dimension(160, 20));
-        grid_bag_constraints = new java.awt.GridBagConstraints();
-        grid_bag_constraints.gridx = 1;
-        grid_bag_constraints.gridy = 3;
-        grid_bag_constraints.anchor = java.awt.GridBagConstraints.WEST;
-        grid_bag_constraints.insets = new java.awt.Insets(1, 5, 10, 5);
-        getContentPane().add(cliente_text_field, grid_bag_constraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(1, 5, 10, 5);
+        getContentPane().add(cliente_text_field, gridBagConstraints);
 
         telefone_label.setText("Telefone");
-        grid_bag_constraints = new java.awt.GridBagConstraints();
-        grid_bag_constraints.gridx = 0;
-        grid_bag_constraints.gridy = 4;
-        grid_bag_constraints.anchor = java.awt.GridBagConstraints.EAST;
-        grid_bag_constraints.insets = new java.awt.Insets(1, 5, 10, 5);
-        getContentPane().add(telefone_label, grid_bag_constraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        gridBagConstraints.insets = new java.awt.Insets(1, 5, 10, 5);
+        getContentPane().add(telefone_label, gridBagConstraints);
 
         telefone_text_field.setColumns(12);
         telefone_text_field.setMinimumSize(new java.awt.Dimension(120, 20));
         telefone_text_field.setPreferredSize(new java.awt.Dimension(120, 20));
-        grid_bag_constraints = new java.awt.GridBagConstraints();
-        grid_bag_constraints.gridx = 1;
-        grid_bag_constraints.gridy = 4;
-        grid_bag_constraints.anchor = java.awt.GridBagConstraints.WEST;
-        grid_bag_constraints.insets = new java.awt.Insets(1, 5, 10, 5);
-        getContentPane().add(telefone_text_field, grid_bag_constraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(1, 5, 10, 5);
+        getContentPane().add(telefone_text_field, gridBagConstraints);
 
         grau_monta_label.setText("Grau de Monta");
-        grid_bag_constraints = new java.awt.GridBagConstraints();
-        grid_bag_constraints.gridx = 0;
-        grid_bag_constraints.gridy = 5;
-        grid_bag_constraints.anchor = java.awt.GridBagConstraints.EAST;
-        grid_bag_constraints.insets = new java.awt.Insets(1, 5, 10, 5);
-        getContentPane().add(grau_monta_label, grid_bag_constraints);
-
-        grid_bag_constraints = new java.awt.GridBagConstraints();
-        grid_bag_constraints.gridx = 1;
-        grid_bag_constraints.gridy = 5;
-        grid_bag_constraints.anchor = java.awt.GridBagConstraints.WEST;
-        grid_bag_constraints.insets = new java.awt.Insets(1, 5, 10, 5);
-        getContentPane().add(grau_monta_combo_box, grid_bag_constraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 5;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        gridBagConstraints.insets = new java.awt.Insets(1, 5, 10, 5);
+        getContentPane().add(grau_monta_label, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 5;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(1, 5, 10, 5);
+        getContentPane().add(grau_monta_combo_box, gridBagConstraints);
 
         perda_total_label.setText("Perda Total");
-        grid_bag_constraints = new java.awt.GridBagConstraints();
-        grid_bag_constraints.gridx = 0;
-        grid_bag_constraints.gridy = 6;
-        grid_bag_constraints.anchor = java.awt.GridBagConstraints.EAST;
-        grid_bag_constraints.insets = new java.awt.Insets(1, 5, 10, 5);
-        getContentPane().add(perda_total_label, grid_bag_constraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 6;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        gridBagConstraints.insets = new java.awt.Insets(1, 5, 10, 5);
+        getContentPane().add(perda_total_label, gridBagConstraints);
 
         perda_total_panel.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
 
+        perda_total_sim_radio_button.setText("Sim");
         perda_total_panel.add(perda_total_sim_radio_button);
+
+        perda_total_nao_radio_button.setText("Não");
         perda_total_panel.add(perda_total_nao_radio_button);
 
-        grid_bag_constraints = new java.awt.GridBagConstraints();
-        grid_bag_constraints.gridx = 1;
-        grid_bag_constraints.gridy = 6;
-        grid_bag_constraints.gridwidth = 2;
-        grid_bag_constraints.anchor = java.awt.GridBagConstraints.WEST;
-        grid_bag_constraints.insets = new java.awt.Insets(1, 5, 10, 5);
-        getContentPane().add(perda_total_panel, grid_bag_constraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 6;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(1, 5, 10, 5);
+        getContentPane().add(perda_total_panel, gridBagConstraints);
 
         pecas_sinistro_label.setText("Peças do Sinistro");
-        grid_bag_constraints = new java.awt.GridBagConstraints();
-        grid_bag_constraints.gridx = 0;
-        grid_bag_constraints.gridy = 7;
-        grid_bag_constraints.anchor = java.awt.GridBagConstraints.NORTHEAST;
-        grid_bag_constraints.insets = new java.awt.Insets(1, 5, 10, 5);
-        getContentPane().add(pecas_sinistro_label, grid_bag_constraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 7;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHEAST;
+        gridBagConstraints.insets = new java.awt.Insets(1, 5, 10, 5);
+        getContentPane().add(pecas_sinistro_label, gridBagConstraints);
 
         pecas_sinistro_scroll_pane.setPreferredSize(new java.awt.Dimension(300, 90));
 
@@ -354,15 +353,15 @@ public class JanelaCadastroSinistros extends javax.swing.JFrame {
         pecas_sinistro_list.setModel(pecas_sinistro_model);
         pecas_sinistro_scroll_pane.setViewportView(pecas_sinistro_list);
 
-        grid_bag_constraints = new java.awt.GridBagConstraints();
-        grid_bag_constraints.gridx = 1;
-        grid_bag_constraints.gridy = 7;
-        grid_bag_constraints.fill = java.awt.GridBagConstraints.BOTH;
-        grid_bag_constraints.anchor = java.awt.GridBagConstraints.WEST;
-        grid_bag_constraints.weightx = 1.0;
-        grid_bag_constraints.weighty = 1.0;
-        grid_bag_constraints.insets = new java.awt.Insets(1, 5, 10, 5);
-        getContentPane().add(pecas_sinistro_scroll_pane, grid_bag_constraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 7;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(1, 5, 10, 5);
+        getContentPane().add(pecas_sinistro_scroll_pane, gridBagConstraints);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -504,7 +503,7 @@ public class JanelaCadastroSinistros extends javax.swing.JFrame {
     private javax.swing.JTextField cliente_text_field;
     private javax.swing.JPanel comandos_panel;
     private javax.swing.JButton consultar_sinistro;
-    private javax.swing.JComboBox<Sinistro.GrauMonta> grau_monta_combo_box;
+    private javax.swing.JComboBox grau_monta_combo_box;
     private javax.swing.JLabel grau_monta_label;
     private javax.swing.JButton inserir_sinistro;
     private javax.swing.JButton limpar_campos;
@@ -514,11 +513,11 @@ public class JanelaCadastroSinistros extends javax.swing.JFrame {
     private javax.swing.JLabel pecas_sinistro_label;
     private javax.swing.JList pecas_sinistro_list;
     private javax.swing.JScrollPane pecas_sinistro_scroll_pane;
-    private javax.swing.JLabel perda_total_label;
-    private javax.swing.JPanel perda_total_panel;
     private javax.swing.ButtonGroup perda_total_button_group;
-    private javax.swing.JRadioButton perda_total_sim_radio_button;
+    private javax.swing.JLabel perda_total_label;
     private javax.swing.JRadioButton perda_total_nao_radio_button;
+    private javax.swing.JPanel perda_total_panel;
+    private javax.swing.JRadioButton perda_total_sim_radio_button;
     private javax.swing.JButton remover_sinistro;
     private javax.swing.JLabel segurado_label;
     private javax.swing.JTextField segurado_text_field;
