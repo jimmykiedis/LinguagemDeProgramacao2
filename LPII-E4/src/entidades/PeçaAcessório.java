@@ -95,8 +95,7 @@ public class PeçaAcessório extends Peça {
         String erro = super.alterar(); if (erro != null) return erro;
         try {
             PreparedStatement ps = BD.conexao.prepareStatement(
-                    "INSERT INTO peça_acessórios(categoria_acessorio,cor,funileiro_próprio,codigoId) VALUES(?,?,?,?) "
-                    + "ON DUPLICATE KEY UPDATE categoria_acessorio=VALUES(categoria_acessorio),cor=VALUES(cor),funileiro_próprio=VALUES(funileiro_próprio)");
+                    "UPDATE peça_acessórios SET categoria_acessorio=?,cor=?,funileiro_próprio=? WHERE codigoId=?");
             ps.setInt(1, categoria_acessório.ordinal());
             ps.setString(2, cor);
             ps.setBoolean(3, funileiro_próprio);

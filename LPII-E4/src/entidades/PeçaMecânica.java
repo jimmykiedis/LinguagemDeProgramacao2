@@ -97,8 +97,7 @@ public class PeçaMecânica extends Peça {
         String erro = super.alterar(); if (erro != null) return erro;
         try {
             PreparedStatement ps = BD.conexao.prepareStatement(
-                    "INSERT INTO peça_mecânica(categoria_mecânica,prazo_garantia,mecânico_próprio,codigoId) VALUES(?,?,?,?) "
-                    + "ON DUPLICATE KEY UPDATE categoria_mecânica=VALUES(categoria_mecânica),prazo_garantia=VALUES(prazo_garantia),mecânico_próprio=VALUES(mecânico_próprio)");
+                    "UPDATE peça_mecânica SET categoria_mecânica=?,prazo_garantia=?,mecânico_próprio=? WHERE codigoId=?");
             ps.setInt(1, categoria_mecânica.ordinal());
             if (prazo_garantia == null) ps.setNull(2, java.sql.Types.INTEGER); else ps.setInt(2, prazo_garantia);
             ps.setBoolean(3, mecânico_próprio);
