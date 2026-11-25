@@ -89,7 +89,7 @@ public class Orçamento {
 
     public static Orçamento[] getVisoes() {
         ArrayList<Orçamento> visoes = new ArrayList<>();
-        String sql = "SELECT sequencial, sinistro, seguradora, status FROM Orçamentos ORDER BY data, sinistro, seguradora";
+        String sql = "SELECT sequencial, sinistro, seguradora, status FROM Orçamentos ORDER BY sequencial";
         ResultSet lista_resultados = null;
         try {
             PreparedStatement comando = BD.conexao.prepareStatement(sql);
@@ -254,7 +254,7 @@ public class Orçamento {
         if (data_mínima != null) sql += " AND O.data >= ?";
         if (atendimento_24h != null) sql += " AND G.possui_atendimento_24h = ?";
         if (grau_monta != null) sql += " AND S.grau_monta = ?";
-        sql += " ORDER BY O.data, O.sinistro, O.seguradora";
+        sql += " ORDER BY O.sequencial";
 
         ResultSet lista_resultados = null;
         ArrayList<Orçamento> orçamentos_selecionados = new ArrayList<>();

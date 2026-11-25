@@ -51,7 +51,7 @@ public class JanelaCadastroOrçamentos extends javax.swing.JFrame {
         status_combo_box = new JComboBox<>(Orçamento.Status.values());
         data = new javax.swing.JTextField(19);
         data.setEditable(false);
-        sequencial = new javax.swing.JTextField(10);
+        sequencial = new javax.swing.JTextField(6);
         sequencial.setEditable(false);
         valor_total = new javax.swing.JTextField(20);
         java.awt.Dimension tamanho_valor_total = valor_total.getPreferredSize();
@@ -72,13 +72,13 @@ public class JanelaCadastroOrçamentos extends javax.swing.JFrame {
         c.insets = new java.awt.Insets(4, 6, 4, 6);
         c.anchor = java.awt.GridBagConstraints.WEST;
         adicionarCampoGerado(getContentPane(), c, 0, orçamentos_label, "Orçamentos cadastrados", orçamentos_scroll_pane);
-        adicionarCampoGerado(getContentPane(), c, 1, sinistros_label, "Sinistro", sinistros);
-        adicionarCampoGerado(getContentPane(), c, 2, seguradoras_label, "Seguradora", seguradoras);
-        adicionarCampoGerado(getContentPane(), c, 3, status_label, "Status", status_combo_box);
-        adicionarCampoGerado(getContentPane(), c, 4, sequencial_label, "Identificador sequencial", sequencial);
-        adicionarCampoGerado(getContentPane(), c, 5, data_label, "Data e hora", data);
-        adicionarCampoGerado(getContentPane(), c, 6, valor_total_label, "Valor total (R$)", valor_total);
-        adicionarCampoGerado(getContentPane(), c, 7, danos_ocultos_label, "Danos ocultos", danos_ocultos);
+        adicionarCampoGerado(getContentPane(), c, 1, sequencial_label, "Identificador sequencial", sequencial, false);
+        adicionarCampoGerado(getContentPane(), c, 2, sinistros_label, "Sinistro", sinistros);
+        adicionarCampoGerado(getContentPane(), c, 3, seguradoras_label, "Seguradora", seguradoras);
+        adicionarCampoGerado(getContentPane(), c, 4, status_label, "Status", status_combo_box);
+        adicionarCampoGerado(getContentPane(), c, 5, valor_total_label, "Valor total (R$)", valor_total);
+        adicionarCampoGerado(getContentPane(), c, 6, danos_ocultos_label, "Danos ocultos", danos_ocultos);
+        adicionarCampoGerado(getContentPane(), c, 7, data_label, "Data e hora", data);
 
         comandos_panel.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER));
         comandos_panel.add(inserir_button);
