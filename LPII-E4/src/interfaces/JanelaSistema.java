@@ -4,6 +4,9 @@
  */
 package interfaces;
 
+import controles.ControladorCadastroSeguradoras;
+import persistência.BD;
+
 /**
  *
  * @author jimmy
@@ -14,7 +17,7 @@ public class JanelaSistema extends javax.swing.JFrame {
      * Creates new form JanelaSistema
      */
     public JanelaSistema() {
-        BD.criaConexão()
+        BD.criaConexão();
         initComponents();
     }
 
@@ -123,7 +126,7 @@ public class JanelaSistema extends javax.swing.JFrame {
 
     private void cadastrarPeça(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cadastrarPeça
         // TODO add your handling code here:
-         new ControladorCadastroPeças();
+        // new ControladorCadastroPeças();
     }//GEN-LAST:event_cadastrarPeça
 
     private void cadastrarSeguradora(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cadastrarSeguradora
@@ -133,17 +136,17 @@ public class JanelaSistema extends javax.swing.JFrame {
 
     private void cadastrarOrçamento(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cadastrarOrçamento
         // TODO add your handling code here:
-        new ControladorCadastroOrçamentos();
+        // new ControladorCadastroOrçamentos();
     }//GEN-LAST:event_cadastrarOrçamento
 
     private void pesquisarOrçamento(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pesquisarOrçamento
         // TODO add your handling code here:
-        new JanelaPesquisaOrçamentos().setVisible(true);
+        // new JanelaPesquisaOrçamentos().setVisible(true);
     }//GEN-LAST:event_pesquisarOrçamento
 
     private void cadastrarSinistro(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cadastrarSinistro
         // TODO add your handling code here:
-        new ControladorCadastroSinistros();
+        // new ControladorCadastroSinistros();
     }//GEN-LAST:event_cadastrarSinistro
 
     private void terminarSistema(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_terminarSistema

@@ -4,6 +4,7 @@
  */
 package controles;
 
+import entidades.Seguradora;
 /**
  *
  * @author jimmy

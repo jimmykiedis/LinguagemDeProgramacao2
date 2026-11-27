@@ -4,14 +4,6 @@
  */
 package entidades;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import persistência.BD;
-import entidades.Livro.Genero;
-import java.util.ArrayList;
-import java.util.HashMap;
-
 /**
  *
  * @author jimmy

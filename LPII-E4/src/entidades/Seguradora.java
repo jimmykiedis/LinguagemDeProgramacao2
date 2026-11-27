@@ -63,7 +63,7 @@ public class Seguradora {
         return visoes.toArray(new Seguradora[visoes.size()]);
     }
     
-        public static Seguradora buscarSeguradora(String nome) {
+    public static Seguradora buscarSeguradora(String nome) {
         String sql = "SELECT * FROM seguradoras WHERE nome = ?";
         ResultSet lista_resultados = null;
         Seguradora seguradora = null;
@@ -101,7 +101,7 @@ public class Seguradora {
                 + "VALUES (?,?,?,?,?)";
 
         try {
-            PreparedStatement comando = BD.conexao.prepareStatement(sql);
+            PreparedStatement comando = BD.conexão.prepareStatement(sql);
             comando.setString(1, seguradora.getNome());
             comando.setString(2, seguradora.getCidade());
             comando.setDouble(3, seguradora.getCoberturaPercentual());
@@ -115,4 +115,41 @@ public class Seguradora {
             return "Erro na Inserção da Seguradora no BD";
         }
     }
+
+    public static String alterarSeguradora(Seguradora seguradora) {
+        String sql = "UPDATE seguradoras SET cidade = ?, cobertura_percentual = ?, "
+                + "possui_atendimento_24h = ?, forma_pagamento_preferencial = ? "
+                + "WHERE nome = ?";
+
+        try {
+            PreparedStatement comando = BD.conexão.prepareStatement(sql);
+            comando.setString(1, seguradora.getCidade());
+            comando.setDouble(2, seguradora.getCoberturaPercentual());
+            comando.setBoolean(3, seguradora.getPossuiAtendimento24h());
+            comando.setInt(4, seguradora.getFormaPagamentoPreferencial().ordinal());
+            comando.setString(5, seguradora.getNome());
+            comando.executeUpdate();
+            comando.close();
+            return null;
+        } catch (SQLException excecao_sql) {
+            excecao_sql.printStackTrace();
+            return "Erro na Alteração da Seguradora no BD";
+        }
+    }
+
+    public static String removerSeguradora(String nome) {
+        String sql = "DELETE FROM seguradoras WHERE nome = ?";
+
+        try {
+            PreparedStatement comando = BD.conexão.prepareStatement(sql);
+            comando.setString(1, nome);
+            comando.executeUpdate();
+            comando.close();
+            return null;
+        } catch (SQLException excecao_sql) {
+            excecao_sql.printStackTrace();
+            return "Erro na Remoção da Seguradora no BD";
+        }
+    }
+    
 }

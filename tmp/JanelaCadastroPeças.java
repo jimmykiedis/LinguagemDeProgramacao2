@@ -4,11 +4,7 @@
  */
 package interfaces;
 
-import controles.ControladorCadastroPeças;
 import entidades.Peça;
-import entidades.PeçaAcessório;
-import entidades.PeçaMecânica;
-import javax.swing.JOptionPane;
 import javax.swing.DefaultComboBoxModel;
 
 /**

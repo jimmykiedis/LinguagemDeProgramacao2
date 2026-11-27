@@ -6,8 +6,8 @@ package interfaces;
 
 import controles.ControladorCadastroSeguradoras;
 import entidades.Seguradora;
-import java.awt.Frame;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
 /**
  *
  * @author jimmy
@@ -320,6 +320,11 @@ public class JanelaCadastroSeguradoras extends javax.swing.JFrame {
         getContentPane().add(cobertura_percentualTextField, gridBagConstraints);
 
         pagamentoComboBox.setModel(new DefaultComboBoxModel(Pagamentos.values()));
+        pagamentoComboBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                pagamentoComboBoxActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 8;
@@ -346,6 +351,10 @@ public class JanelaCadastroSeguradoras extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void pagamentoComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pagamentoComboBoxActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_pagamentoComboBoxActionPerformed
 
     /**
      * @param args the command line arguments
