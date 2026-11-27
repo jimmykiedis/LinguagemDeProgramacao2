@@ -1,3 +1,6 @@
+CREATE DATABASE IF NOT EXISTS banco;
+USE banco;
+
 DROP TABLE IF EXISTS peças_sinistros;
 DROP TABLE IF EXISTS `Orçamentos`;
 DROP TABLE IF EXISTS peça_mecânica;
