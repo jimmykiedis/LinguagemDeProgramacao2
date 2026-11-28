@@ -88,14 +88,15 @@ public class JanelaCadastroSeguradoras extends javax.swing.JFrame {
                         pagamentoComboBox.getSelectedItem();
         if (forma_pagamento_preferencial == null) return null;
 
+        if (atendimentoButtonGroup.getSelection() == null) return null;
         boolean possui_atendimento_24h = simRadioButton.isSelected();
 
         return new Seguradora(
-                nome,
-                cidade,
-                cobertura_percentual,
-                possui_atendimento_24h,
-                forma_pagamento_preferencial
+            nome,
+            cidade,
+            cobertura_percentual,
+            possui_atendimento_24h,
+            forma_pagamento_preferencial
         );
     }
 
@@ -167,6 +168,7 @@ public class JanelaCadastroSeguradoras extends javax.swing.JFrame {
         cidadeTextField.setText("");
         coberturaPercentualTextField.setText("");
         pagamentoComboBox.setSelectedIndex(-1);
+        atendimentoButtonGroup.clearSelection();
 
         for (java.awt.Component componente : atendimentoPanel.getComponents()) {
             if (componente instanceof javax.swing.AbstractButton) {
@@ -185,6 +187,7 @@ public class JanelaCadastroSeguradoras extends javax.swing.JFrame {
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
+        atendimentoButtonGroup = new javax.swing.ButtonGroup();
         comandosPanel = new javax.swing.JPanel();
         inserirButton = new javax.swing.JButton();
         consultarButton = new javax.swing.JButton();
@@ -342,9 +345,11 @@ public class JanelaCadastroSeguradoras extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(12, 18, 0, 0);
         getContentPane().add(pagamentoComboBox, gridBagConstraints);
 
+        atendimentoButtonGroup.add(simRadioButton);
         simRadioButton.setText("Sim");
         atendimentoPanel.add(simRadioButton);
 
+        atendimentoButtonGroup.add(nãoRadioButton);
         nãoRadioButton.setMnemonic('\u0001');
         nãoRadioButton.setText("Não");
         atendimentoPanel.add(nãoRadioButton);
@@ -374,6 +379,7 @@ public class JanelaCadastroSeguradoras extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton alterarButton;
+    private javax.swing.ButtonGroup atendimentoButtonGroup;
     private javax.swing.JLabel atendimentoLabel;
     private javax.swing.JPanel atendimentoPanel;
     private javax.swing.JLabel cidadeLabel;
