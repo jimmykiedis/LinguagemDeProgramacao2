@@ -4,6 +4,7 @@
  */
 package interfaces;
 
+import controles.ControladorCadastroPeças;
 import controles.ControladorCadastroSeguradoras;
 import persistência.BD;
 
@@ -126,7 +127,7 @@ public class JanelaSistema extends javax.swing.JFrame {
 
     private void cadastrarPeça(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cadastrarPeça
         // TODO add your handling code here:
-        // new ControladorCadastroPeças();
+        new ControladorCadastroPeças();
     }//GEN-LAST:event_cadastrarPeça
 
     private void cadastrarSeguradora(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cadastrarSeguradora

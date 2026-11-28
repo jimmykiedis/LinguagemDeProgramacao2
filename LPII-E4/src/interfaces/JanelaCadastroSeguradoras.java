@@ -197,14 +197,14 @@ public class JanelaCadastroSeguradoras extends javax.swing.JFrame {
         seguradorasLabel = new javax.swing.JLabel();
         seguradoras_cadastradasComboBox = new javax.swing.JComboBox();
         nomeLabel = new javax.swing.JLabel();
-        cidadeLabel = new javax.swing.JLabel();
-        coberturaLabel = new javax.swing.JLabel();
-        atendimentoLabel = new javax.swing.JLabel();
-        pagamentoLabel = new javax.swing.JLabel();
         nomeTextField = new javax.swing.JTextField();
+        cidadeLabel = new javax.swing.JLabel();
         cidadeTextField = new javax.swing.JTextField();
+        coberturaLabel = new javax.swing.JLabel();
         coberturaPercentualTextField = new javax.swing.JTextField();
+        pagamentoLabel = new javax.swing.JLabel();
         pagamentoComboBox = new javax.swing.JComboBox();
+        atendimentoLabel = new javax.swing.JLabel();
         atendimentoPanel = new javax.swing.JPanel();
         simRadioButton = new javax.swing.JRadioButton();
         nãoRadioButton = new javax.swing.JRadioButton();
@@ -263,38 +263,6 @@ public class JanelaCadastroSeguradoras extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(14, 192, 0, 0);
         getContentPane().add(nomeLabel, gridBagConstraints);
 
-        cidadeLabel.setText("Cidade");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 4;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
-        gridBagConstraints.insets = new java.awt.Insets(8, 188, 0, 0);
-        getContentPane().add(cidadeLabel, gridBagConstraints);
-
-        coberturaLabel.setText("Cobertura Percentual");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 6;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
-        gridBagConstraints.insets = new java.awt.Insets(8, 113, 0, 0);
-        getContentPane().add(coberturaLabel, gridBagConstraints);
-
-        atendimentoLabel.setText("Atendimento 24h");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 10;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
-        gridBagConstraints.insets = new java.awt.Insets(12, 133, 0, 0);
-        getContentPane().add(atendimentoLabel, gridBagConstraints);
-
-        pagamentoLabel.setText("Pagamento");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 8;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
-        gridBagConstraints.insets = new java.awt.Insets(15, 164, 0, 0);
-        getContentPane().add(pagamentoLabel, gridBagConstraints);
-
         nomeTextField.setColumns(50);
         nomeTextField.setPreferredSize(new java.awt.Dimension(456, 20));
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -306,6 +274,14 @@ public class JanelaCadastroSeguradoras extends javax.swing.JFrame {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(12, 18, 0, 0);
         getContentPane().add(nomeTextField, gridBagConstraints);
+
+        cidadeLabel.setText("Cidade");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        gridBagConstraints.insets = new java.awt.Insets(8, 188, 0, 0);
+        getContentPane().add(cidadeLabel, gridBagConstraints);
 
         cidadeTextField.setColumns(50);
         cidadeTextField.setPreferredSize(new java.awt.Dimension(456, 20));
@@ -319,6 +295,14 @@ public class JanelaCadastroSeguradoras extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(6, 18, 0, 0);
         getContentPane().add(cidadeTextField, gridBagConstraints);
 
+        coberturaLabel.setText("Cobertura Percentual");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 6;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        gridBagConstraints.insets = new java.awt.Insets(8, 113, 0, 0);
+        getContentPane().add(coberturaLabel, gridBagConstraints);
+
         coberturaPercentualTextField.setColumns(50);
         coberturaPercentualTextField.setPreferredSize(new java.awt.Dimension(456, 20));
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -330,6 +314,14 @@ public class JanelaCadastroSeguradoras extends javax.swing.JFrame {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(6, 18, 0, 0);
         getContentPane().add(coberturaPercentualTextField, gridBagConstraints);
+
+        pagamentoLabel.setText("Pagamento");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 8;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        gridBagConstraints.insets = new java.awt.Insets(15, 164, 0, 0);
+        getContentPane().add(pagamentoLabel, gridBagConstraints);
 
         pagamentoComboBox.setModel(new DefaultComboBoxModel(Seguradora.FormaPagamentoPreferencial.values()));
         pagamentoComboBox.addActionListener(new java.awt.event.ActionListener() {
@@ -344,6 +336,14 @@ public class JanelaCadastroSeguradoras extends javax.swing.JFrame {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(12, 18, 0, 0);
         getContentPane().add(pagamentoComboBox, gridBagConstraints);
+
+        atendimentoLabel.setText("Atendimento 24h");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 10;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        gridBagConstraints.insets = new java.awt.Insets(12, 133, 0, 0);
+        getContentPane().add(atendimentoLabel, gridBagConstraints);
 
         atendimentoButtonGroup.add(simRadioButton);
         simRadioButton.setText("Sim");
