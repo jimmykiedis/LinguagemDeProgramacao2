@@ -5,11 +5,16 @@
 package controles;
 
 import entidades.Seguradora;
+import interfaces.JanelaCadastroSeguradoras;
 /**
  *
  * @author jimmy
  */
 public class ControladorCadastroSeguradoras {
+    
+    public ControladorCadastroSeguradoras() {
+        new JanelaCadastroSeguradoras(this).setVisible(true);
+    }
     
     public String inserirSeguradora(Seguradora seguradora) {
         Seguradora seguradora1 =

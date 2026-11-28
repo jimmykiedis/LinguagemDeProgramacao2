@@ -16,6 +16,45 @@ import persistência.BD;
  */
 public class Seguradora {
     
+    //não achei esses trechos sendo ensinado no tutorial
+    public enum FormaPagamentoPreferencial  {
+        boleto,
+        cartao,
+        pix,
+        debito_automatico
+    }
+    
+    
+    private String nome;
+    private String cidade;
+    private double cobertura_percentual;
+    private boolean possui_atendimento_24h;
+    private FormaPagamentoPreferencial forma_pagamento_preferencial;
+    
+    public String getNome() {
+        return nome;
+    }
+
+    public String getCidade() {
+        return cidade;
+    }
+
+    public double getCoberturaPercentual() {
+        return cobertura_percentual;
+    }
+
+    public boolean getPossuiAtendimento24h() {
+        return possui_atendimento_24h;
+    }
+
+    public FormaPagamentoPreferencial getFormaPagamentoPreferencial() {
+        return forma_pagamento_preferencial;
+    }
+    
+    public void setCidade(String cidade) {
+        this.cidade = cidade;
+    }
+    
     public Seguradora(
             String nome,
             String cidade,
@@ -43,7 +82,7 @@ public class Seguradora {
         ResultSet lista_resultados = null;
         ArrayList<Seguradora> visoes = new ArrayList();
         try {
-            PreparedStatement comando = BD.conexao.prepareStatement(sql);
+            PreparedStatement comando = BD.conexão.prepareStatement(sql);
             lista_resultados = comando.executeQuery();
             while (lista_resultados.next()) {
                 String nome = lista_resultados.getString("nome");
@@ -69,7 +108,7 @@ public class Seguradora {
         Seguradora seguradora = null;
 
         try {
-            PreparedStatement comando = BD.conexao.prepareStatement(sql);
+            PreparedStatement comando = BD.conexão.prepareStatement(sql);
             comando.setString(1, nome);
             lista_resultados = comando.executeQuery();
 

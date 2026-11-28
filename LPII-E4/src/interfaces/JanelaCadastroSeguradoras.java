@@ -4,6 +4,7 @@
  */
 package interfaces;
 
+import interfaces.JanelaCadastroSeguradoras;
 import controles.ControladorCadastroSeguradoras;
 import entidades.Seguradora;
 import javax.swing.DefaultComboBoxModel;
@@ -39,17 +40,14 @@ public class JanelaCadastroSeguradoras extends javax.swing.JFrame {
     ControladorCadastroSeguradoras controlador;
     Seguradora[] seguradoras_cadastradas;
 
-    public JanelaCadastroSeguradoras(
-            ControladorCadastroSeguradoras controlador) {
-        this(controlador, null);
-    }
-
-    public JanelaCadastroSeguradoras(ControladorCadastroSeguradoras controlado) {
+    public JanelaCadastroSeguradoras(ControladorCadastroSeguradoras controlador) {
         this.controlador = controlador;
         seguradoras_cadastradas = Seguradora.getVisoes();
         initComponents();
         limparCampos(null);
     }
+
+    
     private void inserirSeguradora(java.awt.event.ActionEvent evt) {
         Seguradora seguradora = obterSeguradoraInformada();
         String mensagem_erro = null;
@@ -61,7 +59,8 @@ public class JanelaCadastroSeguradoras extends javax.swing.JFrame {
 
         if (mensagem_erro == null) {
             Seguradora visao = seguradora.getVisao();
-            atualizarSeguradorasCadastradas(visao.getNome());
+            seguradoras_cadastradasComboBox.addItem(visao);
+            seguradoras_cadastradasComboBox.setSelectedItem(visao);
         } else {
             informarErro(mensagem_erro);
         }
@@ -74,7 +73,7 @@ public class JanelaCadastroSeguradoras extends javax.swing.JFrame {
         String cidade = cidadeTextField.getText();
         if (cidade.isEmpty()) cidade = null;
 
-        String cobertura_str = Cobertura_percentualTextField.getText();
+        String cobertura_str = coberturaPercentualTextField.getText();
         if (cobertura_str.isEmpty()) return null;
 
         double cobertura_percentual;
@@ -125,7 +124,7 @@ public class JanelaCadastroSeguradoras extends javax.swing.JFrame {
             if (cidade == null) cidade = "";
             cidadeTextField.setText(cidade);
 
-            Cobertura_percentualTextField.setText(
+            coberturaPercentualTextField.setText(
                     Double.toString(seguradora.getCoberturaPercentual()));
 
             pagamentoComboBox.setSelectedItem(
@@ -144,17 +143,16 @@ public class JanelaCadastroSeguradoras extends javax.swing.JFrame {
     private void alterarSeguradora(java.awt.event.ActionEvent evt) {
         Seguradora seguradora = obterSeguradoraInformada();
         String mensagem_erro = null;
-
-        if (seguradora != null)
-            mensagem_erro = controlador.alterarSeguradora(seguradora);
-        else
-            mensagem_erro = "Algum atributo da Seguradora não foi informado";
-
+        if (seguradora != null) mensagem_erro = controlador.alterarSeguradora(seguradora);
+        else mensagem_erro = "Algum atributo da Seguradora não foi informado";
         if (mensagem_erro == null) {
-            atualizarSeguradorasCadastradas(seguradora.getNome());
-        } else {
-            informarErro(mensagem_erro);
-        }
+            Seguradora visao = getVisaoAlterada(seguradora.getNome());
+            if (visao != null) {
+                visao.setCidade(seguradora.getCidade());
+                seguradoras_cadastradasComboBox.updateUI();
+                seguradoras_cadastradasComboBox.setSelectedItem(visao);
+            }
+        } else informarErro(mensagem_erro);
     }
     
     private Seguradora getVisaoAlterada(String nome) {
@@ -164,7 +162,18 @@ public class JanelaCadastroSeguradoras extends javax.swing.JFrame {
         return null;
     }
     
-    
+    private void limparCampos(java.awt.event.ActionEvent evt) {
+        nomeTextField.setText("");
+        cidadeTextField.setText("");
+        coberturaPercentualTextField.setText("");
+        pagamentoComboBox.setSelectedIndex(-1);
+
+        for (java.awt.Component componente : atendimentoPanel.getComponents()) {
+            if (componente instanceof javax.swing.AbstractButton) {
+                ((javax.swing.AbstractButton) componente).setSelected(false);
+            }
+        }
+    }
     
     /**
      * This method is called from within the constructor to initialize the form.
@@ -191,7 +200,7 @@ public class JanelaCadastroSeguradoras extends javax.swing.JFrame {
         pagamentoLabel = new javax.swing.JLabel();
         nomeTextField = new javax.swing.JTextField();
         cidadeTextField = new javax.swing.JTextField();
-        cobertura_percentualTextField = new javax.swing.JTextField();
+        coberturaPercentualTextField = new javax.swing.JTextField();
         pagamentoComboBox = new javax.swing.JComboBox();
         atendimentoPanel = new javax.swing.JPanel();
         simRadioButton = new javax.swing.JRadioButton();
@@ -199,7 +208,7 @@ public class JanelaCadastroSeguradoras extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Cadastrar Seguradoras");
-        setPreferredSize(new java.awt.Dimension(567, 313));
+        setPreferredSize(new java.awt.Dimension(645, 440));
         getContentPane().setLayout(new java.awt.GridBagLayout());
 
         inserirButton.setText("Inserir");
@@ -307,8 +316,8 @@ public class JanelaCadastroSeguradoras extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(6, 18, 0, 0);
         getContentPane().add(cidadeTextField, gridBagConstraints);
 
-        cobertura_percentualTextField.setColumns(50);
-        cobertura_percentualTextField.setPreferredSize(new java.awt.Dimension(456, 20));
+        coberturaPercentualTextField.setColumns(50);
+        coberturaPercentualTextField.setPreferredSize(new java.awt.Dimension(456, 20));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 6;
@@ -317,9 +326,9 @@ public class JanelaCadastroSeguradoras extends javax.swing.JFrame {
         gridBagConstraints.ipadx = 225;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(6, 18, 0, 0);
-        getContentPane().add(cobertura_percentualTextField, gridBagConstraints);
+        getContentPane().add(coberturaPercentualTextField, gridBagConstraints);
 
-        pagamentoComboBox.setModel(new DefaultComboBoxModel(Pagamentos.values()));
+        pagamentoComboBox.setModel(new DefaultComboBoxModel(Seguradora.FormaPagamentoPreferencial.values()));
         pagamentoComboBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 pagamentoComboBoxActionPerformed(evt);
@@ -359,37 +368,8 @@ public class JanelaCadastroSeguradoras extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(JanelaCadastroSeguradora.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(JanelaCadastroSeguradora.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(JanelaCadastroSeguradora.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(JanelaCadastroSeguradora.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new JanelaCadastroSeguradora().setVisible(true);
-            }
-        });
+    public void run() {
+        new JanelaSistema().setVisible(true);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -399,7 +379,7 @@ public class JanelaCadastroSeguradoras extends javax.swing.JFrame {
     private javax.swing.JLabel cidadeLabel;
     private javax.swing.JTextField cidadeTextField;
     private javax.swing.JLabel coberturaLabel;
-    private javax.swing.JTextField cobertura_percentualTextField;
+    private javax.swing.JTextField coberturaPercentualTextField;
     private javax.swing.JPanel comandosPanel;
     private javax.swing.JButton consultarButton;
     private javax.swing.JButton inserirButton;
